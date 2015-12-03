@@ -7,6 +7,7 @@ using System.Windows;
 using Hardcodet.Wpf.TaskbarNotification;
 using sayclip;
 using System.Threading;
+using System.Windows.Controls;
 
 namespace sayclipTray
 {
@@ -66,6 +67,9 @@ namespace sayclipTray
 
             //create the notifyicon (it's a resource declared in NotifyIconResources.xaml
             notifyIcon = (TaskbarIcon) FindResource("NotifyIcon");
+            MenuItem randomit = new MenuItem();
+            randomit.Header = "random menu";
+            notifyIcon.ContextMenu.Items.Add(randomit);
             startSayclip();
         }
 

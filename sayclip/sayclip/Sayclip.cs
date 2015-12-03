@@ -73,8 +73,20 @@ namespace sayclip
             
                 if (Clipboard.ContainsText())
                 {
+                string rok = data;
                 //Console.WriteLine("el cp tiene texto ");
-                    string rok = Clipboard.GetText();
+                try
+                {
+                    rok = Clipboard.GetText();
+                }
+                catch (Exception e)
+                {
+
+                    ScreenReaderControl.speech("error copying the clipboard " + e.Message, true);
+                    return;
+
+                }
+                     
                     //Console.WriteLine("tenemos texto en el cp: {0}", rok);
                     if (!data.Equals(rok))
                     {

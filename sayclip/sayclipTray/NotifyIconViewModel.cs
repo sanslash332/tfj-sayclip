@@ -14,8 +14,8 @@ namespace sayclipTray
     /// </summary>
     public class NotifyIconViewModel
     {
-        
-        
+    
+           
         public Dictionary<string, string> countriCodes = new Dictionary<string, string>
         {
             {"English", "en"},
