@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sayclip", "sayclip\sayclip.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sayclipTray", "sayclipTray\sayclipTray.csproj", "{A20A4777-6D66-49BF-BBB6-84893984E5A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblySettings", "..\..\..\programacion\c#\AssemblySettings\AssemblySettings\AssemblySettings.csproj", "{A23B1CE4-43C8-442F-86C8-2C757F75BC31}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblySettings", "AssemblySettings\AssemblySettings.csproj", "{A23B1CE4-43C8-442F-86C8-2C757F75BC31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

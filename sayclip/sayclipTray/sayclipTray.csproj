@@ -108,7 +108,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\programacion\c#\AssemblySettings\AssemblySettings\AssemblySettings.csproj">
+    <ProjectReference Include="..\AssemblySettings\AssemblySettings.csproj">
       <Project>{a23b1ce4-43c8-442f-86c8-2c757f75bc31}</Project>
       <Name>AssemblySettings</Name>
     </ProjectReference>
