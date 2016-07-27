@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace sayclip
 {
-    class ScreenReaderControl
+  public  class ScreenReaderControl
     {
         private static  bool active = true;
         private static  int currentSapiVoice = 0;

@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Collections.Generic;
-
+using Hardcodet.Wpf.TaskbarNotification;
 using sayclip;
 
 namespace sayclipTray
@@ -16,47 +16,61 @@ namespace sayclipTray
     {
     
            
-        public Dictionary<string, string> countriCodes = new Dictionary<string, string>
-        {
-            {"English", "en"},
-            {"Spanish", "es" },
-            {"Spanish (Latin American)", "es-419" },
-            {"French", "fr" },
-            {"Italian","it"},
-            {"Portuguese (Brazil)", "pt-BR"},
-            {"German","de"},
-            { "Portuguese (Portugal)", "pt-PT" },
-            {"Chinese (Simplified)", "zh-CN" },
-            {"Swedish", "sv" },
-            {"Turkish", "tr" },
-            {"Ukrainian", "uk" },
-            {"Chinese (Traditional)","zh-TW" },
-            {"Japanece","ja"},
-            {"Japanese (jw)","jw" },
-            {"Korean", "ko" },
-            {"Russian", "ru" },
-            {"Hebrew", "iw"  },
-            {"Catalan", "ca" },
-            {"Basque", "eu" },
-            {"Klingon","xx-klingon" },
-            {"Bork bork bork", "xx-bork"},
-            {"Elmer Fudd", "xx-elmer" },
-            {"Hacker", "xx-hacker" },
-            { "Pirate","xx-pirate" },
-            
-        };
-        
-        
         /// <summary>
         /// </summary>
+        public static string sourceLanheader;
+        public static string targetLanHeader;
+        
+        public ICommand enablecopyresult
+        {
+            get
+            {
+                return new DelegateCommand()
+                {
+                    CanExecuteFunc= () => sayclipTray.Properties.Settings.Default.translate && !sayclipTray.Properties.Settings.Default.copyresult,
+                    CommandAction = () =>
+                        {
+                            sayclipTray.Properties.Settings.Default.copyresult = true;
+                            sayclipTray.Properties.Settings.Default.Save();
+                            App.resetSayclip();
+                        }
+                        
+
+                        
+                };
+            }
+        }
+        
+        public ICommand disablecopyresult
+        {
+            get
+            {
+                return new DelegateCommand()
+                {
+                    CanExecuteFunc= () => sayclipTray.Properties.Settings.Default.translate && sayclipTray.Properties.Settings.Default.copyresult,
+                    CommandAction = () =>
+                        {
+                            sayclipTray.Properties.Settings.Default.copyresult = false;
+                            sayclipTray.Properties.Settings.Default.Save();
+                            App.resetSayclip();
+
+                        }
+                };
+            }
+        }
         public ICommand PauseSayclipCommand
         {
             get
             {
                 return new DelegateCommand
                 {
-                    CanExecuteFunc= () => App.isSayclipRuning(),
-                    CommandAction= ()=> App.killSayclip()
+                    CanExecuteFunc = () => App.isSayclipRuning(),
+                    CommandAction = () =>
+                        {
+                            App.killSayclip();
+                            App.reloadIconTitle();
+                        }
+
 
                 };
             }
@@ -68,8 +82,49 @@ namespace sayclipTray
             {
                 return new DelegateCommand
                 {
-                    CanExecuteFunc= ()=> !App.isSayclipRuning(),
-                    CommandAction= ()=> App.startSayclip()
+                    CanExecuteFunc = () => !App.isSayclipRuning(),
+                    CommandAction = () =>
+                        {
+                            App.startSayclip();
+                            App.reloadIconTitle();
+                        }
+                };
+            }
+        }
+
+        public ICommand disablingRepeatingText
+        {
+            get
+            {
+                return new DelegateCommand()
+                {
+                    CanExecuteFunc = () => sayclip.Properties.Settings.Default.allowRepeat,
+                    CommandAction = () =>
+                    {
+                        App.reloadIconTitle();
+                        sayclipTray.Properties.Settings.Default.allowRepeat = !sayclipTray.Properties.Settings.Default.allowRepeat;
+                        App.resetSayclip();
+
+                    }
+
+                };
+            }
+        }
+
+        public ICommand enableRepeatingText
+        {
+            get
+            {
+                return new DelegateCommand()
+                {
+                    CanExecuteFunc = () => !sayclip.Properties.Settings.Default.allowRepeat,
+                    CommandAction = () =>
+                        {
+                            sayclipTray.Properties.Settings.Default.allowRepeat = !sayclipTray.Properties.Settings.Default.allowRepeat;
+                            App.resetSayclip();
+
+                        }
+
                 };
             }
         }
@@ -86,7 +141,8 @@ namespace sayclipTray
                         App.killSayclip();
                         sayclipTray.Properties.Settings.Default.translate = true;
                         sayclipTray.Properties.Settings.Default.Save();
-                        App.startSayclip();
+                        App.resetSayclip();
+                        App.reloadIconTitle();
 
                     }
                 };
@@ -105,7 +161,8 @@ namespace sayclipTray
                         App.killSayclip();
                         sayclipTray.Properties.Settings.Default.translate = false;
                         sayclipTray.Properties.Settings.Default.Save();
-                        App.startSayclip();
+                        App.resetSayclip();
+                        App.reloadIconTitle();
 
                     }
                 };
@@ -117,12 +174,19 @@ namespace sayclipTray
             {
                 return new DelegateCommand
                 {
-                    CanExecuteFunc = () => Application.Current.MainWindow == null,
+                    CanExecuteFunc = () => true,
                     CommandAction = () =>
                     {
-                        Application.Current.MainWindow = new MainWindow();
-                        Application.Current.MainWindow.Show();
-                    }
+                        //TaskbarIcon sysTray = (TaskbarIcon)Application.Current.FindResource("NotifyIcon");
+                        //sysTray.ContextMenu.IsOpen = true;
+                        
+                        if(!Application.Current.MainWindow.IsVisible || Application.Current.MainWindow==null)
+                        {
+                            Application.Current.MainWindow = new MainWindow();
+                            Application.Current.MainWindow.Show();
+                        }
+                        }
+                        
                 };
             }
         }
@@ -136,8 +200,12 @@ namespace sayclipTray
             {
                 return new DelegateCommand
                 {
-                    CommandAction = () => Application.Current.MainWindow.Close(),
-                    CanExecuteFunc = () => Application.Current.MainWindow != null
+                    CommandAction = () => {
+                        Application.Current.MainWindow.Hide();
+                        Application.Current.MainWindow = null;
+
+                    },
+                    CanExecuteFunc = () => false
                 };
             }
         }
@@ -179,5 +247,10 @@ namespace sayclipTray
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
         }
+    }
+
+    public class languageCommand : DelegateCommand
+    {
+        public string lanCode { get; set;  }
     }
 }

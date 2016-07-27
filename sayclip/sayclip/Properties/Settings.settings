@@ -9,7 +9,7 @@
       <Value Profile="(Default)">es</Value>
     </Setting>
     <Setting Name="translate" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="active" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -19,6 +19,21 @@
     </Setting>
     <Setting Name="copyresult" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="name" Type="System.String" Scope="User">
+      <Value Profile="(Default)">sayclip</Value>
+    </Setting>
+    <Setting Name="msAppID" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="msAppSecret" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="translator" Type="sayclip.translatorType" Scope="Application">
+      <Value Profile="(Default)">google</Value>
+    </Setting>
+    <Setting Name="allowRepeat" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

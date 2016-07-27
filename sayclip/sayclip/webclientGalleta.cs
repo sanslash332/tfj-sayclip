@@ -1,4 +1,5 @@
 ﻿using System;
+using logSystem;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -62,8 +63,8 @@ namespace sayclip
             }
             catch (Exception e)
             {
-
-                throw;
+                LogWriter.escribir("web response exception raised: " + e.Message);
+                
             }
              
             ReadCookies(response);

@@ -2,94 +2,67 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using logSystem;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Http;
 using System.Web;
+using RavSoft.GoogleTranslator;
+
+
 
 namespace sayclip
 {
-    static class googleTranslator
+    class googleTranslator : iTranslator
     {
-        static private string baseUrl = "https://translate.google.com/translate_a/single?client=t&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=at&ie=UTF-8&oe=UTF-8&otf=1&ssel=0&tsel=0";
-        static public string source = "";
-        static public string target = "";
+         private string baseUrl = "https://translate.google.com/translate_a/single?client=t&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=at&ie=UTF-8&oe=UTF-8&otf=1&ssel=0&tsel=0";
+         public string source = "";
+         public string target = "";
+         private Translator translator;
+         private string completeSource;
+         private string completeTarget;
+
         
-        static public string translate(string text)
+         public googleTranslator()
         {
-            //Console.WriteLine("texto a traducir: {0}", WebUtility.UrlEncode(text));
-            text = prepareText(text);
-            string fullurl = baseUrl + "&sl=" + source + "&tl="+target+"&hl="+target+"&tk="+ generateTocken()+"&q=" + WebUtility.UrlEncode(text);
-
-            string results = connect(fullurl);
-            
-            
-            
-
-            return (results);
-        }
-
-        static private string prepareText(string text)
-        {
-            //Console.WriteLine("texto sin preprocesar: {0}", text);
-            text = text.Replace('"', '-');
-
-            text = text.Replace(".", " PPPUNTOPPP ");
-            text = text.Replace("\n", " LALOCALINEA ");
-            text = text.Replace("\r", " ELRETROTROSESO ");
-            //Console.WriteLine("texto preprocesado para enviar: {0}", text);
-            return (text);
-
-        }
-
-        static private string generateTocken()
-        {
-            return ("asjidojasoidjoiasdsakdlsakldksadjasiii1118282");
-        }
-
-        static private string processTranslation(string original)
-        {
-            string text = original;
-            //Console.WriteLine("texto a decodificar: {0}", text);
-            text = text.Replace("PPPUNTOPPP",". ");
-            text = text.Replace( "LALOCALINEA","\n");
-            text = text.Replace( "ELRETROTROSESO","\r");
-
-            string[] partes = text.Split('"');
-            //Console.WriteLine("texto decodificado: {0}", partes[1]);
-            return (partes[1]);
-        }
-
-        static private string connect(string url)
-        {
-            
-            using(webclientGalleta wc = new webclientGalleta())
+            this.source = sayclip.Properties.Settings.Default.lan1;
+            this.target = sayclip.Properties.Settings.Default.lan2;
+            this.translator = new Translator();
+            logSystem.LogWriter.escribir(string.Format("checking languaje conversion for google api: source {0}, target {1}", this.source, this.target));
+            foreach(KeyValuePair<string,string> k in Translator.LanguagesAndCodes)
             {
-                wc.Encoding = Encoding.UTF8;
-                string datos = "";
-
-                try
+                logSystem.LogWriter.escribir(string.Format("checking current entry: {0}, {1}", k.Key, k.Value));
+                if(source.Equals(k.Value))
                 {
-                    datos = wc.DownloadString(url);
-                }
-                catch (Exception e)
-                {
-                    return ("error: " + e.Message);
+                    logSystem.LogWriter.escribir("detected source");
                     
+                    completeSource = k.Key;
                 }
-                 
-                if(datos!="")
+                if(target.Equals(k.Value))
                 {
-                    return (processTranslation(datos));
-                }
-                else
-                {
-                    return ("error");
+                    logSystem.LogWriter.escribir("detected target");
+                    completeTarget = k.Key;
                 }
             }
+            
+
         }
 
 
+         public string translate(string text)
+         {
+             return (translator.Translate(text, completeSource, completeTarget));
 
+         }
+
+         string[] iTranslator.separateSentences(string text)
+         {
+             throw new NotImplementedException();
+         }
+
+         string iTranslator.unificateSentences(string[] sentences)
+         {
+             throw new NotImplementedException();
+         }
     }
 }
