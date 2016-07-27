@@ -61,10 +61,10 @@ namespace sayclipTray
         public static void reloadIconTitle()
         {
             TaskbarIcon tb = notifyIcon;
-            tb.ToolTipText = "Sayclip: ";
+            tb.ToolTipText = "Sayclip: key " + sayclipTray.Properties.Settings.Default.sayclipKey;
             if(isSayclipRuning())
             {
-                tb.ToolTipText += "runing";
+                tb.ToolTipText += ", runing";
                 if(sayclipTray.Properties.Settings.Default.translate)
                 {
                     tb.ToolTipText += ", translating.";
@@ -142,6 +142,7 @@ namespace sayclipTray
                 
 
                 saveNextKey = false;
+                App.reloadIconTitle();
                 return;
 
             }

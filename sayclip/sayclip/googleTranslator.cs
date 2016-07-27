@@ -49,9 +49,49 @@ namespace sayclip
         }
 
 
+        public string repairLines(string txt)
+        {
+            //logSystem.LogWriter.escribir("The text to repair is: " + txt);
+        
+            string final = "";
+            for(int i=0;i<txt.Length;i++)
+            {
+                if(i>=txt.Length)
+                {
+                    break;
+                }
+                if(i==txt.Length-1 || i==txt.Length-2 || i==txt.Length-3)
+                {
+                    final += txt[i];
+                    continue;
+                }
+                string analyce = txt[i].ToString() + txt[i + 1].ToString()+txt[i+2].ToString()+txt[i+3].ToString();
+                //logSystem.LogWriter.escribir("the analyzed part is: " + analyce);
+                if(analyce.Equals("\\r\\n"))
+                {
+                    i += 4;
+                    continue;
+                }
+                else
+                {
+                    final += txt[i];
+                }
+                
+
+            }
+            return (final);
+        }
          public string translate(string text)
          {
-             return (translator.Translate(text, completeSource, completeTarget));
+            if(text.Length<1500)
+            {
+                return(repairLines(translator.Translate(text, completeSource, completeTarget)));
+            }
+            else
+            {
+                return ("The text is too long for the google translator api. Please copy less text, or use microsoft api instead.");
+            }
+             
 
          }
 

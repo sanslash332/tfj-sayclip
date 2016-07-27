@@ -41,7 +41,14 @@ namespace sayclip
         }
         public string[] separateSentences(string text)
         {
-            throw new NotImplementedException();
+            string[] final;
+            List<string> prefinal = new List<string>();
+            string[] splited = text.Split('.');
+            final = splited;
+            return (final);
+            
+
+
         }
 
         public bool checkTocken()
@@ -58,15 +65,17 @@ namespace sayclip
             }
 
         }
+        
         public  string translate(string text)
         {
+            
             if(text.Length<2000)
             {
                 return (this.translator.translate(text, this.sourceLang, this.targetLang));
             }
             else
             {
-                return(unificateSentences(this.translator.translateArray(text.Split('.'),this.sourceLang,this.targetLang)));
+                return(unificateSentences(this.translator.translateArray(this.separateSentences(text),this.sourceLang,this.targetLang)));
             }
             
 

@@ -28,12 +28,24 @@ namespace sayclip
         static private string data = "";
         public static bool cloceNow = false;
         public static iTranslator g;
+        private static object lockobj = new object();
 
         public static void sayAndCopy(string txt)
         {
             ScreenReaderControl.speech(txt, true);
+            Monitor.Enter(lockobj);
             data = txt;
-            Clipboard.SetText(data);
+
+            try
+            {
+                Clipboard.SetText(data);
+            }
+            catch(Exception)
+            {
+
+            }
+            
+            Monitor.Exit(lockobj);
 
         }
         public static bool checkMSCredentials()
@@ -73,7 +85,12 @@ namespace sayclip
         [STAThread]
         public static void Main()
         {
+            if(Monitor.IsEntered(lockobj))
+            {
+                Monitor.Exit(lockobj);
+            }
 
+            logAlarmSet = false;
             if(sayclip.Properties.Settings.Default.translator== translatorType.google)
             {
                 g = new googleTranslator();
@@ -138,7 +155,9 @@ namespace sayclip
                 //Console.WriteLine("el cp tiene texto ");
                 try
                 {
+                    Monitor.Enter(lockobj);
                     rok = Clipboard.GetText();
+                    Monitor.Exit(lockobj);
                 }
                 catch (Exception e)
                 {
@@ -155,8 +174,19 @@ namespace sayclip
                         data = rok;
                         if(Properties.Settings.Default.allowRepeat)
                         {
+                            Monitor.Enter(lockobj);
                             data += " \n";
+                        try
+                        {
                             Clipboard.SetText(data);
+                        }
+                        catch (Exception)
+                        {
+
+                            
+                        }
+                            
+                            Monitor.Exit(lockobj);
 
                         }
                         
@@ -174,12 +204,23 @@ namespace sayclip
                             logAlarmSet = false;
                             if(sayclip.Properties.Settings.Default.copyresult)
                             {
+                                Monitor.Enter(lockobj);
                                 data = trad;
                                 if(sayclip.Properties.Settings.Default.allowRepeat)
                                 {
                                     data += " \n";
                                 }
-                                Clipboard.SetText(data);
+                                try
+                                {
+                                    Clipboard.SetText(data);
+                                }
+                                catch (Exception)
+                                {
+
+                                    
+                                }
+                                
+                                Monitor.Exit(lockobj);
 
 
                             }

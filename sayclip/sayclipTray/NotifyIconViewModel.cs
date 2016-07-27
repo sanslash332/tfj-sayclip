@@ -103,6 +103,7 @@ namespace sayclipTray
                     {
                         App.reloadIconTitle();
                         sayclipTray.Properties.Settings.Default.allowRepeat = !sayclipTray.Properties.Settings.Default.allowRepeat;
+                        sayclipTray.Properties.Settings.Default.Save();
                         App.resetSayclip();
 
                     }
@@ -121,6 +122,7 @@ namespace sayclipTray
                     CommandAction = () =>
                         {
                             sayclipTray.Properties.Settings.Default.allowRepeat = !sayclipTray.Properties.Settings.Default.allowRepeat;
+                            sayclipTray.Properties.Settings.Default.Save();
                             App.resetSayclip();
 
                         }
