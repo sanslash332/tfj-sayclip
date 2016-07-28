@@ -39,18 +39,8 @@ namespace sayclip
         {
             logSystem.LogWriter.escribir("Problem detected in ms translator: " + arg1);
         }
-        public string[] separateSentences(string text)
-        {
-            string[] final;
-            List<string> prefinal = new List<string>();
-            string[] splited = text.Split('.');
-            final = splited;
-            return (final);
-            
 
-
-        }
-
+        
         public bool checkTocken()
         {
             string tocken = this.translator.getTocken();
@@ -69,15 +59,19 @@ namespace sayclip
         public  string translate(string text)
         {
             
-            if(text.Length<2000)
+            if(text.Length<=2000)
             {
                 return (this.translator.translate(text, this.sourceLang, this.targetLang));
             }
-            else
+            else if(text.Length<=6000)
             {
+                ScreenReaderControl.speech("You're translating more than 2000 characters! This can take a long while!",true);
                 return(unificateSentences(this.translator.translateArray(this.separateSentences(text),this.sourceLang,this.targetLang)));
             }
-            
+            else
+            {
+                return("This tool isn't for translate a book, please copy less characters");
+            }
 
         }
 
@@ -86,11 +80,46 @@ namespace sayclip
             string final = "";
             foreach(string s in sentences)
             {
-                final += s + ".";
+                final += s + ". ";
             }
             return (final);
 
             
         }
+
+        public string[] separateSentences(string text)
+        {
+            List<string> prefinal = new List<string>();
+            string[] parts = text.Split('.');
+            foreach (string s in parts)
+            {
+                if (s.Length <= 2000)
+                {
+                    prefinal.Add(s);
+                }
+                else
+                {
+                    string part = "";
+                    foreach (char c in s.ToCharArray())
+                    {
+                        if (part.Length == 2000)
+                        {
+                            prefinal.Add(part);
+                            part = "";
+                        }
+                        part += c.ToString();
+                    }
+                    if (!part.Equals(""))
+                    {
+                        prefinal.Add(part);
+                    }
+
+                }
+            }
+            return prefinal.ToArray();
+        }
+
+
+
     }
 }

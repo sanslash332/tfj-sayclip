@@ -81,11 +81,31 @@ namespace sayclip
             }
             return (final);
         }
+
+        private string translateLarge(string text)
+        {
+            string[] parts = separateSentences(text);
+            List<string> translatedParts = new List<string>();
+            foreach(string part in parts)
+            {
+                translatedParts.Add(this.translator.Translate(part, this.completeSource, this.completeTarget));
+
+            }
+
+            return unificateSentences(translatedParts.ToArray());
+
+        }
+
          public string translate(string text)
          {
-            if(text.Length<1500)
+            if(text.Length<=2000)
             {
                 return(repairLines(translator.Translate(text, completeSource, completeTarget)));
+            }
+            else if(text.Length<=6000)
+            {
+                ScreenReaderControl.speech("You're translating more than 2000 characters! This can take a long while!",true);
+                return repairLines(translateLarge(text));
             }
             else
             {
@@ -95,14 +115,46 @@ namespace sayclip
 
          }
 
-         string[] iTranslator.separateSentences(string text)
+         public string[] separateSentences(string text)
          {
-             throw new NotImplementedException();
+            List<string> prefinal = new List<string>();
+            string[] parts = text.Split('.');
+            foreach(string s in parts)
+            {
+                if (s.Length <= 2000)
+                {
+                    prefinal.Add(s);
+                }
+                else
+                {
+                    string part = "";
+                    foreach(char c in s.ToCharArray())
+                    {
+                        if(part.Length==2000)
+                        {
+                            prefinal.Add(part);
+                            part = "";
+                        }
+                        part += c.ToString();
+                    }
+                    if(!part.Equals(""))
+                    {
+                        prefinal.Add(part);
+                    }
+
+                }
+            }
+            return prefinal.ToArray();
          }
 
-         string iTranslator.unificateSentences(string[] sentences)
+         public string unificateSentences(string[] sentences)
          {
-             throw new NotImplementedException();
+            string final = "";
+            foreach(string s in sentences)
+            {
+                final += s + ". ";
+            }
+            return final;
          }
     }
 }

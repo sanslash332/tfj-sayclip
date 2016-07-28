@@ -24,7 +24,7 @@ namespace sayclip
             {
             
                 
-                speechSay(Marshal.StringToBSTR(texto), 1);
+                speechSay(Marshal.StringToBSTR(texto), Convert.ToInt32(interrupcion));
 
             }
         }
