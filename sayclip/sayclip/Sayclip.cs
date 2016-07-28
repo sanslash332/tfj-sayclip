@@ -40,9 +40,9 @@ namespace sayclip
             {
                 Clipboard.SetText(data);
             }
-            catch(Exception)
+            catch(Exception e)
             {
-
+                logSystem.LogWriter.escribir(string.Format("Error setting text on the clipboard: {0} \n type: {1} \n stack: {2} ", e.Message.ToString(), e.ToString(), e.StackTrace.ToString()));
             }
             
             Monitor.Exit(lockobj);
@@ -153,23 +153,29 @@ namespace sayclip
                 {
                 string rok = data;
                 //Console.WriteLine("el cp tiene texto ");
+                Monitor.Enter(lockobj);
                 try
                 {
-                    Monitor.Enter(lockobj);
+                    
                     rok = Clipboard.GetText();
-                    Monitor.Exit(lockobj);
+                    
                 }
                 catch (Exception e)
                 {
                     LogWriter.escribir("error copying the clipboard " + e.Message +" \n type: " +e.ToString() + " \n stack: " + e.StackTrace.ToString() );
                     //ScreenReaderControl.speech("error copying the clipboard " + e.Message, true);
                     //Clipboard.Flush();
-                    return;
+                    rok = data;
+                    
 
                 }
-                     
-                    //Console.WriteLine("tenemos texto en el cp: {0}", rok);
-                    if (!data.Equals(rok))
+                
+                
+                Monitor.Exit(lockobj);
+                
+                
+                //Console.WriteLine("tenemos texto en el cp: {0}", rok);
+                if (!data.Equals(rok))
                     {
                         data = rok;
                         if(Properties.Settings.Default.allowRepeat)
@@ -180,10 +186,10 @@ namespace sayclip
                         {
                             Clipboard.SetText(data);
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
+                            logSystem.LogWriter.escribir(string.Format("Error setting text on the clipboard: {0} \n type: {1} \n stack: {2} ", e.Message.ToString(), e.ToString(), e.StackTrace.ToString()));
 
-                            
                         }
                             
                             Monitor.Exit(lockobj);
@@ -214,10 +220,10 @@ namespace sayclip
                                 {
                                     Clipboard.SetText(data);
                                 }
-                                catch (Exception)
+                                catch (Exception e)
                                 {
+                                    logSystem.LogWriter.escribir(string.Format("Error setting text on the clipboard: {0} \n type: {1} \n stack: {2} ", e.Message.ToString(), e.ToString(), e.StackTrace.ToString()));
 
-                                    
                                 }
                                 
                                 Monitor.Exit(lockobj);
