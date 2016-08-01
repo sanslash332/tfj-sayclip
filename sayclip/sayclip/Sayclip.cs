@@ -21,6 +21,7 @@ namespace sayclip
     
   public  class Sayclip
     {
+        public static ResourceDictionary dictlang;
         
         static private bool translate;
         private static bool logAlarmSet = false;
@@ -110,7 +111,7 @@ namespace sayclip
 
             //timer.AutoReset = true;
             //timer.Enabled = true;
-            ScreenReaderControl.speech("sayclip initialiced", false);
+            ScreenReaderControl.speech(dictlang["internal.start"].ToString(), false);
             int interval = (int)Properties.Settings.Default.interval;
             while (!cloceNow)
             {
@@ -201,7 +202,7 @@ namespace sayclip
                             string trad = g.translate(data);
                         if(trad.Equals("") && !logAlarmSet)
                         {
-                            ScreenReaderControl.speech("error translating, see the log ", true);
+                            sayAndCopy(dictlang["internal.errortranslating"].ToString());
                             logAlarmSet = true;
                         }
                         else

@@ -65,12 +65,12 @@ namespace sayclip
             }
             else if(text.Length<=6000)
             {
-                ScreenReaderControl.speech("You're translating more than 2000 characters! This can take a long while!",true);
+                ScreenReaderControl.speech(Sayclip.dictlang["internal.muchtext"].ToString(),true);
                 return(unificateSentences(this.translator.translateArray(this.separateSentences(text),this.sourceLang,this.targetLang)));
             }
             else
             {
-                return("This tool isn't for translate a book, please copy less characters");
+                return(Sayclip.dictlang["internal.massivetext"].ToString());
             }
 
         }

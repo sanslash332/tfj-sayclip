@@ -25,13 +25,14 @@ namespace sayclip
         
          public googleTranslator()
         {
-            this.source = sayclip.Properties.Settings.Default.lan1;
-            this.target = sayclip.Properties.Settings.Default.lan2;
+            this.source = detectRareLanguajes(sayclip.Properties.Settings.Default.lan1);
+            this.target = detectRareLanguajes(sayclip.Properties.Settings.Default.lan2);
             this.translator = new Translator();
-            logSystem.LogWriter.escribir(string.Format("checking languaje conversion for google api: source {0}, target {1}", this.source, this.target));
+            //logSystem.LogWriter.escribir(string.Format("checking languaje conversion for google api: source {0}, target {1}", this.source, this.target));
+            
             foreach(KeyValuePair<string,string> k in Translator.LanguagesAndCodes)
             {
-                logSystem.LogWriter.escribir(string.Format("checking current entry: {0}, {1}", k.Key, k.Value));
+                //logSystem.LogWriter.escribir(string.Format("checking current entry: {0}, {1}", k.Key, k.Value));
                 if(source.Equals(k.Value))
                 {
                     logSystem.LogWriter.escribir("detected source");
@@ -44,15 +45,58 @@ namespace sayclip
                     completeTarget = k.Key;
                 }
             }
-            
+            if(source=="")
+            {
+                completeSource = "";
+            }
 
         }
 
 
+
+        private string detectRareLanguajes(string lang)
+        {
+            if(lang.StartsWith("es"))
+            {
+                return ("es");
+            }
+            else if(lang.StartsWith("zh"))
+            {
+                return ("zh-CN");
+            }
+            else if(lang.StartsWith("pt"))
+            {
+                return ("pt");
+            }
+            else
+            {
+                return lang;
+            }
+        }
+
+        public string prepareText(string text)
+        {
+            string final = text;
+            if (final.Contains('"'))
+            {
+                final = final.Replace("\"", "(COMILLAAQUI)");
+                
+            }
+
+            if(final.Contains("'"))
+            {
+                final = final.Replace("'", "(APOSTROFEAQUI)");
+            }
+            return (final);
+            
+        }
+
         public string repairLines(string txt)
         {
             //logSystem.LogWriter.escribir("The text to repair is: " + txt);
-        
+            txt = txt.Replace("(COMILLAAQUI)", "\"");
+            txt= txt.Replace("(APOSTROFEAQUI)", "'");
+
             string final = "";
             for(int i=0;i<txt.Length;i++)
             {
@@ -69,7 +113,8 @@ namespace sayclip
                 //logSystem.LogWriter.escribir("the analyzed part is: " + analyce);
                 if(analyce.Equals("\\r\\n"))
                 {
-                    i += 4;
+                    i += 3;
+                    final += "\n";
                     continue;
                 }
                 else
@@ -79,11 +124,13 @@ namespace sayclip
                 
 
             }
+            
             return (final);
         }
 
         private string translateLarge(string text)
         {
+            text = prepareText(text);
             string[] parts = separateSentences(text);
             List<string> translatedParts = new List<string>();
             foreach(string part in parts)
@@ -98,18 +145,19 @@ namespace sayclip
 
          public string translate(string text)
          {
+            //logSystem.LogWriter.escribir(string.Format("Text without urlencode: {0} \n text with encode: {1}", text, System.Web.HttpUtility.UrlEncode(text)));
             if(text.Length<=2000)
             {
-                return(repairLines(translator.Translate(text, completeSource, completeTarget)));
+                return(repairLines(translator.Translate(prepareText(text), completeSource, completeTarget)));
             }
             else if(text.Length<=6000)
             {
-                ScreenReaderControl.speech("You're translating more than 2000 characters! This can take a long while!",true);
+                ScreenReaderControl.speech(Sayclip.dictlang["internal.muchtext"].ToString(),true);
                 return repairLines(translateLarge(text));
             }
             else
             {
-                return ("The text is too long for the google translator api. Please copy less text, or use microsoft api instead.");
+                return (Sayclip.dictlang["internal.massivetext"].ToString());
             }
              
 

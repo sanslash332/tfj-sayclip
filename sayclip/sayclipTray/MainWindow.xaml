@@ -5,28 +5,32 @@
         Title="Sayclip Configuration" Height="350" Width="525">
     <Grid Margin="2,6,-2,-6">
         <TabControl HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100" KeyboardNavigation.DirectionalNavigation="Local" KeyboardNavigation.ControlTabNavigation="Cycle" TabStripPlacement="Top">
-            <TabItem Header="General Settings">
+            <TabItem Header="{DynamicResource ui.tabs.general}">
                 <Grid Background="#FFE5E5E5">
-                    <Label Content="Setup sayclip Key"/>
-                    <Button Name="setupKeyButton" Click="setupKeyButton_Click" Content="Setup key: " />
+                    <Label Content="{DynamicResource ui.general.setuplabel}"/>
+                    <Button Name="setupKeyButton" Click="setupKeyButton_Click" Content="{DynamicResource ui.general.setupbutton}" />
                 </Grid>
             </TabItem>
-            <TabItem Header="Microsoft Api credentials.">
+            <TabItem Header="{DynamicResource ui.tabs.microsoft}">
                 <StackPanel>
-                    <TextBlock Text="Please insert here your microsoft api translator credentials" AutomationProperties.HelpText="Please insert here your microsoft api translator credentials"/>
-                    <Label Content="Insert your microsoft api application id" Name="msAppiIDLabel" AutomationProperties.Name="label1" />
-                    <TextBox Text="{Binding Source={x:Static properties:Settings.Default}, Path=msAppID}" AutomationProperties.HelpText="Insert your microsoft api application id" AutomationProperties.Name="MS app ID" Name="msappidbox"/>
-                    <Label Content="Insert here your microsoft api aplication secret"  Name="secretlabel" AutomationProperties.Name="label2"/>
-                    <TextBox Text="{Binding Source={x:Static properties:Settings.Default}, Path=msAppSecret}" AutomationProperties.HelpText="Insert here your microsoft api aplication secret" AutomationProperties.Name="MS APP secret" Name="msappsecretbox"/>
+                    <TextBlock Text="{DynamicResource ui.microsoft.help}" AutomationProperties.HelpText="{DynamicResource ui.microsoft.help}"/>
+                    <Label Content="{DynamicResource ui.microsoft.msappid.label}" Name="msAppiIDLabel" AutomationProperties.Name="label1" />
+                    <TextBox Text="{Binding Source={x:Static properties:Settings.Default}, Path=msAppID}" AutomationProperties.HelpText="{DynamicResource ui.microsoft.msappid.label}" AutomationProperties.Name="MS app ID" Name="msappidbox"/>
+                    <Label Content="{DynamicResource ui.microsoft.msappsecret.label}"  Name="secretlabel" AutomationProperties.Name="label2"/>
+                    <TextBox Text="{Binding Source={x:Static properties:Settings.Default}, Path=msAppSecret}" AutomationProperties.HelpText="{DynamicResource ui.microsoft.msappsecret.label}" AutomationProperties.Name="MS APP secret" Name="msappsecretbox"/>
                     <TextBlock>
                         
                         <Hyperlink NavigateUri="https://msdn.microsoft.com/en-us/library/mt146806.aspx" RequestNavigate="Hyperlink_RequestNavigate" >
-                            If you don't have a ID and secret, or you don't know about it Please follow and complete this guide.
+                            <Run Text="{DynamicResource ui.microsoft.helplink}" />
                             
-                            </Hyperlink>
+                        </Hyperlink>
                             
-                        
+
+
+
+
                     </TextBlock>
+                    <Button Content="{DynamicResource ui.delete}" Height="100" VerticalAlignment="Top" Width="75" Name="deleteButton" Click="deleteButton_Click"/>
                         
                     
                     
@@ -36,9 +40,9 @@
         </TabControl>
 
         <DockPanel HorizontalAlignment="Left" Height="100" LastChildFill="False" VerticalAlignment="Top" Width="100" Margin="-1,-1,0,0">
-            <Button Content="Discard Changes" Height="100" VerticalAlignment="Top" Width="75" Name="discardButton" Click="discardButton_Click"/>
-            <Button Content="Apply Changes" Height="100" VerticalAlignment="Top" Width="75" Name="applyButton" Click="applyButton_Click"/>
-            <Button Content="Exit Sayclip" Height="100" VerticalAlignment="Top" Width="75" Name="exitButton" Click="exitButton_Click"/>
+            <Button Content="{DynamicResource ui.discard}" Height="100" VerticalAlignment="Top" Width="75" Name="discardButton" Click="discardButton_Click"/>
+            <Button Content="{DynamicResource ui.apply}" Height="100" VerticalAlignment="Top" Width="75" Name="applyButton" Click="applyButton_Click"/>
+            <Button Content="{DynamicResource menu.exit}" Height="100" VerticalAlignment="Top" Width="75" Name="exitButton" Click="exitButton_Click"/>
         </DockPanel>
 
     

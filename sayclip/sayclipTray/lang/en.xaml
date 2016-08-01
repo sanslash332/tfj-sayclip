@@ -1,0 +1,85 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:sayclipTray.lang"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib" >
+    <system:String x:Key="current">current</system:String>
+    <system:String x:Key="selected">selected </system:String>
+    <system:String x:Key="menu.open">Opening sayclip menu</system:String>
+    <system:String x:Key="menu.showwindow">Show sayclip configuration Window</system:String>
+    <system:String x:Key="menu.hidewindow">Hide Sayclip configuration window </system:String>
+    <system:String x:Key="menu.pause">Pause Sayclip</system:String>
+    <system:String x:Key="menu.resume">Resume sayclip </system:String>
+    <system:String x:Key="menu.translation.enable">Enable auto translation </system:String>
+    <system:String x:Key="menu.translation.disable"> disable auto translation </system:String>
+    <system:String x:Key="menu.copy.enable">Enable copy trasnlated text to clipboard </system:String>
+    <system:String x:Key="menu.copy.disable">Disable copy translated text to clipboard</system:String>
+    <system:String x:Key="menu.repeated.enable">Enable consider repeated text</system:String>
+    <system:String x:Key="menu.repeated.disable"> disable consider repeated text</system:String>
+    <system:String x:Key="menu.source">Select source languaje </system:String>
+    <system:String x:Key="menu.target"> select target languaje</system:String>
+    <system:String x:Key="menu.exchange"> Exchange current languajes </system:String>
+    <system:String x:Key="menu.plugin">Select translator plugin </system:String>
+    <system:String x:Key="menu.plugin.google.badlang"> Google doesn't support automatic languaje detection. change your source languaje before change the plugin. </system:String>
+    <system:String x:Key="menu.plugin.microsoft.error">error validating your microsoft api credentials. please see the log and verify your internet conection, and your microsoft translator api credentials. </system:String>
+    <system:String x:Key="menu.plugin.microsoft.empty">You can't select microsoft api translator until you insert your msAPPId and your msAppSecret. please open the sayclip configuration window and fill the fields on the microsoft api tab. </system:String>
+    
+    <system:String x:Key="menu.monitor"> Adjust monitor clipboard frequency </system:String>
+    <system:String x:Key="menu.monitor.2000">Very slow</system:String>
+    <system:String x:Key="menu.monitor.1000">Slow</system:String>
+    <system:String x:Key="menu.monitor.500">Normal</system:String>
+    <system:String x:Key="menu.monitor.100">Fast (default)</system:String>
+    <system:String x:Key="menu.monitor.10">Very fast</system:String>
+    <system:String x:Key="menu.monitor.1">Ultra fast (can have various errors reading the clipboard, and take high processors peak. )</system:String>
+
+    
+    
+
+    <system:String x:Key="menu.ui">Select sayclip UI languaje </system:String>
+    <system:String x:Key="menu.ui.auto">Auto</system:String>
+    <system:String x:Key="menu.ui.en">ENglish</system:String>
+    <system:String x:Key="menu.ui.es"> Spanish </system:String>
+    <system:String x:Key="menu.ui.reset">Please reset sayclip for that this changes can take effect</system:String>
+    <system:String x:Key="menu.exit">Exit sayclip</system:String>
+    <system:String x:Key="ui.open">Opening sayclip configuration window</system:String>
+    <system:String x:Key="ui.opened">Window is already open </system:String>
+    <system:String x:Key="ui.tabs.general">General settings </system:String>
+    <system:String x:Key="ui.general.setuplabel">Please setup your sayclip Key  </system:String>
+    <system:String x:Key="ui.general.setupbutton">Setup sayclip key: </system:String>
+    <system:String x:Key="ui.general.setupmessaje"> Please press the key that you want for sayclip key. </system:String>
+    <system:String x:Key="ui.tabs.microsoft">Microsoft API Credentials </system:String>
+    <system:String x:Key="ui.microsoft.help">Please insert here your microsoft api credentials here. </system:String>
+    <system:String x:Key="ui.microsoft.msappid.label">Insert your microsoft APP ID </system:String>
+    <system:String x:Key="ui.microsoft.msappsecret.label">Insert your microsoft APP secret</system:String>
+    <system:String x:Key="ui.microsoft.helplink">If you don't know what is the MS APP ID, and you don't have one, please follow this guide and complete all the steps to get one.  </system:String>
+    <system:String x:Key="ui.microsoft.check">Checking your credentials. </system:String>
+    <system:String x:Key="ui.microsoft.ok">Your credentials are OK, the api key is valid. </system:String>
+    <system:String x:Key="ui.discard">Discard changes</system:String>
+    <system:String x:Key="ui.apply">Verify and apply changes</system:String>
+    <system:String x:Key="ui.delete">Remove credentials</system:String>
+    <system:String x:Key="country.en"> English</system:String>
+    <system:String x:Key="country.es">Spanish</system:String>
+    <system:String x:Key="country.esla">Spanish (latin american)</system:String>
+    <system:String x:Key="country.fr">French</system:String>
+    <system:String x:Key="country.it">Italian</system:String>
+    <system:String x:Key="country.ptbr">Portuguese (brasil) </system:String>
+    <system:String x:Key="country.ptpt">Portuguese (portugal)</system:String>
+    <system:String x:Key="country.de">German</system:String>
+    <system:String x:Key="country.zhcn">Chinese (simplified) </system:String>
+    <system:String x:Key="country.zhtw">Chinese (traditional)</system:String>
+    <system:String x:Key="country.ja">Japanese</system:String>
+    <system:String x:Key="country.ko">Korean</system:String>
+    <system:String x:Key="country.sv">Swedish</system:String>
+    <system:String x:Key="country.tr">Turkish</system:String>
+    <system:String x:Key="country.uk">Ukrainian</system:String>
+    <system:String x:Key="country.ru">Russian </system:String>
+    <system:String x:Key="country.iw">Hebrew</system:String>
+    <system:String x:Key="country.ca">Catala</system:String>
+    <system:String x:Key="country.eu">Basque</system:String>
+
+    <system:String x:Key="internal.start">Sayclip initialiced </system:String>
+    <system:String x:Key="internal.errortranslating">Error while translating, please see the file sayclip.log for get details. </system:String>
+    <system:String x:Key="internal.muchtext">You're translating more than 2000 characters! this can take a long while! </system:String>
+    <system:String x:Key="internal.massivetext">This tool isn't for translate a book! Please select less characters! </system:String>
+
+
+</ResourceDictionary>

@@ -16,24 +16,23 @@ namespace RavSoft.GoogleTranslator
     /// </summary>
     public class Translator
     {
-        #region Properties
-
-        /// <summary>
-        /// get the complete list of languages and codes.
-        /// </summary>
-            public static Dictionary<string,string> LanguagesAndCodes
+        public static Dictionary<string, string> LanguagesAndCodes
         {
             get
             {
                 Translator.EnsureInitialized();
+                
                 return Translator._languageModeMap;
             }
         }
 
-            /// <summary>
-            /// Gets the supported languages.
-            /// </summary>
-            public static IEnumerable<string> Languages {
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the supported languages.
+        /// </summary>
+        public static IEnumerable<string> Languages {
                 get {
                     Translator.EnsureInitialized();
                     return Translator._languageModeMap.Keys.OrderBy (p => p);

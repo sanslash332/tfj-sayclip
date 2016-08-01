@@ -12,32 +12,36 @@
        
         
         
-        <MenuItem Header="Show sayclip configuration Window" Command="{Binding ShowWindowCommand}"    />
-        <MenuItem Header="Hide sayclip configuration Window" Command="{Binding HideWindowCommand}" />
+        <MenuItem Header="{DynamicResource menu.showwindow}" Command="{Binding ShowWindowCommand}"    />
+        <MenuItem Header="{DynamicResource menu.hidewindow}" Command="{Binding HideWindowCommand}" />
         
-        <MenuItem Header="Pause Sayclip" Command="{Binding PauseSayclipCommand}" />
-        <MenuItem Header="Resume Sayclip " Command="{Binding ResumeSayclipCommand}" />
-        <MenuItem Header="Enable auto translation" Command="{Binding EnableTranslationCommand}" />
-        <MenuItem Header="Disable auto trasnlation" Command="{Binding DisableTranslationCommand}" />
-        <MenuItem Header="Disable copy translated text to clipboard" Command="{Binding disablecopyresult}" />
-        <MenuItem Header="enable copy translated text to clipboard" Command="{Binding enablecopyresult}" />
+        <MenuItem Header="{DynamicResource menu.pause}" Command="{Binding PauseSayclipCommand}" />
+        <MenuItem Header="{DynamicResource menu.resume}" Command="{Binding ResumeSayclipCommand}" />
+        <MenuItem Header="{DynamicResource menu.translation.enable}" Command="{Binding EnableTranslationCommand}" />
+        <MenuItem Header="{DynamicResource menu.translation.disable}" Command="{Binding DisableTranslationCommand}" />
+        <MenuItem Header="{DynamicResource menu.copy.disable}" Command="{Binding disablecopyresult}" />
+        <MenuItem Header="{DynamicResource menu.copy.enable}" Command="{Binding enablecopyresult}" />
 
-        <MenuItem Header="Enable concider repeated text" Command="{Binding enableRepeatingText}"/>
-        <MenuItem Header="Disable concider repeated text" Command="{Binding disablingRepeatingText}" />
-        <MenuItem Header="Select source language" Name="SourceLanMenu" >
+        <MenuItem Header="{DynamicResource menu.repeated.enable}" Command="{Binding enableRepeatingText}"/>
+        <MenuItem Header="{DynamicResource menu.repeated.disable}" Command="{Binding disablingRepeatingText}" />
+        <MenuItem Header="{DynamicResource menu.source}" Name="SourceLanMenu" >
             
         </MenuItem>
-        <MenuItem Header="Exchange current languajes" />
-        <MenuItem Header="Select target language" Name="TargetLanMenu" >
+        <MenuItem Header="{DynamicResource menu.exchange}" Name="exchangemenu"/>
+        <MenuItem Header="{DynamicResource menu.target}" Name="TargetLanMenu" >
             
         </MenuItem>
-        <MenuItem Header="Select translator api" Name="translatormenu" >
+        <MenuItem Header="{DynamicResource menu.plugin}" Name="translatormenu" >
             <MenuItem Header="Google API" Name="googleradio" />
             <MenuItem Header="Microsoft API"  Name="msradio"/>
             
         </MenuItem>
-        <MenuItem Header="Adjust clipboard monitor frequency"/>
-<MenuItem Header="Exit sayclip" Command="{Binding ExitApplicationCommand}" />
+        <MenuItem Header="{DynamicResource menu.monitor}" Name="monitormenu"/>
+        <MenuItem Header="{DynamicResource menu.ui}" Name="uilangmenu">
+            
+        </MenuItem>
+        
+<MenuItem Header="{DynamicResource menu.exit}" Command="{Binding ExitApplicationCommand}" />
     </ContextMenu>
 
 

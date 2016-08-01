@@ -38,5 +38,8 @@
     <Setting Name="sayclipKey" Type="System.Windows.Forms.Keys" Scope="User">
       <Value Profile="(Default)">F6</Value>
     </Setting>
+    <Setting Name="UILang" Type="System.String" Scope="User">
+      <Value Profile="(Default)">auto</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

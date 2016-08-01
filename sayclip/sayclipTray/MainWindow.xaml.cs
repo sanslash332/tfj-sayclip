@@ -31,6 +31,7 @@ namespace sayclipTray
         {
 
             InitializeComponent();
+            
             this.Closing += MainWindow_Closing;
             this.msappidbackup = sayclipTray.Properties.Settings.Default.msAppID;
             this.msappsecretbackup = sayclipTray.Properties.Settings.Default.msAppSecret;
@@ -38,6 +39,17 @@ namespace sayclipTray
             updateButton();
             this.KeyDown += MainWindow_KeyDown;
             
+        }
+
+        private void deleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            sayclipTray.Properties.Settings.Default.msAppID = "";
+            sayclipTray.Properties.Settings.Default.msAppSecret = "";
+            sayclipTray.Properties.Settings.Default.Save();
+            App.resetSayclip();
+            this.Hide();
+            this.Show();
+
         }
 
         public void updateButton()
@@ -73,21 +85,21 @@ namespace sayclipTray
 
         private void applyButton_Click(object sender, RoutedEventArgs e)
         {
-            ScreenReaderControl.speech("checking credentials", true);
+            ScreenReaderControl.speech(App.dictlang["ui.microsoft.check"].ToString(), true);
             sayclipTray.Properties.Settings.Default.msAppID = this.msappidbox.Text;
             sayclipTray.Properties.Settings.Default.msAppSecret = this.msappsecretbox.Text;
             sayclip.Properties.Settings.Default.msAppSecret = sayclipTray.Properties.Settings.Default.msAppSecret;
             sayclip.Properties.Settings.Default.msAppID = sayclipTray.Properties.Settings.Default.msAppID;
             if(Sayclip.checkMSCredentials())
             {
-                ScreenReaderControl.speech("Credentials are OK, api key is valid", true);
+                ScreenReaderControl.speech(App.dictlang["ui.microsoft.ok"].ToString(), true);
                 sayclipTray.Properties.Settings.Default.Save();
                 App.resetSayclip();
                 this.Hide();
             }
             else
             {
-                Sayclip.sayAndCopy("error validating your microsoft api credentials. please see the log and verify your internet conection, and your microsoft translator api credentials");
+                Sayclip.sayAndCopy(App.dictlang["menu.plugin.microsoft.error"].ToString());
                 this.discardButton_Click(sender,e);
                 this.Show();
 
@@ -117,7 +129,7 @@ namespace sayclipTray
         private void setupKeyButton_Click(object sender, RoutedEventArgs e)
         {
             App.saveNextKey = true;
-            sayclip.ScreenReaderControl.speech("Please press the key that you want for sayclip key", true);
+            sayclip.ScreenReaderControl.speech(App.dictlang["ui.general.setupmessaje"].ToString(), true);
             this.detectChange = true;
             
 

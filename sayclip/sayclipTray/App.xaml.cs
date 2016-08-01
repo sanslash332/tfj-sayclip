@@ -29,35 +29,41 @@ namespace sayclipTray
 
         private static TaskbarIcon notifyIcon;
         private static Thread sayclipThread;
-        private static Dictionary<string, string> countriCodes = new Dictionary<string, string>
+        private static Dictionary<string, string> countriCodes;
+        public static ResourceDictionary dictlang;
+
+
+
+
+        public static void rebuildCountryCodes(ResourceDictionary dictLang)
         {
-            {"English", "en"},
-            {"Spanish", "es" },
-            {"Spanish (Latin American)", "es-419" },
-            {"French", "fr" },
-            {"Italian","it"},
-            {"Portuguese (Brazil)", "pt-BR"},
-            { "Portuguese (Portugal)", "pt-PT" },
-            {"German","de"},
-            {"Chinese (Simplified)", "zh-CN" },
-            {"Chinese (Traditional)","zh-TW" },
-            {"Japanece","ja"},
-            {"Japanese (jw)","jw" },
-            {"Korean", "ko" },
-            {"Swedish", "sv" },
-            {"Turkish", "tr" },
-            {"Ukrainian", "uk" },
-            {"Russian", "ru" },
-            {"Hebrew", "iw"  },
-            {"Catalan", "ca" },
-            {"Basque", "eu" },
-            
-
-        };
-
+            countriCodes = new Dictionary<string, string>
+            {
+                {dictLang["menu.ui.auto"].ToString(), ""},
+            {dictLang["country.en"].ToString(), "en"},
+            {dictLang["country.es"].ToString(), "es" },
+            {dictLang["country.esla"].ToString(), "es-419" },
+            {dictLang["country.fr"].ToString(), "fr" },
+            {dictLang["country.it"].ToString(),"it"},
+            {dictLang["country.ptbr"].ToString(), "pt-BR"},
+            { dictLang["country.ptpt"].ToString(), "pt-PT" },
+            {dictLang["country.de"].ToString(),"de"},
+            {dictLang["country.zhcn"].ToString(), "zh-CN" },
+            {dictLang["country.zhtw"].ToString(),"zh-TW" },
+            {dictLang["country.ja"].ToString(),"ja"},
+            {dictLang["country.ko"].ToString(), "ko" },
+            {dictLang["country.sv"].ToString(), "sv" },
+            {dictLang["country.tr"].ToString(), "tr" },
+            {dictLang["country.uk"].ToString(), "uk" },
+            {dictLang["country.ru"].ToString(), "ru" },
+            {dictLang["country.iw"].ToString(), "iw"  },
+            {dictLang["country.ca"].ToString(), "ca" },
+            {dictLang["country.eu"].ToString(), "eu" },
 
 
 
+            };
+        }
         public static void reloadIconTitle()
         {
             TaskbarIcon tb = notifyIcon;
@@ -101,6 +107,7 @@ namespace sayclipTray
             sayclip.Properties.Settings.Default.msAppSecret = sayclipTray.Properties.Settings.Default.msAppSecret;
             sayclip.Properties.Settings.Default.interval = sayclipTray.Properties.Settings.Default.interval;
             //sayclip.Properties.Settings.Default.Save();
+            Sayclip.dictlang = dictlang;
 
 
             sayclipThread = new Thread(Sayclip.Main);
@@ -148,7 +155,7 @@ namespace sayclipTray
             }
             if(e.KeyCode == sayclipTray.Properties.Settings.Default.sayclipKey && e.Control== true && e.Shift==true)
             {
-                ScreenReaderControl.speech("Opening Sayclip Menu",true);
+                ScreenReaderControl.speech(dictlang["menu.open"].ToString(),true);
                 notifyIcon.Focus();
                 win = new MainWindow();
                 win.Show();
@@ -174,7 +181,7 @@ namespace sayclipTray
             {
                 if (!Application.Current.MainWindow.IsVisible)
                 {
-                    sayclip.ScreenReaderControl.speech("Opening sayclip configuration window", true);
+                    sayclip.ScreenReaderControl.speech(dictlang["ui.open"].ToString(), true);
                     Application.Current.MainWindow = new MainWindow();
 
                     Application.Current.MainWindow.Show();
@@ -182,7 +189,7 @@ namespace sayclipTray
                 }
                 else
                 {
-                    sayclip.ScreenReaderControl.speech("window is already open ", true);
+                    sayclip.ScreenReaderControl.speech(dictlang["ui.opened"].ToString(), true);
 
                 }
             }
@@ -196,6 +203,37 @@ namespace sayclipTray
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            ResourceDictionary dictLang;
+            switch(sayclipTray.Properties.Settings.Default.UILang)
+            {
+                case "en":
+                    dictLang = new ResourceDictionary() { Source = new Uri("lang\\en.xaml", UriKind.Relative) };
+                    break;
+                case "es":
+                    dictLang = new ResourceDictionary() { Source = new Uri("lang\\es.xaml", UriKind.Relative) };
+                    break;
+                case "auto":
+                    string cult = Thread.CurrentThread.CurrentCulture.ToString();
+                    if(cult.StartsWith("es"))
+                    {
+                        dictLang = new ResourceDictionary() { Source = new Uri("lang\\es.xaml", UriKind.Relative) };
+                    }
+                    else
+                    {
+                        dictLang = new ResourceDictionary() { Source = new Uri("lang\\en.xaml", UriKind.Relative) };
+                    }
+                    
+                    break;
+                default:
+                    dictLang = new ResourceDictionary() { Source = new Uri("lang\\en.xaml", UriKind.Relative) };
+                    break;
+            }
+
+            this.Resources.MergedDictionaries.Add(dictLang);
+            dictlang = dictLang;
+            rebuildCountryCodes(dictLang);
+            
+
             win = new sayclipTray.MainWindow();
             win.Hide();
             Application.Current.MainWindow = win;
@@ -226,7 +264,7 @@ namespace sayclipTray
 
             
             MenuItem transmenu = null;
-            
+            MenuItem uilangmenu = null;
             MenuItem SourseLanMenu=null;
             MenuItem TargetLanMenu=null;
             MenuItem speedmenu = null;
@@ -236,25 +274,29 @@ namespace sayclipTray
             foreach(MenuItem item in systraymenu.Items)
             {
                 //logSystem.LogWriter.escribir("Revisando el item: " + item.Header.ToString());
-                if(item.Header.ToString().Equals("Select source language"))
+                if(item.Name.ToString().Equals("SourceLanMenu"))
                 {
                     SourseLanMenu = item;
                 }
-                else if (item.Header.ToString().Equals("Select translator api"))
+                else if(item.Name.ToString().Equals("uilangmenu"))
+                {
+                    uilangmenu = item;
+                }
+                else if (item.Name.ToString().Equals("translatormenu"))
                 {
                     //logSystem.LogWriter.escribir("encontrado transmenu");
                     transmenu = item;
                     }
-                else if(item.Header.ToString().Equals("Select target language"))
+                else if(item.Name.ToString().Equals("TargetLanMenu"))
                 {
                     TargetLanMenu = item;
 
                 }
-                else if(item.Header.ToString().Equals("Adjust clipboard monitor frequency"))
+                else if(item.Name.ToString().Equals("monitormenu"))
                 {
                     speedmenu = item;
                 }
-                else if(item.Header.ToString().Equals("Exchange current languajes"))
+                else if(item.Name.ToString().Equals("exchangemenu"))
                 {
                     exchangeOption = item;
                 }
@@ -265,7 +307,7 @@ namespace sayclipTray
             string transmenuHeader = transmenu.Header.ToString();
             SourseLanMenu.Header = SourseLanMenuHeader + " (" + countriCodes.FirstOrDefault(x => x.Value == sayclipTray.Properties.Settings.Default.lan1).Key + ")";
             TargetLanMenu.Header = targetLanMenuHeader + " (" + countriCodes.FirstOrDefault(x => x.Value == sayclipTray.Properties.Settings.Default.lan2).Key + ")";
-            transmenu.Header = transmenuHeader + "(current " + sayclipTray.Properties.Settings.Default.translator.ToString() +")";
+            transmenu.Header = transmenuHeader + string.Format("({0} {1} )", dictLang["current"].ToString(), sayclipTray.Properties.Settings.Default.translator.ToString());
 
 
             foreach(MenuItem r in transmenu.Items)
@@ -295,18 +337,23 @@ namespace sayclipTray
 
                             if (r.Header.ToString().Equals("Google API"))
                             {
+                                if(sayclipTray.Properties.Settings.Default.lan1=="")
+                                {
+                                    sayclip.ScreenReaderControl.speech(dictlang["menu.plugin.google.badlang"].ToString(),true);
+                                    return;
+                                }
                                 sayclipTray.Properties.Settings.Default.translator = translatorType.google;
                                 sayclipTray.Properties.Settings.Default.Save();
 
-                                transmenu.Header = transmenuHeader + "(current " + sayclipTray.Properties.Settings.Default.translator.ToString() + ")";
-                                sayclip.ScreenReaderControl.speech("selected google api", false);
+                                transmenu.Header = transmenuHeader + string.Format("({0} {1} )", dictLang["current"].ToString(), sayclipTray.Properties.Settings.Default.translator.ToString());
+                                sayclip.ScreenReaderControl.speech(dictlang["selected"].ToString() + " google api", false);
                                 resetSayclip();
                             }
                             else if (r.Header.ToString().Equals("Microsoft API"))
                             {
                                 if (sayclipTray.Properties.Settings.Default.msAppSecret.Equals("") || sayclipTray.Properties.Settings.Default.msAppSecret == null || sayclipTray.Properties.Settings.Default.msAppID.Equals("") || sayclipTray.Properties.Settings.Default.msAppID == null)
                                 {
-                                    Sayclip.sayAndCopy("You can't select microsoft api translator until you insert your msAPPId and your msAppSecret. please open the sayclip configuration window and fill the fields on the microsoft api tab ");
+                                    Sayclip.sayAndCopy(dictlang["menu.plugin.microsoft.empty"].ToString());
                                     return;
 
                                 }
@@ -316,8 +363,8 @@ namespace sayclipTray
                                     sayclipTray.Properties.Settings.Default.translator = translatorType.microsoft;
                                     sayclipTray.Properties.Settings.Default.Save();
 
-                                    transmenu.Header = transmenuHeader + "(current " + sayclipTray.Properties.Settings.Default.translator.ToString() + ")";
-                                    sayclip.ScreenReaderControl.speech("selected microsoft api", false);
+                                    transmenu.Header = transmenuHeader + string.Format("({0} {1} )", dictLang["current"].ToString(), sayclipTray.Properties.Settings.Default.translator.ToString());
+                                    sayclip.ScreenReaderControl.speech(dictlang["selected"].ToString() + " microsoft api", false);
                                     resetSayclip();
                                     
                                 }
@@ -325,7 +372,7 @@ namespace sayclipTray
                                 {
                                     
                                     
-                                    Sayclip.sayAndCopy("error validating your microsoft api credentials. please see the log and verify your internet conection, and your microsoft translator api credentials");
+                                    Sayclip.sayAndCopy(dictlang["menu.plugin.microsoft.error"].ToString());
                                     
                                     
 
@@ -338,7 +385,7 @@ namespace sayclipTray
 
             exchangeOption.Command = new DelegateCommand
             {
-                CanExecuteFunc = () => true,
+                CanExecuteFunc = () => sayclipTray.Properties.Settings.Default.lan1.ToString()!="",
                 CommandAction = () =>
                 {
                     killSayclip();
@@ -362,7 +409,22 @@ namespace sayclipTray
                 item.Command = new languageCommand
                 {
                     lanCode = dictem.Value,
-                    CanExecuteFunc = () => sayclipTray.Properties.Settings.Default.lan1 != dictem.Value && dictem.Value!=sayclipTray.Properties.Settings.Default.lan2,
+                    CanExecuteFunc = () =>
+                    {
+                        if(sayclipTray.Properties.Settings.Default.translator== translatorType.google && dictem.Value=="")
+                        {
+                            return (false);
+                        }
+                        else
+                        {
+                            return (sayclipTray.Properties.Settings.Default.lan1 != dictem.Value && dictem.Value != sayclipTray.Properties.Settings.Default.lan2);
+                        }
+                            
+                        
+                        
+
+                    },
+                        
                     CommandAction = () =>
                     {
                         killSayclip();
@@ -390,21 +452,25 @@ namespace sayclipTray
                         TargetLanMenu.Header = targetLanMenuHeader + " (" + dictem.Key + ")";
                     }
                 };
-                TargetLanMenu.Items.Add(item2);
+                if(dictem.Value!="")
+                {
+                    TargetLanMenu.Items.Add(item2);
+                }
+                
                 
 
             }
 
             string speedHeader = speedmenu.Header.ToString();
-            speedmenu.Header = speedHeader + " (current " + sayclipTray.Properties.Settings.Default.interval.ToString() + " ms)";
+            speedmenu.Header = speedHeader + string.Format(" ({0} {1} ms)", dictLang["current"].ToString(), sayclipTray.Properties.Settings.Default.interval.ToString());
             Dictionary<int, string> speeds = new Dictionary<int, string>
             {
-                {2000, "very slow" },
-                {1000, "slow" },
-                {500, "normal" },
-                {100, "fast (default)" },
-                { 10, "very fast " },
-                {1, "Ultra fast (can have various errors reading the clipboard, and take high processors peak. )" },
+                {2000, dictLang["menu.monitor.2000"].ToString() },
+                {1000, dictLang["menu.monitor.1000"].ToString() },
+                {500, dictLang["menu.monitor.500"].ToString() },
+                {100, dictLang["menu.monitor.100"].ToString() },
+                { 10, dictLang["menu.monitor.10"].ToString()  },
+                {1, dictLang["menu.monitor.1"].ToString()  },
                 
             };
 
@@ -420,7 +486,7 @@ namespace sayclipTray
                         killSayclip();
                         sayclipTray.Properties.Settings.Default.interval = (double)dictem.Key;
                         sayclipTray.Properties.Settings.Default.Save();
-                        speedmenu.Header = speedHeader + " (current " + dictem.Key.ToString() + " ms)";
+                        speedmenu.Header = speedHeader + string.Format(" ({0} {1} ms)", dictLang["current"].ToString(), sayclipTray.Properties.Settings.Default.interval.ToString());
 
                         startSayclip();
                         
@@ -428,6 +494,35 @@ namespace sayclipTray
 
                 };
                 speedmenu.Items.Add(speed);
+            }
+
+            Dictionary<string, string> uilangs = new Dictionary<string, string>
+            {
+                {"auto", dictLang["menu.ui.auto"].ToString()  },
+                {"en", dictLang["menu.ui.en"].ToString() },
+                {"es", dictLang["menu.ui.es"].ToString() }
+                
+            };
+            string uilangmenuheader = uilangmenu.Header.ToString();
+            uilangmenu.Header += string.Format("({1} {0})",dictLang["menu.ui."+sayclipTray.Properties.Settings.Default.UILang.ToString()].ToString(), dictLang["current"].ToString());
+            foreach(KeyValuePair<string,string> k in uilangs)
+            {
+                MenuItem mi = new MenuItem();
+                mi.Header = k.Value;
+                mi.Command = new DelegateCommand()
+                {
+                    CanExecuteFunc= ()=> sayclipTray.Properties.Settings.Default.UILang!=k.Key,
+                    CommandAction= () =>
+                    {
+                        sayclipTray.Properties.Settings.Default.UILang = k.Key;
+                        sayclipTray.Properties.Settings.Default.Save();
+                        sayclip.ScreenReaderControl.speech(dictlang["menu.ui.reset"].ToString(),true);
+                        uilangmenu.Header = uilangmenuheader + string.Format("({1} {0})", dictLang["menu.ui." + sayclipTray.Properties.Settings.Default.UILang.ToString()].ToString(), dictLang["current"].ToString());
+                    }
+                };
+
+
+                uilangmenu.Items.Add(mi);
             }
             startSayclip();
             App.reloadIconTitle();

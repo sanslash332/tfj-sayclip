@@ -1,0 +1,85 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:sayclipTray.lang"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib" >
+    <system:String x:Key="current">seleccionado</system:String>
+    <system:String x:Key="selected">seleccionado</system:String>
+    <system:String x:Key="menu.open">Abriendo menú de sayclip</system:String>
+    <system:String x:Key="menu.showwindow">Mostrar ventana de configuración de Sayclip</system:String>
+    <system:String x:Key="menu.hidewindow">Ocultar ventana de configuración de Sayclip</system:String>
+    <system:String x:Key="menu.pause">Pausar Sayclip</system:String>
+    <system:String x:Key="menu.resume">Reanudar sayclip</system:String>
+    <system:String x:Key="menu.translation.enable">Activar traducción automática</system:String>
+    <system:String x:Key="menu.translation.disable">Desactivar traducción automática</system:String>
+    <system:String x:Key="menu.copy.enable">Activar el copiado del texto traducido al portapapeles</system:String>
+    <system:String x:Key="menu.copy.disable">Desactivar el copiado del texto traducido al portapapeles</system:String>
+    <system:String x:Key="menu.repeated.enable">Activar considerar texto repetido</system:String>
+    <system:String x:Key="menu.repeated.disable">Desactivar considerar texto repetido</system:String>
+    <system:String x:Key="menu.source">Seleccionar idioma de origen</system:String>
+    <system:String x:Key="menu.target">seleccionar idioma a traducir</system:String>
+    <system:String x:Key="menu.exchange">Intercambiar idiomas</system:String>
+    <system:String x:Key="menu.plugin">Seleccionar plugin  de traducción</system:String>
+    <system:String x:Key="menu.plugin.google.badlang">Lo sentimos, pero el plugin de google no soporta la detección automática de idiomas. Por favor, cambia el idioma de origen antes de seleccionar google como tu plugin de traducción. </system:String>
+    <system:String x:Key="menu.plugin.microsoft.error">error validando tus datos de autentificación de microsoft api. Por favor, revisa el registro y verifica tu conección a internet, y tus datos de autentificación de microsoft translator api.</system:String>
+    <system:String x:Key="menu.plugin.microsoft.empty">No puedes seleccionar microsoft api translator hasta que hayas ingresado tu msAPPId y tu contraseña de msAppSecret. Por favor, abra la ventana de configuración de sayclip y y llene los campos correspondientes en la pestaña microsoft api.</system:String>
+
+    <system:String x:Key="menu.monitor">Ajustar la frecuencia de monitoreo del portapapeles</system:String>
+    <system:String x:Key="menu.monitor.2000">Muy lenta</system:String>
+    <system:String x:Key="menu.monitor.1000">Lenta</system:String>
+    <system:String x:Key="menu.monitor.500">Normal</system:String>
+    <system:String x:Key="menu.monitor.100">Rápida (por defecto)</system:String>
+    <system:String x:Key="menu.monitor.10">Muy rápida</system:String>
+    <system:String x:Key="menu.monitor.1">Ultra rápida (puede tener errores variados al leer el portapapeles, y utiliza mayor potencia de procesamiento)</system:String>
+
+
+
+
+    <system:String x:Key="menu.ui">Seleccionar el idioma de la interfaz</system:String>
+    <system:String x:Key="menu.ui.auto">Automático</system:String>
+    <system:String x:Key="menu.ui.en">Inglés</system:String>
+    <system:String x:Key="menu.ui.es">Español</system:String>
+    <system:String x:Key="menu.ui.reset">Por favor, reinicie sayclip para que los cambios surtan efecto</system:String>
+    <system:String x:Key="menu.exit">Salir de sayclip</system:String>
+    <system:String x:Key="ui.open">Abriendo ventana de configuración de sayclip</system:String>
+    <system:String x:Key="ui.opened">La ventana ya está avierta</system:String>
+    <system:String x:Key="ui.tabs.general">Configuraciones generales</system:String>
+    <system:String x:Key="ui.general.setuplabel">Por favor, configura tu tecla sayclip</system:String>
+    <system:String x:Key="ui.general.setupbutton">Configurar tecla sayclip:</system:String>
+    <system:String x:Key="ui.general.setupmessaje">Por favor, presione la tecla que quiera como tecla sayclip</system:String>
+    <system:String x:Key="ui.tabs.microsoft">Datos de autentificación de Appi Microsoft</system:String>
+    <system:String x:Key="ui.microsoft.help">Por favor, introduzca sus datos de autentificación de appi microsoft</system:String>
+    <system:String x:Key="ui.microsoft.msappid.label">Introduzca su microsoft APP ID</system:String>
+    <system:String x:Key="ui.microsoft.msappsecret.label">Introduzca su contraseña de microsoft APP</system:String>
+    <system:String x:Key="ui.microsoft.helplink">Si no sabe que es un MS APP ID, y no tiene una, por favor, siga esta guía y complete todos los pasos para obtener una</system:String>
+    <system:String x:Key="ui.microsoft.check">Revisando datos de autentificación...</system:String>
+    <system:String x:Key="ui.microsoft.ok">Tus datos de autentificación de microsoft son correctos, la clave de api es válida.</system:String>
+    <system:String x:Key="ui.discard">Descartar cambios</system:String>
+    <system:String x:Key="ui.apply">Verificar y aplicar cambios</system:String>
+    <system:String x:Key="ui.delete">Borrar datos de autentificación</system:String>
+    <system:String x:Key="country.en">Inglés</system:String>
+    <system:String x:Key="country.es">Español</system:String>
+    <system:String x:Key="country.esla">Español (latinoamericano)</system:String>
+    <system:String x:Key="country.fr">Francés</system:String>
+    <system:String x:Key="country.it">Italiano</system:String>
+    <system:String x:Key="country.ptbr">Portugués (brasil)</system:String>
+    <system:String x:Key="country.ptpt">Portugués (portugal)</system:String>
+    <system:String x:Key="country.de">Alemán</system:String>
+    <system:String x:Key="country.zhcn">Chino (simplificado)</system:String>
+    <system:String x:Key="country.zhtw">Chino (tradicional)</system:String>
+    <system:String x:Key="country.ja">Japonés</system:String>
+    <system:String x:Key="country.ko">Koreano</system:String>
+    <system:String x:Key="country.sv">Sueco</system:String>
+    <system:String x:Key="country.tr">Turco</system:String>
+    <system:String x:Key="country.uk">Ukraniano</system:String>
+    <system:String x:Key="country.ru">Ruso</system:String>
+    <system:String x:Key="country.iw">Hebreo</system:String>
+    <system:String x:Key="country.ca">Catalán</system:String>
+    <system:String x:Key="country.eu">Basco</system:String>
+
+    <system:String x:Key="internal.start">Sayclip activado</system:String>
+    <system:String x:Key="internal.errortranslating">Error al traducir, por favor revise el archivo sayclip.log para obtener los detalles.</system:String>
+    <system:String x:Key="internal.muchtext">¡Estás traduciendo más de 2000 letras! ¡Esto tomará su tiempo!</system:String>
+    <system:String x:Key="internal.massivetext">Esta herramienta no es para traducir libros!  Por favor, selecciona menos letras!</system:String>
+
+
+</ResourceDictionary>
