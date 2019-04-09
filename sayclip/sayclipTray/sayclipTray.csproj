@@ -56,10 +56,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>35376A3C519E40CFEBF5DE21FFDFC018CEFD804F</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>CB03497D49375AFCEA64614020A5DC14EFEEFEBE</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>sayclipTray_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>sayclipTray_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -165,6 +165,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="sayclipTray_1_TemporaryKey.pfx" />
     <None Include="sayclipTray_TemporaryKey.pfx" />
     <None Include="Service References\TranslatorService\sayclipTray.TranslatorService.GetTranslationsResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>

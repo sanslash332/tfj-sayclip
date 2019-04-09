@@ -21,15 +21,20 @@ namespace sayclip
          private Translator translator;
          private string completeSource;
          private string completeTarget;
+         private static Dictionary<string, string> ReplacementsA = null;
+         private static Dictionary<string, string> ReplacementsB = null;
+         private static Dictionary<string, string> ReplacementsC = null;
 
-        
-         public googleTranslator()
+
+
+        public googleTranslator()
         {
             this.source = detectRareLanguajes(sayclip.Properties.Settings.Default.lan1);
             this.target = detectRareLanguajes(sayclip.Properties.Settings.Default.lan2);
             this.translator = new Translator();
             //logSystem.LogWriter.escribir(string.Format("checking languaje conversion for google api: source {0}, target {1}", this.source, this.target));
-            
+            Init_Replacements();
+
             foreach(KeyValuePair<string,string> k in Translator.LanguagesAndCodes)
             {
                 //logSystem.LogWriter.escribir(string.Format("checking current entry: {0}, {1}", k.Key, k.Value));
@@ -52,6 +57,65 @@ namespace sayclip
 
         }
 
+
+
+
+
+        // Initialize replacement arrays
+        private static void Init_Replacements()
+        {
+            ReplacementsA = new Dictionary<string, string>
+{
+{"%", "<p0c>"},
+{"&", "<c0e>"},
+{";", "<p0v>"},
+{"[", "<sb0l>"},
+{"]", "<sb0r>"}
+};
+
+            ReplacementsB = new Dictionary<string, string>
+{
+{" @", "@"},
+{"@ ", "@"},
+{"'", "'"},
+{"'", "'"},
+{"\"", "\""},
+{"& lt ;", "<"},
+{"<", "<"},
+{">", ">"},
+{"& gt ;", ">"},
+{"\u00ae", "®"},
+{"%0d", "\n"},
+{"%0D", "\n"},
+{"%0a", "\n"},
+{"☺", "\n"}, // mymemory end of line replacement
+{"\\u003c", "<"},
+{"\\u003e", ">"}
+};
+
+            ReplacementsC = new Dictionary<string, string>
+{
+{"<p0c>", "%"},
+{"<p0c>", "%"},
+{"<c0e>", "&"},
+{"<c0e>", "&"},
+{"<p0v>", ";"},
+{"<p0v>", ";"},
+{"<p0v>", ";"},
+{"<> P0V", ";"},
+{"<פּ0וו>", ";"},
+{"",""},
+{"",""},
+{"<sb0l>","["},
+{"<sb0l>","["},
+{"<sb0l>","["},
+{"<sb0r>","]"},
+{"<sb0r>","]"},
+{"<sb0r>","]"},
+{" ;",";"},
+{"//","/"}
+};
+        }
 
 
         private string detectRareLanguajes(string lang)
@@ -148,7 +212,16 @@ namespace sayclip
             //logSystem.LogWriter.escribir(string.Format("Text without urlencode: {0} \n text with encode: {1}", text, System.Web.HttpUtility.UrlEncode(text)));
             if(text.Length<=2000)
             {
-                return(repairLines(translator.Translate(prepareText(text), completeSource, completeTarget)));
+                if(text.Contains('.') || text.Contains(';')||text.Contains('\n'))
+                {
+                    return repairLines(translateLarge(text));
+
+                }
+                else
+                {
+                    return (repairLines(translator.Translate(prepareText(text), completeSource, completeTarget)));
+                }
+                
             }
             else if(text.Length<=6000)
             {
@@ -166,7 +239,7 @@ namespace sayclip
          public string[] separateSentences(string text)
          {
             List<string> prefinal = new List<string>();
-            string[] parts = text.Split('.');
+            string[] parts = text.Split(new char[] {'.',';','\n'});
             foreach(string s in parts)
             {
                 if (s.Length <= 2000)

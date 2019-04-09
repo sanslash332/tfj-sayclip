@@ -8,7 +8,13 @@ namespace sayclip
 {
   public interface iTranslator
     {
-    
+        string getName();
+        Dictionary<string, string> getLanguages();
+        void setLanguages(string fromLang, string toLang);
+
+
+
+        
         string translate(string text);
         string[] separateSentences(string text);
         string unificateSentences(string[] sentences);

@@ -21,10 +21,12 @@ namespace RavSoft.GoogleTranslator
             get
             {
                 Translator.EnsureInitialized();
-                
+
                 return Translator._languageModeMap;
             }
         }
+
+
 
 
         #region Properties

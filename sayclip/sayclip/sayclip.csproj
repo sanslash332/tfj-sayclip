@@ -87,6 +87,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -136,7 +137,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Translator.exe.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="dolapi.dll">
@@ -156,8 +156,6 @@
     <Content Include="ScreenReaderAPI.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Translator.exe" />
-    <Content Include="Translator.pdb" />
     <Content Include="UniversalSpeech.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
