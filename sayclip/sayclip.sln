@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sayclip", "sayclip\sayclip.csproj", "{6AF37CEC-E3C6-4FCA-A71C-5160F2B23990}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrosoftTranslatorLib", "MicrosoftTranslatorLib\MicrosoftTranslatorLib.csproj", "{FE08ED9A-4409-4145-901B-D7CA640B1C65}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "consoleTranslatorTest", "consoleTranslatorTest\consoleTranslatorTest.csproj", "{3C0C87EF-8ED1-4BE9-8599-764DEF09FC73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleTranslateFreeApi", "googleTranslatorFreeLib\GoogleTranslateFreeApi\GoogleTranslateFreeApi.csproj", "{76E7BC79-FC5E-4B23-A9A2-2D8DD1079245}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,8 +83,19 @@ Global
 		{3C0C87EF-8ED1-4BE9-8599-764DEF09FC73}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3C0C87EF-8ED1-4BE9-8599-764DEF09FC73}.Release|x86.ActiveCfg = Release|Any CPU
 		{3C0C87EF-8ED1-4BE9-8599-764DEF09FC73}.Release|x86.Build.0 = Release|Any CPU
+		{76E7BC79-FC5E-4B23-A9A2-2D8DD1079245}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76E7BC79-FC5E-4B23-A9A2-2D8DD1079245}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76E7BC79-FC5E-4B23-A9A2-2D8DD1079245}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{76E7BC79-FC5E-4B23-A9A2-2D8DD1079245}.Debug|x86.Build.0 = Debug|Any CPU
+		{76E7BC79-FC5E-4B23-A9A2-2D8DD1079245}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76E7BC79-FC5E-4B23-A9A2-2D8DD1079245}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76E7BC79-FC5E-4B23-A9A2-2D8DD1079245}.Release|x86.ActiveCfg = Release|Any CPU
+		{76E7BC79-FC5E-4B23-A9A2-2D8DD1079245}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {20EFA4E3-5435-400A-BC71-619FF6CDA5D5}
 	EndGlobalSection
 EndGlobal

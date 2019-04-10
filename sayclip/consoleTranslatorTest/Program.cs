@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MicrosoftTranslatorLib;
-using RavSoft.GoogleTranslator;
+using System.Threading.Tasks;
+using GoogleTranslateFreeApi;
+
 namespace consoleTranslatorTest
 {
-    public enum translatorSelector
-    {
-        googleTranslator,
-        MicrosoftTranslator
-    }
     class Program
     {
         
@@ -23,10 +19,12 @@ namespace consoleTranslatorTest
 
         static void Main(string[] args)
         {
-            outLog.sendLog += printLog;
+            
+            GoogleTranslator t = new GoogleTranslator();
+            
             Console.WriteLine("iniciando testeador del traductor ");
             Console.WriteLine("idiomas disponibles: ");
-            foreach(string x in RavSoft.GoogleTranslator.Translator.Languages)
+            foreach(Language x in GoogleTranslator.LanguagesSupported)
             {
                 Console.WriteLine(x);
 
@@ -36,7 +34,7 @@ namespace consoleTranslatorTest
             string[] values = data.Split(',');
 
             // Translator t = new Translator("tfjsayclipsandl", "tfjsayclip800800comsaysaysandl");
-            RavSoft.GoogleTranslator.Translator t = new RavSoft.GoogleTranslator.Translator();
+            
             
 
             do
@@ -45,9 +43,11 @@ namespace consoleTranslatorTest
                 data = Console.ReadLine();
                 if(data!="exit")
                 {
-                    string r = t.Translate(data, values[0], values[1]);
-                    Console.WriteLine(r);
+                    Task<TranslationResult> tr = t.TranslateLiteAsync(data, GoogleTranslator.GetLanguageByISO(values[0]), GoogleTranslator.GetLanguageByISO(values[1]));
 
+                    TranslationResult r = tr.GetAwaiter().GetResult();
+
+                    Console.WriteLine(r.MergedTranslation);
 
                 }
 
