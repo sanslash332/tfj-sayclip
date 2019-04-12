@@ -3,108 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using System.IO.Log;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.Threading.Tasks;
+using NLog;
 
 namespace logSystem
 {
   public class LogWriter
     {
-        static private StreamWriter escritor;
-        static private LogStore log;
-        static private LogRecordSequence logSequense;
         static private object locker;
-        
+        static private Logger instance;
 
-        static public void init()
+        static public Logger getLog()
         {
-            FileStream fs = new FileStream("sayclip.log", FileMode.OpenOrCreate, FileAccess.ReadWrite);
-            escritor = new StreamWriter(fs, Encoding.Unicode);
-            if (fs.Length >= 1024 * 1024 * 10)
+            if (instance != null)
             {
-                terminate();
-                File.Delete("sayclip.log");
-                init();
+                return instance;
             }
             else
             {
-
-                locker = new object();
-                fs.Seek(fs.Length, SeekOrigin.Begin);
-
-                escritor.WriteLine("program started at " + DateTime.Now.ToString());
-                
-                
-
-
-            }            
-        }
-
-        public static void escribir(string obj)
-        {
-            Monitor.Enter(locker);
-            if (escritor != null)
-            {
-                if (obj.Contains("Unable to cast ") == false)
-                {
-                    
-                    escritor.WriteLine(DateTime.Now.ToString() +": " + obj);
-                    escritor.Flush();
-
-                }
+                init();
+                return instance;
 
             }
-            Monitor.Exit(locker);
-
-                    }
-
-        void NetManajer_sendError(string obj)
-        {
-            if (escritor != null)
-            {
-                escritor.WriteLine(obj + "\n");
-
-            }
-
+            
         }
-
-        public static void terminate()
+        
+        static private void init()
         {
-            escritor.Flush();
-            escritor.Dispose();
-            escritor.Close();
-            escritor = null;
-
+            locker = new object();
+            instance = LogManager.GetCurrentClassLogger();
+            instance.Info($"logSystem started at {DateTime.Now}");
+            
         }
-
-        void GameCore__sendError(string obj)
-        {
-            if (escritor != null)
-            {
-                if (obj.Contains("Unable to cast ") == false)
-                {
-
-                    escritor.WriteLine(obj + " \n");
-                }
-                            }
-                    }
-
-        void BaseElement__sendError(string obj)
-        {
-            if (escritor != null)
-            {
-                if (obj.Contains("Unable to cast") == false)
-                {
-
-                    escritor.WriteLine(obj + " \n ");
-                }
-
-
-            }
-                    }
-
 
     }
 }

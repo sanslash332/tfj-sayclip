@@ -36,14 +36,6 @@ namespace googleTranslatorPlugin
             
         }
 
-        /*
-         * 
-        public System.Windows.Window getConfigWindow()
-        {
-            throw new NotImplementedException();
-        }
-        */
-
         public string getDescription(string languaje)
         {
             return description;
@@ -72,6 +64,17 @@ namespace googleTranslatorPlugin
             TranslationResult resultado = await translator.TranslateLiteAsync(text, this.fromLang, this.toLang);
             return resultado.MergedTranslation;
 
+        }
+
+        public bool initialize()
+        {
+            return true;
+        }
+
+        
+        public void showConfigWindow()
+        {
+            throw new NotImplementedException();
         }
     }
 }

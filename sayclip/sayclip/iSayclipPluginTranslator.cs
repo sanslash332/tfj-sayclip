@@ -8,13 +8,14 @@ namespace sayclip
 {
   public interface iSayclipPluginTranslator
     {
-        public string getName();
-        public string getDescription(string languaje);
-        public Dictionary<string, string> getAvailableLanguages(string displayLanguaje);
-        public void setLanguages(string fromLang, string toLang);
-        public string translate(string text);
-        public bool haveConfigWindow();
-        public System.Windows.Window getConfigWindow();
+        string getName();
+        string getDescription(string languaje);
+        Dictionary<string, string> getAvailableLanguages(string displayLanguaje);
+        void setLanguages(string fromLang, string toLang);
+        bool initialize();
+        Task<string> translate(string text);
+        bool haveConfigWindow();
+        void showConfigWindow();
 
 
 

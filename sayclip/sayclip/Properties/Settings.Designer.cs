@@ -12,8 +12,8 @@ namespace sayclip.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "12.0.0.0")]
-    public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
         
@@ -134,13 +134,9 @@ namespace sayclip.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("google")]
-        public global::sayclip.translatorType translator {
+        public string translator {
             get {
-                return ((global::sayclip.translatorType)(this["translator"]));
-            }
-            set
-            {
-                this["translator"] = value;
+                return ((string)(this["translator"]));
             }
         }
         
@@ -153,6 +149,18 @@ namespace sayclip.Properties {
             }
             set {
                 this["allowRepeat"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool cache {
+            get {
+                return ((bool)(this["cache"]));
+            }
+            set {
+                this["cache"] = value;
             }
         }
     }
