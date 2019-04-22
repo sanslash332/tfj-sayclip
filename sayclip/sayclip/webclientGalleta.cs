@@ -63,7 +63,7 @@ namespace sayclip
             }
             catch (Exception e)
             {
-                LogWriter.escribir("web response exception raised: " + e.Message);
+                LogWriter.getLog().Info("web response exception raised: " + e.Message);
                 
             }
              

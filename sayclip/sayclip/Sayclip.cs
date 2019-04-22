@@ -7,32 +7,24 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Threading;
 using logSystem;
+using NLog;
 
-    	
 namespace sayclip
-    
-{
-    [Serializable]
-    public enum translatorType
     {
-        google,
-        microsoft
-    }
-    
-  public  class Sayclip
+    public  class Sayclip
     {
         public static ResourceDictionary dictlang;
         
-        static private bool translate;
-        private static bool logAlarmSet = false;
-        
-        static private string data = "";
-        public static bool cloceNow = false;
-        public static iSayclipPluginTranslator g;
-        private static object lockobj = new object();
+        private bool translate;
+        private bool logAlarmSet = false;
+        private string data = "";
+        public bool cloceNow = false;
+        public iSayclipPluginTranslator translator;
+        private static object lockobj =     new object();
 
-        public static void sayAndCopy(string txt)
+        public async Task sayAndCopy(string txt)
         {
+            
             ScreenReaderControl.speech(txt, true);
             Monitor.Enter(lockobj);
             data = txt;
@@ -43,48 +35,21 @@ namespace sayclip
             }
             catch(Exception e)
             {
-                logSystem.LogWriter.escribir(string.Format("Error setting text on the clipboard: {0} \n type: {1} \n stack: {2} ", e.Message.ToString(), e.ToString(), e.StackTrace.ToString()));
+                logSystem.LogWriter.getLog().Error(string.Format("Error setting text on the clipboard: {0} \n type: {1} \n stack: {2} ", e.Message.ToString(), e.ToString(), e.StackTrace.ToString()));
             }
             
             Monitor.Exit(lockobj);
 
         }
-        public static bool checkMSCredentials()
-        {
-            MicrosoftTranslator m = new MicrosoftTranslator();
-            m.sourceLang = "en";
-            m.targetLang = "es";
-            if(!m.checkTocken())
-            {
-                logSystem.LogWriter.escribir("error in tocken. bad credentials, or error in conection");
-                return (false);
-            }
-            else
-            {
-                string resl = m.translate("hello world");
-                if(resl.ToLower().Equals("hola mundo"))
-                {
-                    logSystem.LogWriter.escribir("tocken is correct, valid api key");
-                    return (true);
-                }
-                else
-                {
-                    logSystem.LogWriter.escribir("error in translation check. some extrange occurs, the result: " + resl);
-                    return (false);
-                }
-
-            }
-
-
-        }
-        public static void repeatLastClipboardContent()
+        
+        
+        public async Task repeatLastClipboardContent()
         {
             ScreenReaderControl.speech(data,true);
 
         }
-
-        [STAThread]
-        public static void Main()
+        
+        public async Task Main()
         {
             if(Monitor.IsEntered(lockobj))
             {
@@ -92,68 +57,36 @@ namespace sayclip
             }
 
             logAlarmSet = false;
-            if(sayclip.Properties.Settings.Default.translator== translatorType.google)
-            {
-                g = new googleTranslator();
-            }
-            else if(sayclip.Properties.Settings.Default.translator== translatorType.microsoft)
-            {
-                g = new MicrosoftTranslator();
-            }
-            
 
+            translator = PluginManager.getInstanse.getActivePlugin;
             translate = Properties.Settings.Default.translate;
+            if (translator==null)
+            {
+                var saytask = sayAndCopy(dictlang["internal.noactiveplugin"].ToString());
 
+                translate = false;
+            }
 
-            //timer = new System.Timers.Timer(Properties.Settings.Default.interval);
-
-            //timer.Elapsed += threadFired;
-
-            //timer.AutoReset = true;
-            //timer.Enabled = true;
             ScreenReaderControl.speech(dictlang["internal.start"].ToString(), false);
             int interval = (int)Properties.Settings.Default.interval;
             while (!cloceNow)
             {
-                threadFired();
-                System.Threading.Thread.CurrentThread.Join(5);
+                var task = checkClipboard();
+                
                 Thread.Sleep(interval);
 
             }
-            //Clipboard.SetText(pruebaDetraduccion);
             
-                   }
-
-
-
-        private static void threadFired()
-        {
-            //ThreadStart tst = Timer_Elapsed;
-            //Thread ted = new Thread(tst);
-            //ted.SetApartmentState(ApartmentState.STA);
-            //ted.Start();
-            Timer_Elapsed();
-
-
-        }
-        public static void stoptimer()
-        {
-            //timer.Stop();
-            //timer.Dispose();
-
+            
         }
 
-        [STAThread]
-        public static void Timer_Elapsed()
+        private async Task checkClipboard()
         {
-            //Console.WriteLine("evento disparado");
-            
-
             
                 if (Clipboard.ContainsText())
                 {
                 string rok = data;
-                //Console.WriteLine("el cp tiene texto ");
+                
                 Monitor.Enter(lockobj);
                 try
                 {
@@ -163,7 +96,7 @@ namespace sayclip
                 }
                 catch (Exception e)
                 {
-                    LogWriter.escribir("error copying the clipboard " + e.Message +" \n type: " +e.ToString() + " \n stack: " + e.StackTrace.ToString() );
+                    LogWriter.getLog().Warn("error copying the clipboard " + e.Message +" \n type: " +e.ToString() + " \n stack: " + e.StackTrace.ToString() );
                     //ScreenReaderControl.speech("error copying the clipboard " + e.Message, true);
                     //Clipboard.Flush();
                     rok = data;
@@ -189,7 +122,7 @@ namespace sayclip
                         }
                         catch (Exception e)
                         {
-                            logSystem.LogWriter.escribir(string.Format("Error setting text on the clipboard: {0} \n type: {1} \n stack: {2} ", e.Message.ToString(), e.ToString(), e.StackTrace.ToString()));
+                            logSystem.LogWriter.getLog().Debug(string.Format("Error setting text on the clipboard: {0} \n type: {1} \n stack: {2} ", e.Message.ToString(), e.ToString(), e.StackTrace.ToString()));
 
                         }
                             
@@ -199,10 +132,10 @@ namespace sayclip
                         
                         if (translate)
                         {
-                            string trad = g.translate(data);
+                            string trad = await translator.translate(data);
                         if(trad.Equals("") && !logAlarmSet)
                         {
-                            sayAndCopy(dictlang["internal.errortranslating"].ToString());
+                            var task = sayAndCopy(dictlang["internal.errortranslating"].ToString());
                             logAlarmSet = true;
                         }
                         else
@@ -223,7 +156,7 @@ namespace sayclip
                                 }
                                 catch (Exception e)
                                 {
-                                    logSystem.LogWriter.escribir(string.Format("Error setting text on the clipboard: {0} \n type: {1} \n stack: {2} ", e.Message.ToString(), e.ToString(), e.StackTrace.ToString()));
+                                    logSystem.LogWriter.getLog().Warn(string.Format("Error setting text on the clipboard: {0} \n type: {1} \n stack: {2} ", e.Message.ToString(), e.ToString(), e.StackTrace.ToString()));
 
                                 }
                                 
