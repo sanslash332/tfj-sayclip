@@ -70,6 +70,8 @@
             <param name="source">The string to receive the token</param>
             <returns>Token for the current string</returns>
             <exception cref="T:System.NotSupportedException">The method is no longer valid, or something went wrong</exception>
+            <exception cref="T:System.Net.Http.HttpRequestException">Http exception</exception>
+            <exception cref="T:GoogleTranslateFreeApi.GoogleTranslateIPBannedException"></exception>
         </member>
         <member name="T:GoogleTranslateFreeApi.GoogleTranslator">
             <summary>
@@ -123,7 +125,7 @@
             <exception cref="T:GoogleTranslateFreeApi.LanguageIsNotSupportedException">Language is not supported</exception>
             <exception cref="T:System.InvalidOperationException">Thrown when target language is auto</exception>
             <exception cref="T:GoogleTranslateFreeApi.GoogleTranslateIPBannedException">Thrown when the IP used for requests is banned </exception>
-            <exception cref="T:System.Net.WebException">Thrown when getting an error with response</exception>
+            <exception cref="T:System.Net.Http.HttpRequestException">Thrown when getting the HTTP exception</exception>
         </member>
         <member name="M:GoogleTranslateFreeApi.GoogleTranslator.TranslateAsync(GoogleTranslateFreeApi.ITranslatable)">
             <summary>
@@ -135,7 +137,7 @@
             <exception cref="T:GoogleTranslateFreeApi.LanguageIsNotSupportedException">Language is not supported</exception>
             <exception cref="T:System.InvalidOperationException">Thrown when target language is auto</exception>
             <exception cref="T:GoogleTranslateFreeApi.GoogleTranslateIPBannedException">Thrown when the IP used for requests is banned </exception>
-            <exception cref="T:System.Net.WebException">Thrown when getting an error with response</exception>
+            <exception cref="T:System.Net.Http.HttpRequestException">Thrown when getting the HTTP exception</exception>
         </member>
         <member name="M:GoogleTranslateFreeApi.GoogleTranslator.TranslateLiteAsync(System.String,GoogleTranslateFreeApi.Language,GoogleTranslateFreeApi.Language)">
             <summary>
@@ -150,7 +152,7 @@
             <exception cref="T:GoogleTranslateFreeApi.LanguageIsNotSupportedException">Language is not supported</exception>
             <exception cref="T:System.InvalidOperationException">Thrown when target language is auto</exception>
             <exception cref="T:GoogleTranslateFreeApi.GoogleTranslateIPBannedException">Thrown when the IP used for requests is banned </exception>
-            <exception cref="T:System.Net.WebException">Thrown when getting an error with response</exception>
+            <exception cref="T:System.Net.Http.HttpRequestException">Thrown when getting the HTTP exception</exception>
         </member>
         <member name="M:GoogleTranslateFreeApi.GoogleTranslator.TranslateLiteAsync(GoogleTranslateFreeApi.ITranslatable)">
             <summary>
@@ -162,8 +164,8 @@
             <param name="item">The object that implements the interface ITranslatable</param>
             <exception cref="T:GoogleTranslateFreeApi.LanguageIsNotSupportedException">Language is not supported</exception>
             <exception cref="T:System.InvalidOperationException">Thrown when target language is auto</exception>
-            <exception cref="T:GoogleTranslateFreeApi.GoogleTranslateIPBannedException">Thrown when the IP used for requests is banned </exception>
-            <exception cref="T:System.Net.WebException">Thrown when getting an error with response</exception>
+            <exception cref="T:GoogleTranslateFreeApi.GoogleTranslateIPBannedException">Thrown when the IP used for requests is banned</exception>
+            <exception cref="T:System.Net.Http.HttpRequestException">Thrown when getting the HTTP exception</exception>
         </member>
         <member name="T:GoogleTranslateFreeApi.Language">
             <summary>

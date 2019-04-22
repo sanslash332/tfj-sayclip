@@ -28,7 +28,7 @@ namespace sayclip
         
         static private string data = "";
         public static bool cloceNow = false;
-        public static iTranslator g;
+        public static iSayclipPluginTranslator g;
         private static object lockobj = new object();
 
         public static void sayAndCopy(string txt)

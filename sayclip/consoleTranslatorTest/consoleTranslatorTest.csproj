@@ -56,10 +56,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\googleTranslatorFreeLib\GoogleTranslateFreeApi\GoogleTranslateFreeApi.csproj">
-      <Project>{76e7bc79-fc5e-4b23-a9a2-2d8dd1079245}</Project>
-      <Name>GoogleTranslateFreeApi</Name>
-    </ProjectReference>
     <ProjectReference Include="..\logSystem\logSystem.csproj">
       <Project>{3cbefa4e-7b7c-4474-9062-42d88b954cac}</Project>
       <Name>logSystem</Name>
