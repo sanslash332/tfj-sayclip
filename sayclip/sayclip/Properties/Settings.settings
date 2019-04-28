@@ -29,7 +29,7 @@
     <Setting Name="msAppSecret" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="translator" Type="System.String" Scope="Application">
+    <Setting Name="translator" Type="System.String" Scope="User">
       <Value Profile="(Default)">google</Value>
     </Setting>
     <Setting Name="allowRepeat" Type="System.Boolean" Scope="User">

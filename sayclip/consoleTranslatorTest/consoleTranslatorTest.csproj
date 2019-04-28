@@ -36,10 +36,16 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.6.2\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -60,12 +66,17 @@
       <Project>{3cbefa4e-7b7c-4474-9062-42d88b954cac}</Project>
       <Name>logSystem</Name>
     </ProjectReference>
+    <ProjectReference Include="..\sayclip\sayclip.csproj">
+      <Project>{6af37cec-e3c6-4fca-a71c-5160f2b23990}</Project>
+      <Name>sayclip</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
     <None Include="Properties\DataSources\MicrosoftTranslatorLib.TranslatorService.GetTranslationsResponse.datasource" />
     <None Include="Properties\DataSources\MicrosoftTranslatorLib.TranslatorService.TranslateArray2Response.datasource" />
     <None Include="Properties\DataSources\MicrosoftTranslatorLib.TranslatorService.TranslateArrayResponse.datasource" />

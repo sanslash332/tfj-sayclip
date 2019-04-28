@@ -14,7 +14,7 @@ namespace logSystem
   public class LogWriter
     {
         static private object locker;
-        static private Logger instance;
+        static private Logger instance=null;
 
         static public Logger getLog()
         {
@@ -33,7 +33,10 @@ namespace logSystem
         
         static private void init()
         {
+            Console.WriteLine("initializing log system");
+
             locker = new object();
+            
             instance = LogManager.GetCurrentClassLogger();
             instance.Info($"logSystem started at {DateTime.Now}");
             

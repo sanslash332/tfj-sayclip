@@ -9,8 +9,8 @@ using GoogleTranslateFreeApi;
 
 namespace googleTranslatorPlugin
 {
-    [Export(typeof(iSayclipPluginTranslator))]
-    public class Translator : iSayclipPluginTranslator
+    [Export(typeof(sayclip.iSayclipPluginTranslator))]
+    public class Translator : sayclip.iSayclipPluginTranslator
     {
         private Language fromLang;
         private Language toLang;
@@ -21,6 +21,17 @@ namespace googleTranslatorPlugin
         public Translator()
         {
             this.translator = new GoogleTranslator();
+            if(Properties.Settings.Default.fromLang != null)
+            {
+                this.fromLang = GoogleTranslator.GetLanguageByISO(Properties.Settings.Default.fromLang);
+
+
+            }
+            if(Properties.Settings.Default.toLang != null)
+            {
+                this.toLang = GoogleTranslator.GetLanguageByISO(Properties.Settings.Default.toLang);
+
+            }
 
         }
 
@@ -56,9 +67,20 @@ namespace googleTranslatorPlugin
         {
             this.fromLang = GoogleTranslator.GetLanguageByISO(fromLang);
             this.toLang = GoogleTranslator.GetLanguageByISO(toLang);
+            Properties.Settings.Default.fromLang = this.fromLang.ISO639;
+            Properties.Settings.Default.toLang = this.toLang.ISO639;
+            Properties.Settings.Default.Save();
 
         }
+        
+        public string[] getConfiguredLanguajes(string displayLanguaje)
+        {
+            string[] langs = new string[2];
+            langs[0] = this.fromLang.FullName;
+            langs[1] = this.toLang.FullName;
+            return langs;
 
+        }
         public async Task<string> translate(string text)
         {
             TranslationResult resultado = await translator.TranslateLiteAsync(text, this.fromLang, this.toLang);

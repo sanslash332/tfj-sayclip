@@ -11,7 +11,7 @@ using NLog;
 
 namespace sayclip
 {
-    sealed class PluginManager
+    public sealed class PluginManager
     {
         private static readonly Lazy<PluginManager> managerInstanse = new Lazy<PluginManager>(() => new PluginManager() );
         private iSayclipPluginTranslator activePlugin;
@@ -39,14 +39,61 @@ namespace sayclip
 
         }
 
+        public void reloadPlugins()
+        {
+            plugins = null;
+            activePlugin = null;
+
+            loadPlugins();
+            checkActivePluginConfiguration();
+
+        }
         private void checkActivePluginConfiguration()
         {
+            foreach(Lazy<iSayclipPluginTranslator> plug in plugins)
+            {
+                if(plug.Value.getName() == Properties.Settings.Default.translator)
+                {
+                    activePlugin = plug.Value;
+                    LogWriter.getLog().Debug($"{activePlugin.getName()} seted as active plugin");
+                    return;
+                }
+                
+            }
+
+            if(plugins.Count() >0)
+            {
+                activePlugin = plugins.First().Value;
+                LogWriter.getLog().Debug($"{activePlugin.getName()} seted as active plugin");
+                Properties.Settings.Default.translator = activePlugin.getName();
+                Properties.Settings.Default.Save();
+
+            }
+            else
+            {
+                activePlugin = null;
+                LogWriter.getLog().Debug("not loaded plugins to set as active");
+            }
+            
 
         }
 
         public bool setActivePlugin(string pluginName)
         {
-            return false;
+            foreach(Lazy<iSayclipPluginTranslator> plug in plugins)
+            {
+                if(plug.Value.getName() == pluginName)
+                {
+                    this.activePlugin = plug.Value;
+                    Properties.Settings.Default.translator = pluginName;
+                    Properties.Settings.Default.Save();
+                    LogWriter.getLog().Debug($"{activePlugin.getName()} seted as active plugin");
+
+                    return true;
+
+                }
+            }
+            return (false);
         }
 
         public List<string> getPluginsNames()
@@ -85,17 +132,6 @@ namespace sayclip
                 throw(e);
             }
             LogWriter.getLog().Debug($"plugins loaded: {plugins.Count()}");
-
-
-
-
-
-
-
-
-
-
-
 
         }
     }

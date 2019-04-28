@@ -11,12 +11,14 @@ using System.Reflection;
 
 namespace sayclip.Properties
 {
-    public partial class Settings
+    public partial class Settings2
     {
 
+        /*
         Settings() : base(new ConfigurationFileApplicationSettings("sayclipconfig.config", typeof(Settings)))
         {
 
         }
+        */
     }
 }

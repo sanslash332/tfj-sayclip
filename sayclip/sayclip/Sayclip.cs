@@ -17,39 +17,49 @@ namespace sayclip
         
         private bool translate;
         private bool logAlarmSet = false;
-        private string data = "";
-        public bool cloceNow = false;
+        private string data = "";        
         public iSayclipPluginTranslator translator;
         private static object lockobj =     new object();
+
+        private async Task setClipboardText(string data)
+        {
+            await Task.Run(() =>
+            {
+
+                Monitor.Enter(lockobj);
+                
+                try
+                {
+                    Clipboard.SetText(data);
+                }
+                catch (Exception e)
+                {
+                    logSystem.LogWriter.getLog().Error(string.Format("Error setting text on the clipboard: {0} \n type: {1} \n stack: {2} ", e.Message.ToString(), e.ToString(), e.StackTrace.ToString()));
+                }
+
+                Monitor.Exit(lockobj);
+
+            });
+
+
+        }
 
         public async Task sayAndCopy(string txt)
         {
             
             ScreenReaderControl.speech(txt, true);
-            Monitor.Enter(lockobj);
-            data = txt;
-
-            try
-            {
-                Clipboard.SetText(data);
-            }
-            catch(Exception e)
-            {
-                logSystem.LogWriter.getLog().Error(string.Format("Error setting text on the clipboard: {0} \n type: {1} \n stack: {2} ", e.Message.ToString(), e.ToString(), e.StackTrace.ToString()));
-            }
-            
-            Monitor.Exit(lockobj);
+            await setClipboardText(txt);
 
         }
         
         
-        public async Task repeatLastClipboardContent()
+        public void repeatLastClipboardContent()
         {
             ScreenReaderControl.speech(data,true);
 
         }
         
-        public async Task Main()
+        public async Task Main(CancellationToken canceller)
         {
             if(Monitor.IsEntered(lockobj))
             {
@@ -69,12 +79,12 @@ namespace sayclip
 
             ScreenReaderControl.speech(dictlang["internal.start"].ToString(), false);
             int interval = (int)Properties.Settings.Default.interval;
-            while (!cloceNow)
+            while (!canceller.IsCancellationRequested)
             {
-                var task = checkClipboard();
+                var task = Task.Run(checkClipboard);
                 
-                Thread.Sleep(interval);
-
+                await Task.Delay(interval);
+                
             }
             
             
@@ -83,30 +93,33 @@ namespace sayclip
         private async Task checkClipboard()
         {
             
-                if (Clipboard.ContainsText())
+            if (Clipboard.ContainsText())
                 {
                 string rok = data;
-                
-                Monitor.Enter(lockobj);
-                try
+                await Task.Run(() =>
                 {
-                    
-                    rok = Clipboard.GetText();
-                    
-                }
-                catch (Exception e)
-                {
-                    LogWriter.getLog().Warn("error copying the clipboard " + e.Message +" \n type: " +e.ToString() + " \n stack: " + e.StackTrace.ToString() );
-                    //ScreenReaderControl.speech("error copying the clipboard " + e.Message, true);
-                    //Clipboard.Flush();
-                    rok = data;
-                    
+                    Monitor.Enter(lockobj);
+                    try
+                    {
 
-                }
-                
-                
-                Monitor.Exit(lockobj);
-                
+                        rok = Clipboard.GetText();
+
+                    }
+                    catch (Exception e)
+                    {
+                        LogWriter.getLog().Warn("error copying the clipboard " + e.Message + " \n type: " + e.ToString() + " \n stack: " + e.StackTrace.ToString());
+                        //ScreenReaderControl.speech("error copying the clipboard " + e.Message, true);
+                        //Clipboard.Flush();
+                        rok = data;
+
+
+                    }
+
+
+                    Monitor.Exit(lockobj);
+
+
+                });
                 
                 //Console.WriteLine("tenemos texto en el cp: {0}", rok);
                 if (!data.Equals(rok))
@@ -114,19 +127,7 @@ namespace sayclip
                         data = rok;
                         if(Properties.Settings.Default.allowRepeat)
                         {
-                            Monitor.Enter(lockobj);
-                            data += " \n";
-                        try
-                        {
-                            Clipboard.SetText(data);
-                        }
-                        catch (Exception e)
-                        {
-                            logSystem.LogWriter.getLog().Debug(string.Format("Error setting text on the clipboard: {0} \n type: {1} \n stack: {2} ", e.Message.ToString(), e.ToString(), e.StackTrace.ToString()));
-
-                        }
-                            
-                            Monitor.Exit(lockobj);
+                        setClipboardText(data + "\n");
 
                         }
                         
@@ -144,24 +145,13 @@ namespace sayclip
                             logAlarmSet = false;
                             if(sayclip.Properties.Settings.Default.copyresult)
                             {
-                                Monitor.Enter(lockobj);
                                 data = trad;
-                                if(sayclip.Properties.Settings.Default.allowRepeat)
+                                if (sayclip.Properties.Settings.Default.allowRepeat)
                                 {
-                                    data += " \n";
+                                    data += "\n";
                                 }
-                                try
-                                {
-                                    Clipboard.SetText(data);
-                                }
-                                catch (Exception e)
-                                {
-                                    logSystem.LogWriter.getLog().Warn(string.Format("Error setting text on the clipboard: {0} \n type: {1} \n stack: {2} ", e.Message.ToString(), e.ToString(), e.StackTrace.ToString()));
 
-                                }
-                                
-                                Monitor.Exit(lockobj);
-
+                                setClipboardText(data);
 
                             }
                         }
@@ -176,18 +166,11 @@ namespace sayclip
                         logAlarmSet = false;
                         }
 
-
-
-
                     }
 
 
                 }
-            else
-            {
-                //Console.WriteLine("sin datos ");
-
-            }
+            
             }
 
 
