@@ -50,6 +50,8 @@ namespace sayclip
         }
         private void checkActivePluginConfiguration()
         {
+            LogWriter.getLog().Debug($"the saved configuration value is: {Properties.Settings.Default.translator}");
+
             foreach(Lazy<iSayclipPluginTranslator> plug in plugins)
             {
                 if(plug.Value.getName() == Properties.Settings.Default.translator)

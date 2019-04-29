@@ -29,6 +29,13 @@ namespace consoleTranslatorTest
 
             Console.WriteLine("opteniendo lista de plugins disponibles");
             PluginManager pm = PluginManager.getInstanse;
+            Console.WriteLine($"Los plugins detectados son: ");
+            foreach(string plug in pm.getPluginsNames())
+            {
+                Console.WriteLine(plug);
+
+            }
+
             iSayclipPluginTranslator t = pm.getActivePlugin;
             if(t == null)
             {
@@ -48,6 +55,8 @@ namespace consoleTranslatorTest
 
 
             }
+            Console.WriteLine($"Los idiomas que ya tiene configurados el plugin son: {t.getConfiguredLanguajes("es")[0]} a {t.getConfiguredLanguajes("es")[1]}");
+
             Console.WriteLine("ingresar el idioma del cual se va a traducir, y luego hacia el cual se va a traducir, separados por , sin espacio y luego presione enter ");
             string data = Console.ReadLine();
             string[] values = data.Split(',');
