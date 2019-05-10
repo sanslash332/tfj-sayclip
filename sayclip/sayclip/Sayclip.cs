@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Schedulers;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Threading;
@@ -23,7 +24,7 @@ namespace sayclip
 
         private async Task setClipboardText(string data)
         {
-            await Task.Run(() =>
+            await Task.Factory.StartNew(() =>
             {
 
                 Monitor.Enter(lockobj);
@@ -39,7 +40,7 @@ namespace sayclip
 
                 Monitor.Exit(lockobj);
 
-            });
+            },CancellationToken.None,TaskCreationOptions.None,new StaTaskScheduler(1));
 
 
         }
@@ -61,6 +62,8 @@ namespace sayclip
         
         public async Task Main(CancellationToken canceller)
         {
+            LogWriter.getLog().Debug("Starting sayclip core");
+
             if(Monitor.IsEntered(lockobj))
             {
                 Monitor.Exit(lockobj);
@@ -72,6 +75,7 @@ namespace sayclip
             translate = Properties.Settings.Default.translate;
             if (translator==null)
             {
+                LogWriter.getLog().Warn("no active plugin detected");
                 var saytask = sayAndCopy(dictlang["internal.noactiveplugin"].ToString());
 
                 translate = false;
@@ -81,12 +85,14 @@ namespace sayclip
             int interval = (int)Properties.Settings.Default.interval;
             while (!canceller.IsCancellationRequested)
             {
-                var task = Task.Run(checkClipboard);
+                //var task = Task.Factory.StartNew(checkClipboard,canceller,TaskCreationOptions.None, new System.Threading.Tasks.Schedulers.StaTaskScheduler(2));
+                var task = checkClipboard();
                 
                 await Task.Delay(interval);
                 
             }
-            
+            LogWriter.getLog().Debug("shuting down sayclip core");
+
             
         }
 
@@ -96,7 +102,7 @@ namespace sayclip
             if (Clipboard.ContainsText())
                 {
                 string rok = data;
-                await Task.Run(() =>
+                await Task.Factory.StartNew(() =>
                 {
                     Monitor.Enter(lockobj);
                     try
@@ -119,7 +125,7 @@ namespace sayclip
                     Monitor.Exit(lockobj);
 
 
-                });
+                },CancellationToken.None,TaskCreationOptions.None,new StaTaskScheduler(1));
                 
                 //Console.WriteLine("tenemos texto en el cp: {0}", rok);
                 if (!data.Equals(rok))
@@ -127,7 +133,8 @@ namespace sayclip
                         data = rok;
                         if(Properties.Settings.Default.allowRepeat)
                         {
-                        setClipboardText(data + "\n");
+                        data += "\n";
+                        setClipboardText(data);
 
                         }
                         

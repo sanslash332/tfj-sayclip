@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "googleTranslatorPlugin", "g
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "azureTranslatorPlugin", "azureTranslatorPlugin\azureTranslatorPlugin.csproj", "{63C3A470-0648-4CEB-BA58-3BF53FA78E6F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "consoleSayclipCoreTester", "consoleSayclipCoreTester\consoleSayclipCoreTester.csproj", "{6B061129-BCFB-4985-A16A-A05437263957}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,14 @@ Global
 		{63C3A470-0648-4CEB-BA58-3BF53FA78E6F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{63C3A470-0648-4CEB-BA58-3BF53FA78E6F}.Release|x86.ActiveCfg = Release|Any CPU
 		{63C3A470-0648-4CEB-BA58-3BF53FA78E6F}.Release|x86.Build.0 = Release|Any CPU
+		{6B061129-BCFB-4985-A16A-A05437263957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B061129-BCFB-4985-A16A-A05437263957}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B061129-BCFB-4985-A16A-A05437263957}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6B061129-BCFB-4985-A16A-A05437263957}.Debug|x86.Build.0 = Debug|Any CPU
+		{6B061129-BCFB-4985-A16A-A05437263957}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B061129-BCFB-4985-A16A-A05437263957}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B061129-BCFB-4985-A16A-A05437263957}.Release|x86.ActiveCfg = Release|Any CPU
+		{6B061129-BCFB-4985-A16A-A05437263957}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
