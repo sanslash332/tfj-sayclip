@@ -62,7 +62,7 @@ namespace consoleTranslatorTest
 
             do
             {
-                Console.WriteLine("escriba una de las opciones para configurar el core. O exit para salir. ");
+                Console.WriteLine("escriba una de las opciones para configurar el core. O exit para salir \n c: para cambiar los idiomas configurados \n t para activar o desactivar la traducción \n r: para admitir texto repetido \n p: para copiar el resultado de la traducción al portapapeles.");
                 data = Console.ReadLine();
                 switch (data)
                 {
@@ -73,6 +73,19 @@ namespace consoleTranslatorTest
                         Console.WriteLine("cambiando idiomas configurados");
                         changeLanguaje(t);
                         break;
+                    case "t":
+                        ConfigurationManager.getInstance.translating = !ConfigurationManager.getInstance.translating;
+                        Console.WriteLine($"la traducción ha sido cambiada a {ConfigurationManager.getInstance.translating}");
+                        break;
+                    case "r":
+                        ConfigurationManager.getInstance.allowCopyRepeatedText = !ConfigurationManager.getInstance.allowCopyRepeatedText;
+                        Console.WriteLine($"la copia de texto repetido ha sido cambiada a {ConfigurationManager.getInstance.allowCopyRepeatedText}");
+                        break;
+                    case "p":
+                        ConfigurationManager.getInstance.copyResultToClipboard= !ConfigurationManager.getInstance.copyResultToClipboard;
+                        Console.WriteLine($"la copia de resultados al portapapeles ha sido cambiada a {ConfigurationManager.getInstance.copyResultToClipboard}");
+                        break;
+
                     default:
                         Console.WriteLine("noup, eso no ta");
                         break;

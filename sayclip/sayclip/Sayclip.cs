@@ -15,8 +15,14 @@ namespace sayclip
     public  class Sayclip
     {
         public static ResourceDictionary dictlang;
-        
-        private bool translate;
+      
+        private bool translate
+        {
+            get
+            {
+                return ConfigurationManager.getInstance.translating;
+            }
+        }
         private bool logAlarmSet = false;
         private string data = "";        
         public iSayclipPluginTranslator translator;
@@ -72,17 +78,17 @@ namespace sayclip
             logAlarmSet = false;
 
             translator = PluginManager.getInstanse.getActivePlugin;
-            translate = Properties.Settings.Default.translate;
+          
             if (translator==null)
             {
                 LogWriter.getLog().Warn("no active plugin detected");
                 var saytask = sayAndCopy(dictlang["internal.noactiveplugin"].ToString());
 
-                translate = false;
+                ConfigurationManager.getInstance.translating = false;
             }
 
             ScreenReaderControl.speech(dictlang["internal.start"].ToString(), false);
-            int interval = (int)Properties.Settings.Default.interval;
+            int interval = (int)ConfigurationManager.getInstance.clipboardPollingSpeed;
             while (!canceller.IsCancellationRequested)
             {
                 //var task = Task.Factory.StartNew(checkClipboard,canceller,TaskCreationOptions.None, new System.Threading.Tasks.Schedulers.StaTaskScheduler(2));
