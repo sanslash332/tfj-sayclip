@@ -30,10 +30,10 @@ namespace sayclip
 
         private async Task setClipboardText(string data)
         {
-            await Task.Factory.StartNew(() =>
+            Task writeTask = Task.Factory.StartNew((object milock) =>
             {
 
-                Monitor.Enter(lockobj);
+                //Monitor.Enter(milock);
                 
                 try
                 {
@@ -44,9 +44,12 @@ namespace sayclip
                     logSystem.LogWriter.getLog().Error(string.Format("Error setting text on the clipboard: {0} \n type: {1} \n stack: {2} ", e.Message.ToString(), e.ToString(), e.StackTrace.ToString()));
                 }
 
-                Monitor.Exit(lockobj);
+                //Monitor.Exit(milock);
 
-            },CancellationToken.None,TaskCreationOptions.None,new StaTaskScheduler(1));
+            },lockobj,CancellationToken.None,TaskCreationOptions.None,new StaTaskScheduler(1));
+            await writeTask;
+            writeTask.Dispose();
+
 
 
         }
@@ -95,7 +98,9 @@ namespace sayclip
                 var task = checkClipboard();
                 
                 await Task.Delay(interval);
-                
+                await task;
+                task.Dispose();
+
             }
             LogWriter.getLog().Debug("shuting down sayclip core");
 
@@ -108,9 +113,11 @@ namespace sayclip
             if (Clipboard.ContainsText())
                 {
                 string rok = data;
-                await Task.Factory.StartNew(() =>
+                
+                Task checkTask = Task.Factory.StartNew((object milock) =>
                 {
-                    Monitor.Enter(lockobj);
+                    //Monitor.Enter(milock);
+                    
                     try
                     {
 
@@ -128,10 +135,13 @@ namespace sayclip
                     }
 
 
-                    Monitor.Exit(lockobj);
+                    //Monitor.Exit(milock);
 
 
-                },CancellationToken.None,TaskCreationOptions.None,new StaTaskScheduler(1));
+                },lockobj,CancellationToken.None,TaskCreationOptions.None,new StaTaskScheduler(1));
+                await checkTask;
+                checkTask.Dispose();
+
                 
                 //Console.WriteLine("tenemos texto en el cp: {0}", rok);
                 if (!data.Equals(rok))
