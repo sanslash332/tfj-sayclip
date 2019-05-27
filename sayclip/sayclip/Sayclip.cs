@@ -30,25 +30,27 @@ namespace sayclip
 
         private async Task setClipboardText(string data)
         {
-            Task writeTask = Task.Factory.StartNew((object milock) =>
+            //Task writeTask = Task.Factory.StartNew((object milock) =>
+            await excecuteInSTA(() =>
             {
 
                 //Monitor.Enter(milock);
-                
+
                 try
                 {
                     Clipboard.SetText(data);
                 }
                 catch (Exception e)
                 {
-                    logSystem.LogWriter.getLog().Error(string.Format("Error setting text on the clipboard: {0} \n type: {1} \n stack: {2} ", e.Message.ToString(), e.ToString(), e.StackTrace.ToString()));
+                    logSystem.LogWriter.getLog().Warn(string.Format("Error setting text on the clipboard: {0} \n type: {1} \n stack: {2} ", e.Message.ToString(), e.ToString(), e.StackTrace.ToString()));
                 }
 
                 //Monitor.Exit(milock);
 
-            },lockobj,CancellationToken.None,TaskCreationOptions.None,new StaTaskScheduler(1));
-            await writeTask;
-            writeTask.Dispose();
+            });
+            //,lockobj,CancellationToken.None,TaskCreationOptions.None,new StaTaskScheduler(1));
+            //await writeTask;
+            //writeTask.Dispose();
 
 
 
@@ -96,7 +98,7 @@ namespace sayclip
             {
                 //var task = Task.Factory.StartNew(checkClipboard,canceller,TaskCreationOptions.None, new System.Threading.Tasks.Schedulers.StaTaskScheduler(2));
                 var task = checkClipboard();
-                
+              
                 await Task.Delay(interval);
                 await task;
                 task.Dispose();
@@ -113,11 +115,12 @@ namespace sayclip
             if (Clipboard.ContainsText())
                 {
                 string rok = data;
-                
-                Task checkTask = Task.Factory.StartNew((object milock) =>
+
+                //Task checkTask = Task.Factory.StartNew((object milock) =>
+                await excecuteInSTA(() =>
                 {
                     //Monitor.Enter(milock);
-                    
+
                     try
                     {
 
@@ -137,10 +140,11 @@ namespace sayclip
 
                     //Monitor.Exit(milock);
 
+                });
+                //},lockobj,CancellationToken.None,TaskCreationOptions.None,new StaTaskScheduler(1));
 
-                },lockobj,CancellationToken.None,TaskCreationOptions.None,new StaTaskScheduler(1));
-                await checkTask;
-                checkTask.Dispose();
+                                //await checkTask;                
+                                //checkTask.Dispose();
 
                 
                 //Console.WriteLine("tenemos texto en el cp: {0}", rok);
@@ -196,7 +200,25 @@ namespace sayclip
             
             }
 
+        public static Task excecuteInSTA(ThreadStart act)
+        {
+            try
+            {
+                Thread t = new Thread(act);
+                t.SetApartmentState(ApartmentState.STA);
+                t.Start();
+                t.Join();
+                
+            }
+            catch (Exception e)
+            {
+                LogWriter.getLog().Error($"problemas en la ejecución de un thread {e.Message} \n los detalles del error {e.StackTrace}");
+                return Task.FromException(e);
 
+                
+            }
+            return Task.CompletedTask;
+        }
         }
     }
 
