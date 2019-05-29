@@ -42,7 +42,9 @@ namespace sayclip
                 }
                 catch (Exception e)
                 {
-                    logSystem.LogWriter.getLog().Warn(string.Format("Error setting text on the clipboard: {0} \n type: {1} \n stack: {2} ", e.Message.ToString(), e.ToString(), e.StackTrace.ToString()));
+                    logSystem.LogWriter.getLog().Error(string.Format("Error setting text on the clipboard: {0} \n type: {1} \n stack: {2} ", e.Message.ToString(), e.ToString(), e.StackTrace.ToString()));
+                    
+
                 }
 
                 //Monitor.Exit(milock);
@@ -129,10 +131,11 @@ namespace sayclip
                     }
                     catch (Exception e)
                     {
-                        LogWriter.getLog().Warn("error copying the clipboard " + e.Message + " \n type: " + e.ToString() + " \n stack: " + e.StackTrace.ToString());
+                        LogWriter.getLog().Error("error copying the clipboard " + e.Message + " \n type: " + e.ToString() + " \n stack: " + e.StackTrace.ToString());
                         //ScreenReaderControl.speech("error copying the clipboard " + e.Message, true);
                         //Clipboard.Flush();
                         rok = data;
+                        
 
 
                     }
@@ -204,15 +207,17 @@ namespace sayclip
         {
             try
             {
+                LogWriter.getLog().Debug("iniciando thread en STA");
                 Thread t = new Thread(act);
                 t.SetApartmentState(ApartmentState.STA);
                 t.Start();
                 t.Join();
+                LogWriter.getLog().Debug("thread STA finalizado ");
                 
             }
             catch (Exception e)
             {
-                LogWriter.getLog().Error($"problemas en la ejecución de un thread {e.Message} \n los detalles del error {e.StackTrace}");
+                LogWriter.getLog().Error($"problemas en la ejecución de un thread en STA {e.Message} \n los detalles del error {e.StackTrace}");
                 return Task.FromException(e);
 
                 
