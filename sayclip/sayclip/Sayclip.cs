@@ -102,8 +102,8 @@ namespace sayclip
                 var task = checkClipboard();
               
                 await Task.Delay(interval);
-                await task;
-                task.Dispose();
+                //await task;
+                //task.Dispose();
 
             }
             LogWriter.getLog().Debug("shuting down sayclip core");
@@ -127,6 +127,8 @@ namespace sayclip
                     {
 
                         rok = Clipboard.GetText();
+                        LogWriter.getLog().Debug($"captured data is: {rok}");
+                        
 
                     }
                     catch (Exception e)
@@ -224,6 +226,28 @@ namespace sayclip
             }
             return Task.CompletedTask;
         }
+
+        public static async Task TimeoutAfter(Task task, TimeSpan timeout)
+        {
+
+            using (var timeoutCancellationTokenSource = new CancellationTokenSource())
+            {
+
+                var completedTask = await Task.WhenAny(task, Task.Delay(timeout, timeoutCancellationTokenSource.Token));
+                if (completedTask == task)
+                {
+                    timeoutCancellationTokenSource.Cancel();
+                    await task;  // Very important in order to propagate exceptions
+                }
+                else
+                {
+                    LogWriter.getLog().Error($"operation timed out.");
+                    //throw new TimeoutException("The operation has timed out.");
+
+                }
+            }
+        }
+
+        //end class
         }
     }
-
