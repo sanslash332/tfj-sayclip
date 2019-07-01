@@ -125,6 +125,7 @@ namespace sayclip
 
                     try
                     {
+                        LogWriter.getLog().Debug("capturing clipboard");
 
                         rok = Clipboard.GetText();
                         LogWriter.getLog().Debug($"captured data is: {rok}");
