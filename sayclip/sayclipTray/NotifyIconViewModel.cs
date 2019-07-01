@@ -12,12 +12,11 @@ namespace sayclipTray
     /// view model is assigned to the NotifyIcon in XAML. Alternatively, the startup routing
     /// in App.xaml.cs could have created this view model, and assigned it to the NotifyIcon.
     /// </summary>
-    public class NotifyIconViewModel
+    public class NotifyIconViewModel : TaskbarIcon
     {
-    
-           
-        /// <summary>
-        /// </summary>
+        private ConfigurationManager scpcm = ConfigurationManager.getInstance;
+        private PluginManager scppm = PluginManager.getInstanse;
+        private App app = (App)Application.Current;
         public static string sourceLanheader;
         public static string targetLanHeader;
         
@@ -27,15 +26,12 @@ namespace sayclipTray
             {
                 return new DelegateCommand()
                 {
-                    CanExecuteFunc= () => sayclipTray.Properties.Settings.Default.translate && !sayclipTray.Properties.Settings.Default.copyresult,
+                    CanExecuteFunc= () => scpcm.translating && !scpcm.copyResultToClipboard,
                     CommandAction = () =>
                         {
-                            sayclipTray.Properties.Settings.Default.copyresult = true;
-                            sayclipTray.Properties.Settings.Default.Save();
-                            App.resetSayclip();
+                            scpcm.copyResultToClipboard = true;
+                            
                         }
-                        
-
                         
                 };
             }
@@ -47,31 +43,28 @@ namespace sayclipTray
             {
                 return new DelegateCommand()
                 {
-                    CanExecuteFunc= () => sayclipTray.Properties.Settings.Default.translate && sayclipTray.Properties.Settings.Default.copyresult,
+                    CanExecuteFunc= () => scpcm.translating&& scpcm.copyResultToClipboard,
                     CommandAction = () =>
                         {
-                            sayclipTray.Properties.Settings.Default.copyresult = false;
-                            sayclipTray.Properties.Settings.Default.Save();
-                            App.resetSayclip();
-
+                            scpcm.copyResultToClipboard = false;
+                            
                         }
                 };
             }
         }
+
         public ICommand PauseSayclipCommand
         {
             get
             {
                 return new DelegateCommand
                 {
-                    CanExecuteFunc = () => App.isSayclipRuning(),
+                    CanExecuteFunc = () => app.isSayclipRuning,
                     CommandAction = () =>
                         {
-                            App.killSayclip();
-                            App.reloadIconTitle();
+                            app.killSayclip();
+                            reloadIconTitle();
                         }
-
-
                 };
             }
         }
@@ -82,11 +75,11 @@ namespace sayclipTray
             {
                 return new DelegateCommand
                 {
-                    CanExecuteFunc = () => !App.isSayclipRuning(),
+                    CanExecuteFunc = () => !app.isSayclipRuning,
                     CommandAction = () =>
                         {
-                            App.startSayclip();
-                            App.reloadIconTitle();
+                            app.startSayclip();
+                            reloadIconTitle();
                         }
                 };
             }
@@ -98,14 +91,12 @@ namespace sayclipTray
             {
                 return new DelegateCommand()
                 {
-                    CanExecuteFunc = () => sayclip.Properties.Settings.Default.allowRepeat,
+                    CanExecuteFunc = () => scpcm.allowCopyRepeatedText,
                     CommandAction = () =>
                     {
-                        App.reloadIconTitle();
-                        sayclipTray.Properties.Settings.Default.allowRepeat = !sayclipTray.Properties.Settings.Default.allowRepeat;
-                        sayclipTray.Properties.Settings.Default.Save();
-                        App.resetSayclip();
-
+                        
+                        scpcm.allowCopyRepeatedText= !  scpcm.allowCopyRepeatedText;
+                        reloadIconTitle();
                     }
 
                 };
@@ -118,12 +109,11 @@ namespace sayclipTray
             {
                 return new DelegateCommand()
                 {
-                    CanExecuteFunc = () => !sayclip.Properties.Settings.Default.allowRepeat,
+                    CanExecuteFunc = () => !scpcm.allowCopyRepeatedText,
                     CommandAction = () =>
                         {
-                            sayclipTray.Properties.Settings.Default.allowRepeat = !sayclipTray.Properties.Settings.Default.allowRepeat;
-                            sayclipTray.Properties.Settings.Default.Save();
-                            App.resetSayclip();
+                        scpcm.allowCopyRepeatedText= !scpcm.allowCopyRepeatedText;
+                      
 
                         }
 
@@ -137,14 +127,14 @@ namespace sayclipTray
             {
                 return new DelegateCommand
                 {
-                    CanExecuteFunc= ()=> !sayclip.Properties.Settings.Default.translate,
+                    CanExecuteFunc= ()=> !scpcm.translating,
                     CommandAction= () =>
                     {
-                        App.killSayclip();
-                        sayclipTray.Properties.Settings.Default.translate = true;
-                        sayclipTray.Properties.Settings.Default.Save();
-                        App.resetSayclip();
-                        App.reloadIconTitle();
+                        app.killSayclip();
+                        scpcm.translating= true;
+
+                        app.startSayclip();
+                        reloadIconTitle();
 
                     }
                 };
@@ -157,14 +147,14 @@ namespace sayclipTray
             {
                 return new DelegateCommand
                 {
-                    CanExecuteFunc= ()=> sayclip.Properties.Settings.Default.translate,
+                    CanExecuteFunc= ()=> scpcm.translating,
                     CommandAction= ()=>
                     {
-                        App.killSayclip();
-                        sayclipTray.Properties.Settings.Default.translate = false;
-                        sayclipTray.Properties.Settings.Default.Save();
-                        App.resetSayclip();
-                        App.reloadIconTitle();
+                        app.killSayclip();
+                        scpcm.translating= false;
+
+                        app.startSayclip();
+                        reloadIconTitle();
 
                     }
                 };
@@ -223,6 +213,119 @@ namespace sayclipTray
                 return new DelegateCommand {CommandAction = () => Application.Current.Shutdown()};
             }
         }
+
+        public void buidlLanguajeMenuHeaders()
+        {
+
+        }
+
+        public void buildPluginsMenu()
+        {
+
+        }
+
+        public void buildUILangMenu()
+        {
+            /*
+             
+            Dictionary<string, string> uilangs = new Dictionary<string, string>
+            {
+                {"auto", dictLang["menu.ui.auto"].ToString()  },
+                {"en", dictLang["menu.ui.en"].ToString() },
+                {"es", dictLang["menu.ui.es"].ToString() }
+                
+            };
+            string uilangmenuheader = uilangmenu.Header.ToString();
+            uilangmenu.Header += string.Format("({1} {0})",dictLang["menu.ui."+  scpcm.UILang.ToString()].ToString(), dictLang["current"].ToString());
+            foreach(KeyValuePair<string,string> k in uilangs)
+            {
+                MenuItem mi = new MenuItem();
+                mi.Header = k.Value;
+                mi.Command = new DelegateCommand()
+                {
+                    CanExecuteFunc= ()=>   scpcm.UILang!=k.Key,
+                    CommandAction= () =>
+                    {
+                          scpcm.UILang = k.Key;
+                          scpcm.Save();
+                        sayclip.ScreenReaderControl.speech(dictlang["menu.ui.reset"].ToString(),true);
+                        uilangmenu.Header = uilangmenuheader + string.Format("({1} {0})", dictLang["menu.ui." +   scpcm.UILang.ToString()].ToString(), dictLang["current"].ToString());
+                    }
+                };
+
+
+                uilangmenu.Items.Add(mi);
+            }
+             
+             */
+        }
+
+        public void buildSpeedMenu()
+        {
+            /*
+             
+             string speedHeader = speedmenu.Header.ToString();
+            speedmenu.Header = speedHeader + string.Format(" ({0} {1} ms)", dictLang["current"].ToString(),   scpcm.interval.ToString());
+            Dictionary<int, string> speeds = new Dictionary<int, string>
+            {
+                {2000, dictLang["menu.monitor.2000"].ToString() },
+                {1000, dictLang["menu.monitor.1000"].ToString() },
+                {500, dictLang["menu.monitor.500"].ToString() },
+                {100, dictLang["menu.monitor.100"].ToString() },
+                { 10, dictLang["menu.monitor.10"].ToString()  },
+                {1, dictLang["menu.monitor.1"].ToString()  },
+                
+            };
+
+            foreach(KeyValuePair<int,string> dictem in speeds)
+            {
+                MenuItem speed = new MenuItem();
+                speed.Header = dictem.Value + "( " + dictem.Key.ToString() + " ms)";
+                speed.Command = new DelegateCommand
+                {
+                    CanExecuteFunc= ()=> dictem.Key!= (int)  scpcm.interval,
+                    CommandAction= () =>
+                    {
+                        killSayclip();
+                          scpcm.interval = (double)dictem.Key;
+                          scpcm.Save();
+                        speedmenu.Header = speedHeader + string.Format(" ({0} {1} ms)", dictLang["current"].ToString(),   scpcm.interval.ToString());
+
+                        startSayclip();
+                        
+                    }
+
+                };
+                speedmenu.Items.Add(speed);
+            }
+
+            
+             */
+        }
+
+        public void buildLanguajeMenuItems()
+        {
+
+        }
+
+        public void reloadIconTitle()
+        {
+            App app = (App)Application.Current;
+            this.ToolTipText = "Sayclip: key " +   Properties.Settings.Default.sayclipKey;
+            if (app.isSayclipRuning)
+            {
+                this.ToolTipText += ", runing";
+                if (ConfigurationManager.getInstance.translating)
+                {
+                    this.ToolTipText += ", translating.";
+                }
+            }
+            else
+            {
+                this.ToolTipText += " paused";
+            }
+        }
+
     }
 
 

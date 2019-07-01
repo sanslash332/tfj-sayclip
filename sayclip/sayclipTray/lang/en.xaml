@@ -80,6 +80,6 @@
     <system:String x:Key="internal.errortranslating">Error while translating, please see the file sayclip.log for get details. </system:String>
     <system:String x:Key="internal.muchtext">You're translating more than 2000 characters! this can take a long while! </system:String>
     <system:String x:Key="internal.massivetext">This tool isn't for translate a book! Please select less characters! </system:String>
-
+    <system:String x:Key="internal.noactiveplugin">The core dont have any valid plugin to load. Sayclip is running without translating. </system:String>
 
 </ResourceDictionary>

@@ -11,32 +11,7 @@
                     <Button Name="setupKeyButton" Click="setupKeyButton_Click" Content="{DynamicResource ui.general.setupbutton}" />
                 </Grid>
             </TabItem>
-            <TabItem Header="{DynamicResource ui.tabs.microsoft}">
-                <StackPanel>
-                    <TextBlock Text="{DynamicResource ui.microsoft.help}" AutomationProperties.HelpText="{DynamicResource ui.microsoft.help}"/>
-                    <Label Content="{DynamicResource ui.microsoft.msappid.label}" Name="msAppiIDLabel" AutomationProperties.Name="label1" />
-                    <TextBox Text="{Binding Source={x:Static properties:Settings.Default}, Path=msAppID}" AutomationProperties.HelpText="{DynamicResource ui.microsoft.msappid.label}" AutomationProperties.Name="MS app ID" Name="msappidbox"/>
-                    <Label Content="{DynamicResource ui.microsoft.msappsecret.label}"  Name="secretlabel" AutomationProperties.Name="label2"/>
-                    <TextBox Text="{Binding Source={x:Static properties:Settings.Default}, Path=msAppSecret}" AutomationProperties.HelpText="{DynamicResource ui.microsoft.msappsecret.label}" AutomationProperties.Name="MS APP secret" Name="msappsecretbox"/>
-                    <TextBlock>
-                        
-                        <Hyperlink NavigateUri="https://msdn.microsoft.com/en-us/library/mt146806.aspx" RequestNavigate="Hyperlink_RequestNavigate" >
-                            <Run Text="{DynamicResource ui.microsoft.helplink}" />
-                            
-                        </Hyperlink>
-                            
-
-
-
-
-                    </TextBlock>
-                    <Button Content="{DynamicResource ui.delete}" Height="100" VerticalAlignment="Top" Width="75" Name="deleteButton" Click="deleteButton_Click"/>
-                        
-                    
-                    
-                </StackPanel>
-                
-            </TabItem>
+          
         </TabControl>
 
         <DockPanel HorizontalAlignment="Left" Height="100" LastChildFill="False" VerticalAlignment="Top" Width="100" Margin="-1,-1,0,0">

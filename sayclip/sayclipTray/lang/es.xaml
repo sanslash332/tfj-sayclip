@@ -80,6 +80,7 @@
     <system:String x:Key="internal.errortranslating">Error al traducir, por favor revise el archivo sayclip.log para obtener los detalles.</system:String>
     <system:String x:Key="internal.muchtext">¡Estás traduciendo más de 2000 letras! ¡Esto tomará su tiempo!</system:String>
     <system:String x:Key="internal.massivetext">Esta herramienta no es para traducir libros!  Por favor, selecciona menos letras!</system:String>
+    <system:String x:Key="internal.noactiveplugin"> El core no pudo cargar ningún plugin de sayclip válido. Sayclip estará funcionando sin funcionalidades de traducción. </system:String>
 
 
 </ResourceDictionary>
