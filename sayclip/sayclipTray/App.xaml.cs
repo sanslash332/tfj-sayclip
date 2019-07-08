@@ -26,7 +26,7 @@ namespace sayclipTray
         public static bool saveNextKey;
         private IKeyboardMouseEvents kmEvents;
         private System.Windows.Forms.NotifyIcon nicon;
-        private static TaskbarIcon notifyIcon;
+        private static NotifyIconViewModel notifyIcon;
         private Task sayclipTask;
         private CancellationTokenSource tokenSource;
         private Sayclip scp;
@@ -36,6 +36,11 @@ namespace sayclipTray
         {
             get
             {
+                if(sayclipTask==null)
+                {
+                    return (false);
+
+                }
                 return (!sayclipTask.IsCompleted);
             }
         }
@@ -84,7 +89,7 @@ namespace sayclipTray
                 Application.Current.MainWindow = new MainWindow();
                 Application.Current.MainWindow.Show();
                 saveNextKey = false;
-                NotifyIconViewModel tb = (NotifyIconViewModel)notifyIcon;
+                NotifyIconViewModel tb = (NotifyIconViewModel)notifyIcon.DataContext;
                 tb.reloadIconTitle();
 
                 return;
@@ -184,12 +189,24 @@ namespace sayclipTray
             nicon.ContextMenuStrip = niconmenu;
             */
 
-            notifyIcon= (TaskbarIcon) FindResource("NotifyIcon");
-          
-            NotifyIconViewModel tb = (NotifyIconViewModel)(notifyIcon.DataContext);
+            //notifyIcon= (TaskbarIcon) FindResource("NotifyIcon");
 
-            ContextMenu systraymenu = notifyIcon.ContextMenu;
-            systraymenu.Closed += Systraymenu_Closed;
+            NotifyIconViewModel tb = new NotifyIconViewModel();
+            notifyIcon = tb;
+//this.Resources.Add("taskbar", tb);
+
+            if(notifyIcon==null||tb==null)
+            {
+                LogWriter.getLog().Error($"Problema, uno de los componentes no se ha inicializado correctamente ");
+
+                this.Shutdown();
+                System.Environment.Exit(1);
+
+            }
+
+            //tb.TBIcon = notifyIcon;
+            ContextMenu systraymenu = tb.ContextMenu;
+                systraymenu.Closed += Systraymenu_Closed;
           
             //notifyIcon.KeyDown += NotifyIcon_KeyDown;
             //notifyIcon.TrayMouseDoubleClick += NotifyIcon_TrayMouseDoubleClick;

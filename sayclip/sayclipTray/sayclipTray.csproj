@@ -114,6 +114,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DelegateCommand.cs" />
     <Compile Include="Service References\TranslatorService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -145,7 +146,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NotifyIconViewModel.cs" />
+    <Compile Include="NotifyIconViewModel.xaml.cs">
+      <DependentUpon>NotifyIconResources.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

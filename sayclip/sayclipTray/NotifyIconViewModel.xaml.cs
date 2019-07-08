@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
 using System.Collections.Generic;
 using Hardcodet.Wpf.TaskbarNotification;
 using sayclip;
+using logSystem;
+using NLog;
 
 namespace sayclipTray
 {
@@ -12,13 +17,29 @@ namespace sayclipTray
     /// view model is assigned to the NotifyIcon in XAML. Alternatively, the startup routing
     /// in App.xaml.cs could have created this view model, and assigned it to the NotifyIcon.
     /// </summary>
-    public class NotifyIconViewModel : TaskbarIcon
+    public partial class NotifyIconViewModel : TaskbarIcon
     {
         private ConfigurationManager scpcm = ConfigurationManager.getInstance;
         private PluginManager scppm = PluginManager.getInstanse;
         private App app = (App)Application.Current;
         public static string sourceLanheader;
         public static string targetLanHeader;
+      
+        public NotifyIconViewModel()
+        {
+            this.InitializeComponent();
+
+            this.ContextMenu = this.systraycontextMenu;
+            if(this.ContextMenu==null)
+            {
+                LogWriter.getLog().Warn("la wea no se creo correctamente");
+
+                this.ContextMenu = new ContextMenu();
+            }
+
+            
+        }
+        
         
         public ICommand enablecopyresult
         {
@@ -230,13 +251,13 @@ namespace sayclipTray
              
             Dictionary<string, string> uilangs = new Dictionary<string, string>
             {
-                {"auto", dictLang["menu.ui.auto"].ToString()  },
-                {"en", dictLang["menu.ui.en"].ToString() },
-                {"es", dictLang["menu.ui.es"].ToString() }
+                {"auto", App.dictlang["menu.ui.auto"].ToString()  },
+                {"en", App.dictlang["menu.ui.en"].ToString() },
+                {"es", App.dictlang["menu.ui.es"].ToString() }
                 
             };
             string uilangmenuheader = uilangmenu.Header.ToString();
-            uilangmenu.Header += string.Format("({1} {0})",dictLang["menu.ui."+  scpcm.UILang.ToString()].ToString(), dictLang["current"].ToString());
+            uilangmenu.Header += string.Format("({1} {0})",App.dictlang["menu.ui."+  scpcm.UILang.ToString()].ToString(), App.dictlang["current"].ToString());
             foreach(KeyValuePair<string,string> k in uilangs)
             {
                 MenuItem mi = new MenuItem();
@@ -248,8 +269,8 @@ namespace sayclipTray
                     {
                           scpcm.UILang = k.Key;
                           scpcm.Save();
-                        sayclip.ScreenReaderControl.speech(dictlang["menu.ui.reset"].ToString(),true);
-                        uilangmenu.Header = uilangmenuheader + string.Format("({1} {0})", dictLang["menu.ui." +   scpcm.UILang.ToString()].ToString(), dictLang["current"].ToString());
+                        sayclip.ScreenReaderControl.speech(App.dictlang["menu.ui.reset"].ToString(),true);
+                        uilangmenu.Header = uilangmenuheader + string.Format("({1} {0})", App.dictlang["menu.ui." +   scpcm.UILang.ToString()].ToString(), App.dictlang["current"].ToString());
                     }
                 };
 
@@ -262,18 +283,19 @@ namespace sayclipTray
 
         public void buildSpeedMenu()
         {
-            /*
-             
-             string speedHeader = speedmenu.Header.ToString();
-            speedmenu.Header = speedHeader + string.Format(" ({0} {1} ms)", dictLang["current"].ToString(),   scpcm.interval.ToString());
+            string speedHeader = App.dictlang["menu.monitor"].ToString();
+            List<MenuItem> speedItems = new List<MenuItem>();
+
+            monitormenu.Header= App.dictlang["menu.monitor"].ToString() + string.Format(" ({0} {1} ms)", App.dictlang["current"].ToString(),   scpcm.clipboardPollingSpeed.ToString());
+            monitormenu.ItemsSource = speedItems;
             Dictionary<int, string> speeds = new Dictionary<int, string>
             {
-                {2000, dictLang["menu.monitor.2000"].ToString() },
-                {1000, dictLang["menu.monitor.1000"].ToString() },
-                {500, dictLang["menu.monitor.500"].ToString() },
-                {100, dictLang["menu.monitor.100"].ToString() },
-                { 10, dictLang["menu.monitor.10"].ToString()  },
-                {1, dictLang["menu.monitor.1"].ToString()  },
+                {2000, App.dictlang["menu.monitor.2000"].ToString() },
+                {1000, App.dictlang["menu.monitor.1000"].ToString() },
+                {500, App.dictlang["menu.monitor.500"].ToString() },
+                {100, App.dictlang["menu.monitor.100"].ToString() },
+                { 10, App.dictlang["menu.monitor.10"].ToString()  },
+                {1, App.dictlang["menu.monitor.1"].ToString()  },
                 
             };
 
@@ -283,34 +305,33 @@ namespace sayclipTray
                 speed.Header = dictem.Value + "( " + dictem.Key.ToString() + " ms)";
                 speed.Command = new DelegateCommand
                 {
-                    CanExecuteFunc= ()=> dictem.Key!= (int)  scpcm.interval,
+                    CanExecuteFunc= ()=> dictem.Key!= (int)  scpcm.clipboardPollingSpeed,
                     CommandAction= () =>
                     {
-                        killSayclip();
-                          scpcm.interval = (double)dictem.Key;
-                          scpcm.Save();
-                        speedmenu.Header = speedHeader + string.Format(" ({0} {1} ms)", dictLang["current"].ToString(),   scpcm.interval.ToString());
-
-                        startSayclip();
                         
+                        scpcm.clipboardPollingSpeed = (double)dictem.Key;
+                      
+                        monitormenu.Header= App.dictlang["menu.monitor"].ToString() + string.Format(" ({0} {1} ms)", App.dictlang["current"].ToString(),   scpcm.clipboardPollingSpeed.ToString());
                     }
 
                 };
-                speedmenu.Items.Add(speed);
+                speedItems.Add(speed);
             }
-
-            
-             */
+            monitormenu.Items.Refresh();
+          
         }
 
         public void buildLanguajeMenuItems()
         {
-
+            
+            
         }
 
         public void reloadIconTitle()
         {
+            
             App app = (App)Application.Current;
+            
             this.ToolTipText = "Sayclip: key " +   Properties.Settings.Default.sayclipKey;
             if (app.isSayclipRuning)
             {
@@ -322,40 +343,10 @@ namespace sayclipTray
             }
             else
             {
+                
                 this.ToolTipText += " paused";
             }
         }
 
     }
-
-
-    /// <summary>
-    /// Simplistic delegate command for the demo.
-    /// </summary>
-    public class DelegateCommand : ICommand
-    {
-        public Action CommandAction { get; set; }
-        public Func<bool> CanExecuteFunc { get; set; }
-
-        public void Execute(object parameter)
-        {
-            CommandAction();
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return CanExecuteFunc == null  || CanExecuteFunc();
-        }
-
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
     }
-
-    public class languageCommand : DelegateCommand
-    {
-        public string lanCode { get; set;  }
-    }
-}
