@@ -5,9 +5,6 @@
     <Setting Name="active" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="interval" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">100</Value>
-    </Setting>
     <Setting Name="sayclipKey" Type="System.Windows.Forms.Keys" Scope="User">
       <Value Profile="(Default)">Z</Value>
     </Setting>

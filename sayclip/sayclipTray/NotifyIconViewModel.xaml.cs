@@ -242,7 +242,32 @@ namespace sayclipTray
 
         public void buildPluginsMenu()
         {
+            List<String> plugins = scppm.getPluginsNames();
+            String activePlugin = scppm.getActivePlugin.getName();
+            String pluginsmenuheader = translatormenu.Header.ToString();
+            translatormenu.Header = pluginsmenuheader + $"({App.dictlang["current"]} {activePlugin})";
+            List<MenuItem> pluginsItems = new List<MenuItem>();
+            translatormenu.ItemsSource = pluginsItems;
 
+            foreach(String plug in plugins)
+            {
+                MenuItem plugin = new MenuItem();
+                plugin.Header = plug;
+                plugin.Command = new DelegateCommand
+                {
+                    CanExecuteFunc= () => plug!=activePlugin,
+                    CommandAction= () =>
+                    {
+                        scppm.setActivePlugin(plug);
+                        app.resetSayclip();
+                        translatormenu.Header = pluginsmenuheader + $"({App.dictlang["current"]} {activePlugin})";
+
+                    }
+                };
+
+                pluginsItems.Add(plugin);
+            }
+            translatormenu.Items.Refresh();
         }
 
         public void buildUILangMenu()

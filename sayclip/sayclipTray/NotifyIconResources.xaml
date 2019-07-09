@@ -38,7 +38,7 @@
         <MenuItem Header="{DynamicResource menu.target}" Name="TargetLanMenu" >
             
         </MenuItem>
-        <MenuItem Header="{DynamicResource menu.plugin}" Name="translatormenu" >
+        <MenuItem Header="{DynamicResource menu.plugin}" Name="translatormenu" ItemsSource="{Binding}">
             
             
         </MenuItem>

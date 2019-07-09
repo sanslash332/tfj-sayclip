@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("sayclip")]
 [assembly: AssemblyDescription("Sayclip, a small tool to automatically read the elementetext plased in the clipboard, and give the option to automatically translate it.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Tiflojuegos")]
+[assembly: AssemblyCompany("Tiflojuegos.com")]
 [assembly: AssemblyProduct("sayclip")]
-[assembly: AssemblyCopyright("Copyright ©  2015-2016")]
+[assembly: AssemblyCopyright("Copyright ©  2015-2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
