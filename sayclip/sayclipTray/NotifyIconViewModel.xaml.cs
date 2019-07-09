@@ -272,8 +272,9 @@ namespace sayclipTray
 
         public void buildUILangMenu()
         {
-            /*
-             
+            List<MenuItem> languajeItems = new List<MenuItem>();
+            uilangmenu.ItemsSource = languajeItems;
+ 
             Dictionary<string, string> uilangs = new Dictionary<string, string>
             {
                 {"auto", App.dictlang["menu.ui.auto"].ToString()  },
@@ -282,28 +283,29 @@ namespace sayclipTray
                 
             };
             string uilangmenuheader = uilangmenu.Header.ToString();
-            uilangmenu.Header += string.Format("({1} {0})",App.dictlang["menu.ui."+  scpcm.UILang.ToString()].ToString(), App.dictlang["current"].ToString());
+            uilangmenu.Header += string.Format("({1} {0})",App.dictlang["menu.ui."+  Properties.Settings.Default.UILang.ToString()].ToString(), App.dictlang["current"].ToString());
             foreach(KeyValuePair<string,string> k in uilangs)
             {
                 MenuItem mi = new MenuItem();
                 mi.Header = k.Value;
                 mi.Command = new DelegateCommand()
                 {
-                    CanExecuteFunc= ()=>   scpcm.UILang!=k.Key,
+                    CanExecuteFunc= ()=>  Properties.Settings.Default.UILang !=k.Key,
                     CommandAction= () =>
                     {
-                          scpcm.UILang = k.Key;
-                          scpcm.Save();
+                        Properties.Settings.Default.UILang= k.Key;
+                        Properties.Settings.Default.Save();
                         sayclip.ScreenReaderControl.speech(App.dictlang["menu.ui.reset"].ToString(),true);
-                        uilangmenu.Header = uilangmenuheader + string.Format("({1} {0})", App.dictlang["menu.ui." +   scpcm.UILang.ToString()].ToString(), App.dictlang["current"].ToString());
+                        uilangmenu.Header = uilangmenuheader + string.Format("({1} {0})", App.dictlang["menu.ui." +   Properties.Settings.Default.UILang.ToString()].ToString(), App.dictlang["current"].ToString());
+
                     }
                 };
 
 
-                uilangmenu.Items.Add(mi);
+                languajeItems.Add(mi);
             }
-             
-             */
+
+            uilangmenu.Items.Refresh();
         }
 
         public void buildSpeedMenu()

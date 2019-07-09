@@ -54,6 +54,7 @@ namespace sayclipTray
         public void startSayclip()
         {
             Sayclip.dictlang = dictlang;
+            this.tokenSource = new CancellationTokenSource();
             CancellationToken token = this.tokenSource.Token;
             scp = new Sayclip();
             sayclipTask = scp.Main(token);
@@ -136,11 +137,11 @@ namespace sayclipTray
             }
         }
 
-        protected override void OnStartup(StartupEventArgs e)
+        public void loadLanguajeUI()
         {
-            base.OnStartup(e);
+
             ResourceDictionary dictLang;
-            switch(sayclipTray.Properties.Settings.Default.UILang)
+            switch (sayclipTray.Properties.Settings.Default.UILang)
             {
                 case "en":
                     dictLang = new ResourceDictionary() { Source = new Uri("lang\\en.xaml", UriKind.Relative) };
@@ -150,7 +151,7 @@ namespace sayclipTray
                     break;
                 case "auto":
                     string cult = Thread.CurrentThread.CurrentCulture.ToString();
-                    if(cult.StartsWith("es"))
+                    if (cult.StartsWith("es"))
                     {
                         dictLang = new ResourceDictionary() { Source = new Uri("lang\\es.xaml", UriKind.Relative) };
                     }
@@ -158,7 +159,7 @@ namespace sayclipTray
                     {
                         dictLang = new ResourceDictionary() { Source = new Uri("lang\\en.xaml", UriKind.Relative) };
                     }
-                    
+
                     break;
                 default:
                     dictLang = new ResourceDictionary() { Source = new Uri("lang\\en.xaml", UriKind.Relative) };
@@ -167,7 +168,16 @@ namespace sayclipTray
 
             this.Resources.MergedDictionaries.Add(dictLang);
             dictlang = dictLang;
-          
+            Sayclip.dictlang = dictlang;
+
+
+
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            loadLanguajeUI();
             win = new sayclipTray.MainWindow();
             win.Hide();
             Application.Current.MainWindow = win;
