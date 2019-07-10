@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Collections.Generic;
+using System.Linq;
 using Hardcodet.Wpf.TaskbarNotification;
 using sayclip;
 using logSystem;
@@ -235,8 +236,32 @@ namespace sayclipTray
             }
         }
 
+        public ICommand exchangeLanguajesCommand
+        {
+            get
+            {
+                return new DelegateCommand
+                {
+                    CanExecuteFunc= () => true,
+                    CommandAction= () =>
+                    {
+                        Dictionary<String, String> langs = scppm.getActivePlugin.getAvailableLanguages("en");
+                        String fromLangKey = langs.FirstOrDefault(x => x.Value == scppm.getActivePlugin.getConfiguredLanguajes("en")[0]).Key;
+                        String toLangKey = langs.FirstOrDefault(x => x.Value == scppm.getActivePlugin.getConfiguredLanguajes("en")[1]).Key;
+                        scppm.getActivePlugin.setLanguages(toLangKey, fromLangKey);
+                        this.buidlLanguajeMenuHeaders();
+                        this.buildLanguajeMenuItems();
+
+
+                    }
+                };
+            }
+        }
+
         public void buidlLanguajeMenuHeaders()
         {
+            SourceLanMenu.Header = $"{App.dictlang["menu.source"]} ({App.dictlang["current"]} {scppm.getActivePlugin.getConfiguredLanguajes("en")[0]})";
+            TargetLanMenu.Header= $"{App.dictlang["menu.target"]} ({App.dictlang["current"]} {scppm.getActivePlugin.getConfiguredLanguajes("en")[1]})";
 
         }
 
@@ -350,8 +375,52 @@ namespace sayclipTray
 
         public void buildLanguajeMenuItems()
         {
-            
-            
+            List<MenuItem> sourceMenuItems = new List<MenuItem>();
+            List<MenuItem> targetMenuItems = new List<MenuItem>();
+            SourceLanMenu.ItemsSource = sourceMenuItems;
+            TargetLanMenu.ItemsSource = targetMenuItems;
+            Dictionary<String, String> langs = scppm.getActivePlugin.getAvailableLanguages("en");
+            String fromLangKey = langs.FirstOrDefault(x => x.Value == scppm.getActivePlugin.getConfiguredLanguajes("en")[0]).Key;
+            String toLangKey = langs.FirstOrDefault(x => x.Value == scppm.getActivePlugin.getConfiguredLanguajes("en")[1]).Key;
+
+            foreach (KeyValuePair<String,String> kv in langs)
+            {
+                MenuItem source = new MenuItem();
+                MenuItem target = new MenuItem();
+                source.Header = kv.Value;
+                target.Header = kv.Value;
+                source.Command = new DelegateCommand
+                {
+                    CanExecuteFunc= ()=> kv.Value!=scppm.getActivePlugin.getConfiguredLanguajes("en")[0],
+                    CommandAction= () =>
+                    {
+                        scppm.getActivePlugin.setLanguages(kv.Key,toLangKey);
+                        this.buidlLanguajeMenuHeaders();
+                        this.buildLanguajeMenuItems();
+
+                    }
+                };
+
+                target.Command = new DelegateCommand
+                {
+                    CanExecuteFunc = () => kv.Value != scppm.getActivePlugin.getConfiguredLanguajes("en")[1],
+                    CommandAction= ()=>
+                    {
+                        scppm.getActivePlugin.setLanguages(fromLangKey, kv.Key);
+                        this.buidlLanguajeMenuHeaders();
+                        this.buildLanguajeMenuItems();
+
+
+                    }
+                };
+
+                sourceMenuItems.Add(source);
+                targetMenuItems.Add(target);
+
+            }
+
+            SourceLanMenu.Items.Refresh();
+            TargetLanMenu.Items.Refresh();
         }
 
         public void reloadIconTitle()

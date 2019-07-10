@@ -34,7 +34,7 @@
         <MenuItem Header="{DynamicResource menu.source}" Name="SourceLanMenu" >
             
         </MenuItem>
-        <MenuItem Header="{DynamicResource menu.exchange}" Name="exchangemenu"/>
+        <MenuItem Header="{DynamicResource menu.exchange}" Name="exchangemenu" Command="{Binding exchangeLanguajesCommand}"/>
         <MenuItem Header="{DynamicResource menu.target}" Name="TargetLanMenu" >
             
         </MenuItem>

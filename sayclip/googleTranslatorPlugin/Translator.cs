@@ -40,7 +40,7 @@ namespace googleTranslatorPlugin
             Dictionary<string, string> langDict = new Dictionary<string, string>();
             foreach(Language l in GoogleTranslator.LanguagesSupported)
             {
-                langDict.Add(l.FullName, l.ISO639);
+                langDict.Add(l.ISO639, l.FullName);
 
             }
             return langDict;
@@ -65,6 +65,7 @@ namespace googleTranslatorPlugin
 
         public void setLanguages(string fromLang, string toLang)
         {
+          
             this.fromLang = GoogleTranslator.GetLanguageByISO(fromLang);
             this.toLang = GoogleTranslator.GetLanguageByISO(toLang);
             Properties.Settings.Default.fromLang = this.fromLang.ISO639;
