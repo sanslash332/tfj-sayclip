@@ -13,7 +13,7 @@ using logSystem;
 using NLog;
 using Gma.System.MouseKeyHook;
 using System.Windows.Media;
-
+using AutoUpdaterDotNET;
 
 namespace sayclipTray
 {
@@ -178,6 +178,9 @@ namespace sayclipTray
         {
             base.OnStartup(e);
             loadLanguajeUI();
+            ScreenReaderControl.speech(dictlang["update.check"].ToString(), true);
+            AutoUpdater.Start("http://tiflojuegos.com/tfjtools/sayclip/version.xml");
+            
             win = new sayclipTray.MainWindow();
             win.Hide();
             Application.Current.MainWindow = win;
