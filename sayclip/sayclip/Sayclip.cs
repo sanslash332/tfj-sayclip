@@ -86,7 +86,7 @@ namespace sayclip
 
             translator = PluginManager.getInstanse.getActivePlugin;
           
-            if (translator==null)
+            if (translator.getName()==EmptyPlugin.emptyName)
             {
                 LogWriter.getLog().Warn("no active plugin detected");
                 var saytask = sayAndCopy(dictlang["internal.noactiveplugin"].ToString());

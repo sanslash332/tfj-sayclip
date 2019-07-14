@@ -73,7 +73,8 @@ namespace sayclip
             }
             else
             {
-                activePlugin = null;
+                activePlugin = new EmptyPlugin();
+                ConfigurationManager.getInstance.translating = false;
                 LogWriter.getLog().Debug("not loaded plugins to set as active");
             }
             

@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationManager.cs" />
+    <Compile Include="EmptyPlugin.cs" />
     <Compile Include="iSayclipPluginTranslator.cs" />
     <Compile Include="PluginManager.cs" />
     <Compile Include="Sayclip.cs" />
