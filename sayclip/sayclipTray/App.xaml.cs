@@ -25,7 +25,7 @@ namespace sayclipTray
         private MainWindow win;
         public static bool saveNextKey;
         private IKeyboardMouseEvents kmEvents;
-        private System.Windows.Forms.NotifyIcon nicon;
+        //private System.Windows.Forms.NotifyIcon nicon;
         private static NotifyIconViewModel notifyIcon;
         private Task sayclipTask;
         private CancellationTokenSource tokenSource;
@@ -36,12 +36,12 @@ namespace sayclipTray
         {
             get
             {
-                if(sayclipTask==null)
+                if(scp==null)
                 {
                     return (false);
 
                 }
-                return (!sayclipTask.IsCompleted);
+                return (true);
             }
         }
 
@@ -51,6 +51,7 @@ namespace sayclipTray
             startSayclip();
 
         }
+
         public void startSayclip()
         {
             Sayclip.dictlang = dictlang;
@@ -66,8 +67,9 @@ namespace sayclipTray
             try
             {
                 tokenSource.Cancel(true);
+                scp.shutDownCore();
                 scp = null;
-                sayclipTask.Wait(new TimeSpan(0,0,5));
+                //sayclipTask.Wait(new TimeSpan(0,0,5));
 
             }
             catch (System.Exception e)
@@ -90,8 +92,8 @@ namespace sayclipTray
                 Application.Current.MainWindow = new MainWindow();
                 Application.Current.MainWindow.Show();
                 saveNextKey = false;
-                NotifyIconViewModel tb = (NotifyIconViewModel)notifyIcon.DataContext;
-                tb.reloadIconTitle();
+
+                notifyIcon.reloadIconTitle();
 
                 return;
 

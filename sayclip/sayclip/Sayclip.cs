@@ -9,12 +9,14 @@ using System.Windows;
 using System.Threading;
 using logSystem;
 using NLog;
+using WK.Libraries.SharpClipboardNS;
 
 namespace sayclip
     {
     public  class Sayclip
     {
         public static ResourceDictionary dictlang;
+        private SharpClipboard sharpCP;
       
         private bool translate
         {
@@ -96,71 +98,57 @@ namespace sayclip
 
             ScreenReaderControl.speech(dictlang["internal.start"].ToString(), false);
             int interval = (int)ConfigurationManager.getInstance.clipboardPollingSpeed;
-            while (!canceller.IsCancellationRequested)
-            {
-                //var task = Task.Factory.StartNew(checkClipboard,canceller,TaskCreationOptions.None, new System.Threading.Tasks.Schedulers.StaTaskScheduler(2));
-                var task = checkClipboard();
-              
-                await Task.Delay(interval);
-                //await task;
-                //task.Dispose();
-
-            }
-            LogWriter.getLog().Debug("shuting down sayclip core");
-
-            
+            sharpCP = new SharpClipboard();
+            sharpCP.ClipboardChanged += SharpCP_ClipboardChanged;
+          
+          
         }
 
-        private async Task checkClipboard()
+        public void shutDownCore()
+        {
+            LogWriter.getLog().Debug("shuting down sayclip core");
+            sharpCP.ClipboardChanged -= SharpCP_ClipboardChanged;
+
+        }
+
+        private async void SharpCP_ClipboardChanged(object sender, SharpClipboard.ClipboardChangedEventArgs e)
+        {
+            if(e.ContentType== SharpClipboard.ContentTypes.Text && e.Content!=null && !checkEmptyuString(e.Content.ToString()))
+            {
+              
+
+                await checkClipboard(e.Content.ToString());
+            }
+        }
+
+        private bool checkEmptyuString(string text)
+        {
+            String clearText = text.Replace("\n", "");
+            clearText = clearText.Replace("\t", "");
+            clearText = clearText.Replace("\r", "");
+            clearText = clearText.Replace(" ", "");
+            clearText = clearText.Trim();
+          
+            return (clearText.Equals(""));
+
+        }
+
+        private async Task checkClipboard(String text)
         {
             
             if (Clipboard.ContainsText())
                 {
                 string rok = data;
-
-                //Task checkTask = Task.Factory.StartNew((object milock) =>
-                await excecuteInSTA(() =>
-                {
-                    //Monitor.Enter(milock);
-
-                    try
-                    {
-                        LogWriter.getLog().Debug("capturing clipboard");
-
-                        rok = Clipboard.GetText();
-                        LogWriter.getLog().Debug($"captured data is: {rok}");
-                        
-
-                    }
-                    catch (Exception e)
-                    {
-                        LogWriter.getLog().Error("error copying the clipboard " + e.Message + " \n type: " + e.ToString() + " \n stack: " + e.StackTrace.ToString());
-                        //ScreenReaderControl.speech("error copying the clipboard " + e.Message, true);
-                        //Clipboard.Flush();
-                        rok = data;
-                        
-
-
-                    }
-
-
-                    //Monitor.Exit(milock);
-
-                });
-                //},lockobj,CancellationToken.None,TaskCreationOptions.None,new StaTaskScheduler(1));
-
-                                //await checkTask;                
-                                //checkTask.Dispose();
-
-                
-                //Console.WriteLine("tenemos texto en el cp: {0}", rok);
+                rok = text;
+                LogWriter.getLog().Debug($"captured data is: {rok}");
+              
                 if (!data.Equals(rok))
                     {
                         data = rok;
                         if(Properties.Settings.Default.allowRepeat)
                         {
                         data += "\n";
-                        setClipboardText(data);
+                        //setClipboardText(data);
 
                         }
                         
