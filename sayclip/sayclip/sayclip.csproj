@@ -129,6 +129,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="SayclipLanguage.cs" />
     <Compile Include="ScreenReaderControl.cs" />
     <Compile Include="Properties\Settings.cs" />
     <Compile Include="webclientGalleta.cs">

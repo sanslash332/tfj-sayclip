@@ -245,9 +245,9 @@ namespace sayclipTray
                     CanExecuteFunc= () => true,
                     CommandAction= () =>
                     {
-                        Dictionary<String, String> langs = scppm.getActivePlugin.getAvailableLanguages("en");
-                        String fromLangKey = langs.FirstOrDefault(x => x.Value == scppm.getActivePlugin.getConfiguredLanguajes("en")[0]).Key;
-                        String toLangKey = langs.FirstOrDefault(x => x.Value == scppm.getActivePlugin.getConfiguredLanguajes("en")[1]).Key;
+                        
+                        SayclipLanguage fromLangKey = scppm.getActivePlugin.getConfiguredLanguajes("en")[0];
+                        SayclipLanguage toLangKey = scppm.getActivePlugin.getConfiguredLanguajes("en")[1];
                         scppm.getActivePlugin.setLanguages(toLangKey, fromLangKey);
                         this.buidlLanguajeMenuHeaders();
                         this.buildLanguajeMenuItems();
@@ -260,8 +260,8 @@ namespace sayclipTray
 
         public void buidlLanguajeMenuHeaders()
         {
-            SourceLanMenu.Header = $"{App.dictlang["menu.source"]} ({App.dictlang["current"]} {scppm.getActivePlugin.getConfiguredLanguajes("en")[0]})";
-            TargetLanMenu.Header= $"{App.dictlang["menu.target"]} ({App.dictlang["current"]} {scppm.getActivePlugin.getConfiguredLanguajes("en")[1]})";
+            SourceLanMenu.Header = $"{App.dictlang["menu.source"]} ({App.dictlang["current"]} {scppm.getActivePlugin.getConfiguredLanguajes("en")[0].displayName})";
+            TargetLanMenu.Header= $"{App.dictlang["menu.target"]} ({App.dictlang["current"]} {scppm.getActivePlugin.getConfiguredLanguajes("en")[1].displayName})";
 
         }
 
@@ -379,22 +379,22 @@ namespace sayclipTray
             List<MenuItem> targetMenuItems = new List<MenuItem>();
             SourceLanMenu.ItemsSource = sourceMenuItems;
             TargetLanMenu.ItemsSource = targetMenuItems;
-            Dictionary<String, String> langs = scppm.getActivePlugin.getAvailableLanguages("en");
-            String fromLangKey = langs.FirstOrDefault(x => x.Value == scppm.getActivePlugin.getConfiguredLanguajes("en")[0]).Key;
-            String toLangKey = langs.FirstOrDefault(x => x.Value == scppm.getActivePlugin.getConfiguredLanguajes("en")[1]).Key;
+            List<SayclipLanguage> langs = scppm.getActivePlugin.getAvailableLanguages("en");
+            SayclipLanguage fromLang = scppm.getActivePlugin.getConfiguredLanguajes("en")[0];
+            SayclipLanguage toLang = scppm.getActivePlugin.getConfiguredLanguajes("en")[1];
 
-            foreach (KeyValuePair<String,String> kv in langs)
+            foreach (SayclipLanguage lang in langs)
             {
                 MenuItem source = new MenuItem();
                 MenuItem target = new MenuItem();
-                source.Header = kv.Value;
-                target.Header = kv.Value;
+                source.Header = lang.displayName;
+                target.Header = lang.displayName;
                 source.Command = new DelegateCommand
                 {
-                    CanExecuteFunc= ()=> kv.Value!=scppm.getActivePlugin.getConfiguredLanguajes("en")[0],
+                    CanExecuteFunc= ()=> lang.langCode !=scppm.getActivePlugin.getConfiguredLanguajes("en")[0].langCode && lang.isForSource,
                     CommandAction= () =>
                     {
-                        scppm.getActivePlugin.setLanguages(kv.Key,toLangKey);
+                        scppm.getActivePlugin.setLanguages(lang,toLang);
                         this.buidlLanguajeMenuHeaders();
                         this.buildLanguajeMenuItems();
 
@@ -403,10 +403,10 @@ namespace sayclipTray
 
                 target.Command = new DelegateCommand
                 {
-                    CanExecuteFunc = () => kv.Value != scppm.getActivePlugin.getConfiguredLanguajes("en")[1],
+                    CanExecuteFunc = () => lang.langCode != scppm.getActivePlugin.getConfiguredLanguajes("en")[1].langCode && lang.isForTarget,
                     CommandAction= ()=>
                     {
-                        scppm.getActivePlugin.setLanguages(fromLangKey, kv.Key);
+                        scppm.getActivePlugin.setLanguages(fromLang, lang);
                         this.buidlLanguajeMenuHeaders();
                         this.buildLanguajeMenuItems();
 

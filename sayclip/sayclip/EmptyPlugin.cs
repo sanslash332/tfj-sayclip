@@ -9,21 +9,21 @@ namespace sayclip
     class EmptyPlugin : iSayclipPluginTranslator
     {
         public const String emptyName = "empty plugin";
-        public Dictionary<string, string> getAvailableLanguages(string displayLanguaje)
+        public List<SayclipLanguage> getAvailableLanguages(string displayLanguaje)
         {
-            Dictionary<String, String> langs = new Dictionary<string, string>();
-            langs.Add("","empty");
-            return (langs);
+            List<SayclipLanguage> langs = new List<SayclipLanguage>();
 
+            langs.Add(new SayclipLanguage("code","empty"));
+            return (langs);
 
         }
 
-        public string[] getConfiguredLanguajes(string displayLanguaje)
+        public SayclipLanguage[] getConfiguredLanguajes(string displayLanguaje)
         {
-            String[] langs = new String[]
+            SayclipLanguage[] langs = new SayclipLanguage[]
             {
-                "empty",
-                "empty"
+                new SayclipLanguage("code","empty"),
+                new SayclipLanguage("code","empty")
             };
             return (langs);
         }
@@ -48,7 +48,7 @@ namespace sayclip
             return (true);
         }
 
-        public void setLanguages(string fromLang, string toLang)
+        public void setLanguages(SayclipLanguage fromLang, SayclipLanguage toLang)
         {
             
         }

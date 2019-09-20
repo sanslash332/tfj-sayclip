@@ -32,15 +32,27 @@ namespace googleTranslatorPlugin
                 this.toLang = GoogleTranslator.GetLanguageByISO(Properties.Settings.Default.toLang);
 
             }
+            if(this.fromLang==null)
+            {
+                this.fromLang = Language.Auto;
+            }
+            if(this.toLang==null)
+            {
+                this.toLang = Language.Spanish;
+
+            }
+            this.setLanguages(new SayclipLanguage(this.fromLang.ISO639, this.fromLang.FullName), new SayclipLanguage(this.toLang.ISO639, this.toLang.FullName));
 
         }
 
-        public Dictionary<string, string> getAvailableLanguages(string displayLanguaje)
+        public List<sayclip.SayclipLanguage> getAvailableLanguages(string displayLanguaje)
         {
-            Dictionary<string, string> langDict = new Dictionary<string, string>();
+            List<sayclip.SayclipLanguage> langDict = new List<SayclipLanguage>();
+            langDict.Add(new SayclipLanguage(Language.Auto.ISO639, Language.Auto.FullName, true, false));
+
             foreach(Language l in GoogleTranslator.LanguagesSupported)
             {
-                langDict.Add(l.ISO639, l.FullName);
+                langDict.Add(new SayclipLanguage(l.ISO639,l.FullName));
 
             }
             return langDict;
@@ -63,22 +75,29 @@ namespace googleTranslatorPlugin
             return false;
         }
 
-        public void setLanguages(string fromLang, string toLang)
+        public void setLanguages(SayclipLanguage fromLang, SayclipLanguage toLang)
         {
+            if(fromLang.langCode== Language.Auto.ISO639)
+            {
+                this.fromLang = Language.Auto;
+            }
+            else
+            {
+                this.fromLang = GoogleTranslator.GetLanguageByISO(fromLang.langCode);
+            }
           
-            this.fromLang = GoogleTranslator.GetLanguageByISO(fromLang);
-            this.toLang = GoogleTranslator.GetLanguageByISO(toLang);
+            this.toLang = GoogleTranslator.GetLanguageByISO(toLang.langCode);
             Properties.Settings.Default.fromLang = this.fromLang.ISO639;
             Properties.Settings.Default.toLang = this.toLang.ISO639;
             Properties.Settings.Default.Save();
 
         }
         
-        public string[] getConfiguredLanguajes(string displayLanguaje)
+        public SayclipLanguage[] getConfiguredLanguajes(string displayLanguaje)
         {
-            string[] langs = new string[2];
-            langs[0] = this.fromLang.FullName;
-            langs[1] = this.toLang.FullName;
+            SayclipLanguage[] langs = new SayclipLanguage[2];
+            langs[0] = new SayclipLanguage(this.fromLang.ISO639,this.fromLang.FullName);
+            langs[1] = new SayclipLanguage(this.toLang.ISO639, this.toLang.FullName);
             return langs;
 
         }
