@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sayclip", "sayclip\sayclip.csproj", "{6AF37CEC-E3C6-4FCA-A71C-5160F2B23990}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "azureTranslatorPlugin", "azureTranslatorPlugin\azureTranslatorPlugin.csproj", "{63C3A470-0648-4CEB-BA58-3BF53FA78E6F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "consoleSayclipCoreTester", "consoleSayclipCoreTester\consoleSayclipCoreTester.csproj", "{6B061129-BCFB-4985-A16A-A05437263957}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleTranslateFreeApi", "GoogleTranslateFreeApi\GoogleTranslateFreeApi\GoogleTranslateFreeApi.csproj", "{42FE7052-CC9C-4B2E-98E8-5FA3106627DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +93,14 @@ Global
 		{6B061129-BCFB-4985-A16A-A05437263957}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6B061129-BCFB-4985-A16A-A05437263957}.Release|x86.ActiveCfg = Release|Any CPU
 		{6B061129-BCFB-4985-A16A-A05437263957}.Release|x86.Build.0 = Release|Any CPU
+		{42FE7052-CC9C-4B2E-98E8-5FA3106627DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42FE7052-CC9C-4B2E-98E8-5FA3106627DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42FE7052-CC9C-4B2E-98E8-5FA3106627DA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{42FE7052-CC9C-4B2E-98E8-5FA3106627DA}.Debug|x86.Build.0 = Debug|Any CPU
+		{42FE7052-CC9C-4B2E-98E8-5FA3106627DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42FE7052-CC9C-4B2E-98E8-5FA3106627DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42FE7052-CC9C-4B2E-98E8-5FA3106627DA}.Release|x86.ActiveCfg = Release|Any CPU
+		{42FE7052-CC9C-4B2E-98E8-5FA3106627DA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

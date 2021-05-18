@@ -134,6 +134,11 @@ namespace sayclip
                 LogWriter.getLog().Error($"problem loading the plugins {e.Message}");
                 throw(e);
             }
+            catch(Exception e)
+            {
+                LogWriter.getLog().Error($"problem loading the plugins {e.Message}");
+                throw (e);
+            }
             LogWriter.getLog().Debug($"plugins loaded: {plugins.Count()}");
 
         }

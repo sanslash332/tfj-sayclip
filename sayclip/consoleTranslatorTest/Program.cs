@@ -49,22 +49,27 @@ namespace consoleTranslatorTest
             
 
             Console.WriteLine("idiomas disponibles: ");
-            foreach(KeyValuePair<string,string> x in t.getAvailableLanguages("es"))
+            foreach(SayclipLanguage x in t.getAvailableLanguages("es"))
             {
-                Console.WriteLine($" {x.Key}  {x.Value} ");
+                Console.WriteLine($" {x.langCode}  {x.displayName} ");
 
 
             }
+            
             Console.WriteLine($"Los idiomas que ya tiene configurados el plugin son: {t.getConfiguredLanguajes("es")[0]} a {t.getConfiguredLanguajes("es")[1]}");
 
             Console.WriteLine("ingresar el idioma del cual se va a traducir, y luego hacia el cual se va a traducir, separados por , sin espacio y luego presione enter ");
             string data = Console.ReadLine();
             string[] values = data.Split(',');
-            t.setLanguages(values[0], values[1]);
+            SayclipLanguage fromLang = t.getAvailableLanguages("es").Find((SayclipLanguage x) => {
+                return (x.langCode == values[0]);
+            });
+            SayclipLanguage toLang = t.getAvailableLanguages("es").Find((SayclipLanguage x) => {
+                return (x.langCode == values[1]);
+            });
 
-            // Translator t = new Translator("tfjsayclipsandl", "tfjsayclip800800comsaysaysandl");
-            
-            
+            t.setLanguages(fromLang, toLang);
+
 
             do
             {

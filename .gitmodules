@@ -1,0 +1,3 @@
+[submodule "sayclip/GoogleTranslateFreeApi"]
+	path = sayclip/GoogleTranslateFreeApi
+	url = https://github.com/danzzaid/GoogleTranslateFreeApi
