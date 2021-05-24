@@ -33,7 +33,7 @@
       <Value Profile="(Default)">google</Value>
     </Setting>
     <Setting Name="allowRepeat" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="cache" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

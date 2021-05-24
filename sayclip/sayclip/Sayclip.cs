@@ -7,6 +7,7 @@ using System.Threading.Tasks.Schedulers;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Threading;
+using System.Diagnostics;
 using logSystem;
 using NLog;
 using WK.Libraries.SharpClipboardNS;
@@ -17,19 +18,12 @@ namespace sayclip
     {
         public static ResourceDictionary dictlang;
         private SharpClipboard sharpCP;
-      
-        private bool translate
-        {
-            get
-            {
-                return ConfigurationManager.getInstance.translating;
-            }
-        }
-        private bool logAlarmSet = false;
-        private string data = "";        
+        private ConfigurationManager config;
+        private string data = "";
+        private string lastResult = "";
         public iSayclipPluginTranslator translator;
         private static object lockobj =     new object();
-
+        private Stopwatch stopwatch;
         private async Task setClipboardText(string data)
         {
             //Task writeTask = Task.Factory.StartNew((object milock) =>
@@ -71,20 +65,18 @@ namespace sayclip
         
         public void repeatLastClipboardContent()
         {
-            ScreenReaderControl.speech(data,true);
+            ScreenReaderControl.speech(data, true);
 
         }
         
         public async Task Main(CancellationToken canceller)
         {
             LogWriter.getLog().Debug("Starting sayclip core");
-
+            config = ConfigurationManager.getInstance;
             if(Monitor.IsEntered(lockobj))
             {
                 Monitor.Exit(lockobj);
             }
-
-            logAlarmSet = false;
 
             translator = PluginManager.getInstanse.getActivePlugin;
           
@@ -93,106 +85,120 @@ namespace sayclip
                 LogWriter.getLog().Warn("no active plugin detected");
                 var saytask = sayAndCopy(dictlang["internal.noactiveplugin"].ToString());
 
-                ConfigurationManager.getInstance.translating = false;
+                config.translating = false;
             }
 
             ScreenReaderControl.speech(dictlang["internal.start"].ToString(), false);
-            int interval = (int)ConfigurationManager.getInstance.clipboardPollingSpeed;
+            int interval = (int)config.clipboardPollingSpeed;
             sharpCP = new SharpClipboard();
             sharpCP.ClipboardChanged += SharpCP_ClipboardChanged;
-          
-          
+            stopwatch = new Stopwatch();
+            stopwatch.Start();
+            
         }
 
         public void shutDownCore()
         {
             LogWriter.getLog().Debug("shuting down sayclip core");
             sharpCP.ClipboardChanged -= SharpCP_ClipboardChanged;
-
+            stopwatch.Stop();
         }
 
         private async void SharpCP_ClipboardChanged(object sender, SharpClipboard.ClipboardChangedEventArgs e)
         {
-            if(e.ContentType== SharpClipboard.ContentTypes.Text && e.Content!=null && !checkEmptyuString(e.Content.ToString()))
+            if(checkIntervalTime() && e.ContentType== SharpClipboard.ContentTypes.Text && e.Content!=null && !checkEmptyString(e.Content.ToString()) && !checkRepeatedString(e.Content.ToString()))
             {
-              
-
-                await checkClipboard(e.Content.ToString());
+                data = e.Content.ToString();
+                LogWriter.getLog().Debug($"captured data is: {e.Content.ToString()}");
+                string translation = await translate(e.Content.ToString());
+                ScreenReaderControl.speech(translation, true);
+                lastResult = translation;
+                await copyResult(translation);
+                
             }
         }
 
-        private bool checkEmptyuString(string text)
+        private bool checkIntervalTime()
+        {
+            bool result = false;
+            if(stopwatch.ElapsedMilliseconds >= (long)config.clipboardPollingSpeed)
+            {
+                result = true;
+                stopwatch.Restart();
+            }
+            return (result);
+        }
+        private async Task<string> translate(string text)
+        {
+            string translation;
+            if(config.translating)
+            {
+                try
+                {
+                    translation = await translator.translate(text);
+                    if (checkEmptyString(translation))
+                    {
+                        throw (new Exception("empty answer from translation"));
+                    }
+                }
+                catch (Exception e)
+                {
+                    LogWriter.getLog().Error($"error during the translation {e.Message} \n {e.StackTrace}");
+                    translation = dictlang["internal.errortranslating"].ToString();
+                }
+            }
+            else
+            {
+                translation = text;
+            }
+            
+            return (translation);
+        }
+
+        private async Task copyResult(string text)
+        {
+            if(config.copyResultToClipboard)
+            {
+                try
+                {
+                    data = text;
+                    await setClipboardText(text);
+                }
+                catch (Exception e)
+                {
+                    LogWriter.getLog().Error($"problems setting clipboard content: {e.Message}");
+                    throw;
+                }
+            }
+        }
+
+        private bool checkRepeatedString(string text)
+        {
+            bool result;
+            if(config.allowCopyRepeatedText)
+            {
+                result = text.Equals(lastResult);
+            }
+            else
+            {
+                result = text.Equals(data) || text.Equals(lastResult);
+            }
+            return (result);
+        }
+
+        private bool checkEmptyString(string text)
         {
             String clearText = text.Replace("\n", "");
             clearText = clearText.Replace("\t", "");
             clearText = clearText.Replace("\r", "");
             clearText = clearText.Replace(" ", "");
             clearText = clearText.Trim();
-          
+            
             return (clearText.Equals(""));
 
         }
 
-        private async Task checkClipboard(String text)
-        {
-            
-            if (Clipboard.ContainsText())
-                {
-                string rok = data;
-                rok = text;
-                LogWriter.getLog().Debug($"captured data is: {rok}");
-              
-                if (!data.Equals(rok))
-                    {
-                        data = rok;
-                        if(Properties.Settings.Default.allowRepeat)
-                        {
-                        data += "\n";
-                        //setClipboardText(data);
-
-                        }
-                        
-                        if (translate)
-                        {
-                            string trad = await translator.translate(data);
-                        if(trad.Equals("") && !logAlarmSet)
-                        {
-                            var task = sayAndCopy(dictlang["internal.errortranslating"].ToString());
-                            logAlarmSet = true;
-                        }
-                        else
-                        {
-                            ScreenReaderControl.speech(trad, true);
-                            logAlarmSet = false;
-                            if(sayclip.Properties.Settings.Default.copyresult)
-                            {
-                                data = trad;
-                                if (sayclip.Properties.Settings.Default.allowRepeat)
-                                {
-                                    data += "\n";
-                                }
-
-                                setClipboardText(data);
-
-                            }
-                        }
-                            
-                            //Console.WriteLine(trad);
-                        }
-                        else
-                        {
-
-                            ScreenReaderControl.speech(data, true);
-                        //Console.WriteLine(data);
-                        logAlarmSet = false;
-                        }
-
-                    }
-
-
-                }
-            
-            }
+        
 
         public static Task excecuteInSTA(ThreadStart act)
         {

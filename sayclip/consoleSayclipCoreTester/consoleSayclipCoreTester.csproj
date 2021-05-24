@@ -74,4 +74,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /s /e /y "$(SolutionDir)sayclip\plugins" "$(ProjectDir)$(OutDir)plugins"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -346,9 +346,7 @@ namespace sayclipTray
                 {1000, App.dictlang["menu.monitor.1000"].ToString() },
                 {500, App.dictlang["menu.monitor.500"].ToString() },
                 {100, App.dictlang["menu.monitor.100"].ToString() },
-                { 10, App.dictlang["menu.monitor.10"].ToString()  },
-                {1, App.dictlang["menu.monitor.1"].ToString()  },
-                
+                { 50, App.dictlang["menu.monitor.10"].ToString()  }
             };
 
             foreach(KeyValuePair<int,string> dictem in speeds)
