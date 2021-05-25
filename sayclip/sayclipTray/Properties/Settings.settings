@@ -6,7 +6,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="sayclipKey" Type="System.Windows.Forms.Keys" Scope="User">
-      <Value Profile="(Default)">Z</Value>
+      <Value Profile="(Default)">Oemcomma</Value>
     </Setting>
     <Setting Name="UILang" Type="System.String" Scope="User">
       <Value Profile="(Default)">auto</Value>

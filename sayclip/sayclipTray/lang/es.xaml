@@ -28,7 +28,7 @@
     <system:String x:Key="menu.monitor.1000">Lenta</system:String>
     <system:String x:Key="menu.monitor.500">Normal</system:String>
     <system:String x:Key="menu.monitor.100">Rápida (por defecto)</system:String>
-    <system:String x:Key="menu.monitor.10">Muy rápida</system:String>
+    <system:String x:Key="menu.monitor.50">Muy rápida (cuidado con el baneo por exeso de llamadas si estás usando el plugin de google)</system:String>
     <system:String x:Key="menu.monitor.1">Ultra rápida (puede tener errores variados al leer el portapapeles, y utiliza mayor potencia de procesamiento)</system:String>
 
 
@@ -81,6 +81,7 @@
     <system:String x:Key="internal.muchtext">¡Estás traduciendo más de 2000 letras! ¡Esto tomará su tiempo!</system:String>
     <system:String x:Key="internal.massivetext">Esta herramienta no es para traducir libros!  Por favor, selecciona menos letras!</system:String>
     <system:String x:Key="internal.noactiveplugin"> El core no pudo cargar ningún plugin de sayclip válido. Sayclip estará funcionando sin funcionalidades de traducción. </system:String>
+    <system:String x:Key="internal.pluginLoadError">Error cargando plugins. por favor revisar los logs para más información.</system:String>
     <system:String x:Key="update.check">Buscando actualizaciones. </system:String>
 
 

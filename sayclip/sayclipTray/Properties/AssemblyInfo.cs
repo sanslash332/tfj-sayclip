@@ -13,7 +13,7 @@ using System;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Tiflojuegos.com")]
 [assembly: AssemblyProduct("sayclip")]
-[assembly: AssemblyCopyright("Copyright © 2015-2019")]
+[assembly: AssemblyCopyright("Copyright © 2015-2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -52,5 +52,5 @@ using System;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2019.9.*")]
+[assembly: AssemblyVersion("2021.5.*")]
 //[assembly: AssemblyFileVersion("2.0.0.0")]

@@ -28,7 +28,7 @@
     <system:String x:Key="menu.monitor.1000">Slow</system:String>
     <system:String x:Key="menu.monitor.500">Normal</system:String>
     <system:String x:Key="menu.monitor.100">Fast (default)</system:String>
-    <system:String x:Key="menu.monitor.10">Very fast</system:String>
+    <system:String x:Key="menu.monitor.50">Very fast (be careful with rate limmit bans if youre using google's plugins)</system:String>
     <system:String x:Key="menu.monitor.1">Ultra fast (can have various errors reading the clipboard, and take high processors peak. )</system:String>
 
     
@@ -81,6 +81,7 @@
     <system:String x:Key="internal.muchtext">You're translating more than 2000 characters! this can take a long while! </system:String>
     <system:String x:Key="internal.massivetext">This tool isn't for translate a book! Please select less characters! </system:String>
     <system:String x:Key="internal.noactiveplugin">The core dont have any valid plugin to load. Sayclip is running without translating. </system:String>
-  <system:String x:Key="update.check">Checking for updates. </system:String>
+    <system:String x:Key="internal.pluginLoadError">Error loading plugins. Please check the logs for more information.</system:String>
+    <system:String x:Key="update.check">Checking for updates. </system:String>
 
 </ResourceDictionary>

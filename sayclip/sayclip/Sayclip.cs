@@ -22,7 +22,6 @@ namespace sayclip
         private string data = "";
         private string lastResult = "";
         public iSayclipPluginTranslator translator;
-        private static object lockobj =     new object();
         private Stopwatch stopwatch;
         private async Task setClipboardText(string data)
         {
@@ -73,13 +72,8 @@ namespace sayclip
         {
             LogWriter.getLog().Debug("Starting sayclip core");
             config = ConfigurationManager.getInstance;
-            if(Monitor.IsEntered(lockobj))
-            {
-                Monitor.Exit(lockobj);
-            }
-
             translator = PluginManager.getInstanse.getActivePlugin;
-          
+            
             if (translator.getName()==EmptyPlugin.emptyName)
             {
                 LogWriter.getLog().Warn("no active plugin detected");
@@ -89,7 +83,6 @@ namespace sayclip
             }
 
             ScreenReaderControl.speech(dictlang["internal.start"].ToString(), false);
-            int interval = (int)config.clipboardPollingSpeed;
             sharpCP = new SharpClipboard();
             sharpCP.ClipboardChanged += SharpCP_ClipboardChanged;
             stopwatch = new Stopwatch();
@@ -111,6 +104,7 @@ namespace sayclip
                 data = e.Content.ToString();
                 LogWriter.getLog().Debug($"captured data is: {e.Content.ToString()}");
                 string translation = await translate(e.Content.ToString());
+                LogWriter.getLog().Debug($"translated data is: {translation}");
                 ScreenReaderControl.speech(translation, true);
                 lastResult = translation;
                 await copyResult(translation);

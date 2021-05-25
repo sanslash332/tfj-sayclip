@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item>
-    <version>2019.9.7201.42543</version>
-    <url>http://tiflojuegos.com/tfjtools/sayclip/sayclip.zip</url>
-
-    <mandatory>false</mandatory>
+    <version>2021.5.7815.494</version>
+    <url>https://tiflojuegos.com/tfjtools/sayclip/sayclip.zip</url>
+    <mandatory>true</mandatory>
 </item>

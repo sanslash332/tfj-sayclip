@@ -113,7 +113,7 @@ namespace sayclip
 
         private void loadPlugins()
         {
-            LogWriter.getLog().Debug("Loading plugins");
+            LogWriter.getLog().Info("Loading plugins");
             CompositionContainer container;
             AggregateCatalog catalog = new AggregateCatalog();
             catalog.Catalogs.Add(new DirectoryCatalog(@".\plugins", "*.scplug.dll"));
@@ -132,14 +132,14 @@ namespace sayclip
             catch (CompositionException e)
             {
                 LogWriter.getLog().Error($"problem loading the plugins {e.Message}");
-                throw(e);
+                ScreenReaderControl.speech(Sayclip.dictlang["internal.pluginLoadError"].ToString(), true);
             }
             catch(Exception e)
             {
                 LogWriter.getLog().Error($"problem loading the plugins {e.Message}");
-                throw (e);
+                ScreenReaderControl.speech(Sayclip.dictlang["internal.pluginLoadError"].ToString(), true);
             }
-            LogWriter.getLog().Debug($"plugins loaded: {plugins.Count()}");
+            LogWriter.getLog().Info($"plugins loaded: {plugins.Count()}");
 
         }
     }
