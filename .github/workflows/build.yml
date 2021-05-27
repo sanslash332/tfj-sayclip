@@ -25,12 +25,16 @@ jobs:
           cd ..\..
           tar -a -c -f sayclip.zip sayclip\sayclipTray\bin\release
       - name: cache sayclip
+        id: cache-build
         uses: actions/cache@v2
         with:
           path: |
             sayclip.zip
             sayclip/version.xml
-          key: sayclip-${{ github.ref }}-${{ github.run_id }}
+          key: sayclip-build
+          restore-keys: |
+            sayclip-build
+            sayclip
   release:
     name: release sayclip
     needs: build
@@ -42,7 +46,10 @@ jobs:
           path: |
             sayclip.zip
             sayclip/version.xml
-          key: sayclip-${{ github.ref }}-${{ github.run_id }}
+          key: sayclip-build
+          restore-keys: |
+            sayclip-build
+            sayclip
       - name: release
         uses: ncipollo/release-action@v1
         with:
