@@ -216,7 +216,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-      xcopy /s /e /y "$(SolutionDir)sayclip\plugins" "$(ProjectDir)$(OutDir)plugins"
+      xcopy /s /e /y "$(ProjectDir)..\sayclip\plugins" "$(ProjectDir)$(OutDir)plugins"
       ROBOCOPY "$(TargetDir) " "$(TargetDir)lib\ " *.dll *.xml *.pdb /XF jfwapi.dll nvdaControllerClient.dll SAAPI32.dll ScreenReaderAPI.dll UniversalSpeech.dll *.exe *.config *.manifest /XD lib * /E /IS /MOV
       if %25errorlevel%25 leq 4 exit 0 else exit %25errorlevel%25</PostBuildEvent>
   </PropertyGroup>

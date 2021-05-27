@@ -1,0 +1,49 @@
+name: build and release
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  build:
+    name: build sayclip
+    runs-on: windows-latest
+    steps:
+      - name: setup_devenv
+        uses: microsoft/setup-msbuild@v1
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: build sayclip
+        run: |
+          cd sayclip\googleTranslatorPlugin
+          msbuild . -p:configuration=release
+          cd ..\sayclipTray
+          msbuild . -p:configuration=release
+          cd ..\..
+          tar -a -c -f sayclip.zip sayclip\sayclipTray\bin\release
+      - name: cache sayclip
+        uses: actions/cache@v2
+        with:
+          path: |
+            sayclip.zip
+            sayclip/version.xml
+          key: ${{ runner.os }}-sayclip-${{GITHUB_REF}}-${{GITHUB_RUN_ID}}
+  release:
+    name: release sayclip
+    needs: build
+    runs-on: ubuntu-latest
+    steps: 
+      - name: get cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            sayclip.zip
+            sayclip/version.xml
+          key: ${{ runner.os }}-sayclip-${{GITHUB_REF}}-${{GITHUB_RUN_ID}}
+      - name: release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: [sayclip.zip,sayclip/version.xml]
+          artifactErrorsFailBuild: true
+          token: ${{ secrets.GITHUB_TOKEN }}
