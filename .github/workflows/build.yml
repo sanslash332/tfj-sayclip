@@ -18,7 +18,7 @@ jobs:
         run: |
           cd sayclip
           nuget restore sayclip.sln
-          cd sayclip\googleTranslatorPlugin
+          cd googleTranslatorPlugin
           msbuild . -p:configuration=release
           cd ..\sayclipTray
           msbuild . -p:configuration=release
