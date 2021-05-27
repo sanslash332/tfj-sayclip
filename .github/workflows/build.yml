@@ -44,6 +44,6 @@ jobs:
       - name: release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: [sayclip.zip,sayclip/version.xml]
+          artifacts: "sayclip.zip,sayclip/version.xml"
           artifactErrorsFailBuild: true
           token: ${{ secrets.GITHUB_TOKEN }}
