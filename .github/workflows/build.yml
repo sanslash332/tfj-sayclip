@@ -28,7 +28,7 @@ jobs:
           path: |
             sayclip.zip
             sayclip/version.xml
-          key: ${{ runner.os }}-sayclip-${{GITHUB_REF}}-${{GITHUB_RUN_ID}}
+          key: ${{ runner.os }}-sayclip-${{ github.ref }}-${{ github.run_id }}
   release:
     name: release sayclip
     needs: build
@@ -40,7 +40,7 @@ jobs:
           path: |
             sayclip.zip
             sayclip/version.xml
-          key: ${{ runner.os }}-sayclip-${{GITHUB_REF}}-${{GITHUB_RUN_ID}}
+          key: ${{ runner.os }}-sayclip-${{ github.ref }}-${{ github.run_id }}
       - name: release
         uses: ncipollo/release-action@v1
         with:
