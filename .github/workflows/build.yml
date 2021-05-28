@@ -24,9 +24,12 @@ jobs:
           msbuild . -p:configuration=release
           cd ..\..
           tar -a -c -f sayclip.zip sayclip\sayclipTray\bin\release
+      - name: generate version
+        run: |
+          python generateVersion.py
       - name: release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "sayclip.zip,sayclip/version.xml"
+          artifacts: "sayclip.zip,version.xml"
           artifactErrorsFailBuild: true
           token: ${{ secrets.GITHUB_TOKEN }}
