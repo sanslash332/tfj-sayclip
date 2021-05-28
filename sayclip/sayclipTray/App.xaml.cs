@@ -181,7 +181,7 @@ namespace sayclipTray
             base.OnStartup(e);
             loadLanguajeUI();
             ScreenReaderControl.speech(dictlang["update.check"].ToString(), true);
-            AutoUpdater.Start("http://tiflojuegos.com/tfjtools/sayclip/version.xml");
+            AutoUpdater.Start("https://github.com/sanslash332/tfj-sayclip/releases/latest/download/version.xml");
             
             win = new sayclipTray.MainWindow();
             win.Hide();
