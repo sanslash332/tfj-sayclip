@@ -9,7 +9,7 @@ namespace sayclip
     class EmptyPlugin : iSayclipPluginTranslator
     {
         public const String emptyName = "empty plugin";
-        public List<SayclipLanguage> getAvailableLanguages(string displayLanguaje)
+        public async Task<IEnumerable<SayclipLanguage>> getAvailableLanguages(string displayLanguaje)
         {
             List<SayclipLanguage> langs = new List<SayclipLanguage>();
 
@@ -53,7 +53,7 @@ namespace sayclip
             
         }
 
-        public void showConfigWindow()
+        public void showConfigWindow(string lang)
         {
             
         }

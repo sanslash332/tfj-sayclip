@@ -48,6 +48,7 @@ namespace sayclip
             checkActivePluginConfiguration();
 
         }
+
         private void checkActivePluginConfiguration()
         {
             LogWriter.getLog().Debug($"the saved configuration value is: {Properties.Settings.Default.translator}");
@@ -56,7 +57,7 @@ namespace sayclip
             {
                 if(plug.Value.getName() == Properties.Settings.Default.translator)
                 {
-                    activePlugin = plug.Value;
+                    setActivePlugin(plug.Value.getName());
                     LogWriter.getLog().Debug($"{activePlugin.getName()} seted as active plugin");
                     return;
                 }
@@ -65,11 +66,16 @@ namespace sayclip
 
             if(plugins.Count() >0)
             {
-                activePlugin = plugins.First().Value;
-                LogWriter.getLog().Debug($"{activePlugin.getName()} seted as active plugin");
-                Properties.Settings.Default.translator = activePlugin.getName();
-                Properties.Settings.Default.Save();
+                foreach (Lazy<iSayclipPluginTranslator> plug in plugins)
+                {
+                    if(setActivePlugin(plug.Value.getName()))
+                    {
+                        break;
+                    }
+                }
 
+                LogWriter.getLog().Debug($"{activePlugin.getName()} seted as active plugin");
+                
             }
             else
             {
@@ -87,12 +93,23 @@ namespace sayclip
             {
                 if(plug.Value.getName() == pluginName)
                 {
-                    this.activePlugin = plug.Value;
-                    Properties.Settings.Default.translator = pluginName;
-                    Properties.Settings.Default.Save();
-                    LogWriter.getLog().Debug($"{activePlugin.getName()} seted as active plugin");
+                    LogWriter.getLog().Debug($"initializing {pluginName}");
+                    bool initialized = plug.Value.initialize();
+                    if(!initialized)
+                    {
+                        LogWriter.getLog().Warn($"{pluginName} canot be initialized. Fallback to empyPlugin");
+                        this.activePlugin = new EmptyPlugin();
+                    }
+                    else
+                    {
+                        this.activePlugin = plug.Value;
+                        Properties.Settings.Default.translator = pluginName;
+                        Properties.Settings.Default.Save();
+                        LogWriter.getLog().Debug($"{activePlugin.getName()} seted as active plugin");
 
-                    return true;
+                    }
+
+                    return initialized;
 
                 }
             }

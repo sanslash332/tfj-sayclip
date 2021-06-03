@@ -269,8 +269,8 @@ namespace sayclipTray
         {
             List<String> plugins = scppm.getPluginsNames();
             String activePlugin = scppm.getActivePlugin.getName();
-            String pluginsmenuheader = translatormenu.Header.ToString();
-            translatormenu.Header = pluginsmenuheader + $"({App.dictlang["current"]} {activePlugin})";
+            
+            translatormenu.Header = $"{App.dictlang["menu.plugin"]} ({App.dictlang["current"]} {activePlugin})";
             List<MenuItem> pluginsItems = new List<MenuItem>();
             translatormenu.ItemsSource = pluginsItems;
 
@@ -283,10 +283,22 @@ namespace sayclipTray
                     CanExecuteFunc= () => plug!=activePlugin,
                     CommandAction= () =>
                     {
-                        scppm.setActivePlugin(plug);
-                        app.resetSayclip();
-                        translatormenu.Header = pluginsmenuheader + $"({App.dictlang["current"]} {activePlugin})";
+                        if(scppm.setActivePlugin(plug))
+                        {
+                            app.resetSayclip();
+                            
+                            buidlLanguajeMenuHeaders();
+                            buildLanguajeMenuItems();
+                            buildPluginsMenu();
 
+                        }
+else
+                        {
+                            ScreenReaderControl.speech(String.Format(App.dictlang["menu.plugin.changeError"].ToString(), plug), true);
+                            scppm.setActivePlugin(activePlugin);
+                            
+
+                        }
                     }
                 };
 
@@ -371,13 +383,13 @@ namespace sayclipTray
           
         }
 
-        public void buildLanguajeMenuItems()
+        public async void buildLanguajeMenuItems()
         {
             List<MenuItem> sourceMenuItems = new List<MenuItem>();
             List<MenuItem> targetMenuItems = new List<MenuItem>();
             SourceLanMenu.ItemsSource = sourceMenuItems;
             TargetLanMenu.ItemsSource = targetMenuItems;
-            List<SayclipLanguage> langs = scppm.getActivePlugin.getAvailableLanguages("en");
+            List<SayclipLanguage> langs = (List<SayclipLanguage>)await scppm.getActivePlugin.getAvailableLanguages("en");
             SayclipLanguage fromLang = scppm.getActivePlugin.getConfiguredLanguajes("en")[0];
             SayclipLanguage toLang = scppm.getActivePlugin.getConfiguredLanguajes("en")[1];
 

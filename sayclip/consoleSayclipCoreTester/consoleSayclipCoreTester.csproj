@@ -77,4 +77,7 @@
   <PropertyGroup>
     <PostBuildEvent>xcopy /s /e /y "$(SolutionDir)sayclip\plugins" "$(ProjectDir)$(OutDir)plugins"</PostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>	</PreBuildEvent>
+  </PropertyGroup>
 </Project>

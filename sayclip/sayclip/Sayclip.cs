@@ -81,7 +81,7 @@ namespace sayclip
 
                 config.translating = false;
             }
-
+            LogWriter.getLog().Debug($"sayclip using {translator.getName()} plugin");
             ScreenReaderControl.speech(dictlang["internal.start"].ToString(), false);
             sharpCP = new SharpClipboard();
             sharpCP.ClipboardChanged += SharpCP_ClipboardChanged;

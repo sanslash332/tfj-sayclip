@@ -10,13 +10,13 @@ namespace sayclip
     {
         string getName();
         string getDescription(string languaje);
-        List<SayclipLanguage> getAvailableLanguages(string displayLanguaje);
+        Task<IEnumerable<SayclipLanguage>> getAvailableLanguages(string displayLanguaje);
         void setLanguages(SayclipLanguage fromLang,SayclipLanguage toLang);
         SayclipLanguage[] getConfiguredLanguajes(string displayLanguaje);
         bool initialize();
         Task<string> translate(string text);
         bool haveConfigWindow();
-        void showConfigWindow();
+        void showConfigWindow(string displayLanguaje);
 
 
 

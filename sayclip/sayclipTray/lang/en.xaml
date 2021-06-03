@@ -19,6 +19,7 @@
     <system:String x:Key="menu.target"> select target languaje</system:String>
     <system:String x:Key="menu.exchange"> Exchange current languajes </system:String>
     <system:String x:Key="menu.plugin">Select translator plugin </system:String>
+    <system:String x:Key="menu.plugin.changeError">Error changing active plugin to {0}. Please check the plugin configuration and try again. Active plugin returned to previows value.</system:String>
     <system:String x:Key="menu.plugin.google.badlang"> Google doesn't support automatic languaje detection. change your source languaje before change the plugin. </system:String>
     <system:String x:Key="menu.plugin.microsoft.error">error validating your microsoft api credentials. please see the log and verify your internet conection, and your microsoft translator api credentials. </system:String>
     <system:String x:Key="menu.plugin.microsoft.empty">You can't select microsoft api translator until you insert your msAPPId and your msAppSecret. please open the sayclip configuration window and fill the fields on the microsoft api tab. </system:String>
@@ -26,8 +27,8 @@
     <system:String x:Key="menu.monitor"> Adjust monitor clipboard frequency </system:String>
     <system:String x:Key="menu.monitor.2000">Very slow</system:String>
     <system:String x:Key="menu.monitor.1000">Slow</system:String>
-    <system:String x:Key="menu.monitor.500">Normal</system:String>
-    <system:String x:Key="menu.monitor.100">Fast (default)</system:String>
+    <system:String x:Key="menu.monitor.500">Normal(default)</system:String>
+    <system:String x:Key="menu.monitor.100">Fast</system:String>
     <system:String x:Key="menu.monitor.50">Very fast (be careful with rate limmit bans if youre using google's plugins)</system:String>
     <system:String x:Key="menu.monitor.1">Ultra fast (can have various errors reading the clipboard, and take high processors peak. )</system:String>
 

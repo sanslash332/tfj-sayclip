@@ -15,7 +15,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="interval" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">100</Value>
+      <Value Profile="(Default)">500</Value>
     </Setting>
     <Setting Name="copyresult" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

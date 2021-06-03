@@ -45,7 +45,7 @@ namespace googleTranslatorPlugin
 
         }
 
-        public List<sayclip.SayclipLanguage> getAvailableLanguages(string displayLanguaje)
+        public async Task<IEnumerable<sayclip.SayclipLanguage>> getAvailableLanguages(string displayLanguaje)
         {
             List<sayclip.SayclipLanguage> langDict = new List<SayclipLanguage>();
             langDict.Add(new SayclipLanguage(Language.Auto.ISO639, Language.Auto.FullName, true, false));
@@ -114,7 +114,7 @@ namespace googleTranslatorPlugin
         }
 
         
-        public void showConfigWindow()
+        public void showConfigWindow(string lang)
         {
             throw new NotImplementedException();
         }

@@ -19,6 +19,7 @@
     <system:String x:Key="menu.target">seleccionar idioma a traducir</system:String>
     <system:String x:Key="menu.exchange">Intercambiar idiomas</system:String>
     <system:String x:Key="menu.plugin">Seleccionar plugin  de traducción</system:String>
+    <system:String x:Key="menu.plugin.changeError">Error al cambiar al plugin {0}. Revisa su configuración y vuelve a intentarlo. No se cambió el plugin activo.</system:String>
     <system:String x:Key="menu.plugin.google.badlang">Lo sentimos, pero el plugin de google no soporta la detección automática de idiomas. Por favor, cambia el idioma de origen antes de seleccionar google como tu plugin de traducción. </system:String>
     <system:String x:Key="menu.plugin.microsoft.error">error validando tus datos de autentificación de microsoft api. Por favor, revisa el registro y verifica tu conección a internet, y tus datos de autentificación de microsoft translator api.</system:String>
     <system:String x:Key="menu.plugin.microsoft.empty">No puedes seleccionar microsoft api translator hasta que hayas ingresado tu msAPPId y tu contraseña de msAppSecret. Por favor, abra la ventana de configuración de sayclip y y llene los campos correspondientes en la pestaña microsoft api.</system:String>
@@ -26,8 +27,8 @@
     <system:String x:Key="menu.monitor">Ajustar la frecuencia de monitoreo del portapapeles</system:String>
     <system:String x:Key="menu.monitor.2000">Muy lenta</system:String>
     <system:String x:Key="menu.monitor.1000">Lenta</system:String>
-    <system:String x:Key="menu.monitor.500">Normal</system:String>
-    <system:String x:Key="menu.monitor.100">Rápida (por defecto)</system:String>
+    <system:String x:Key="menu.monitor.500">Normal (por defecto)</system:String>
+    <system:String x:Key="menu.monitor.100">Rápida</system:String>
     <system:String x:Key="menu.monitor.50">Muy rápida (cuidado con el baneo por exeso de llamadas si estás usando el plugin de google)</system:String>
     <system:String x:Key="menu.monitor.1">Ultra rápida (puede tener errores variados al leer el portapapeles, y utiliza mayor potencia de procesamiento)</system:String>
 

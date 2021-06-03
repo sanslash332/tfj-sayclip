@@ -182,7 +182,8 @@ namespace sayclipTray
             loadLanguajeUI();
             ScreenReaderControl.speech(dictlang["update.check"].ToString(), true);
             AutoUpdater.Start("https://github.com/sanslash332/tfj-sayclip/releases/latest/download/version.xml");
-            
+
+            PluginManager  pm = PluginManager.getInstanse;
             win = new sayclipTray.MainWindow();
             win.Hide();
             Application.Current.MainWindow = win;
