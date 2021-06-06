@@ -14,6 +14,8 @@ jobs:
         uses: microsoft/setup-msbuild@v1
       - name: checkout
         uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
       - name: build sayclip
         run: |
           cd sayclip
@@ -25,7 +27,7 @@ jobs:
           cd ..\sayclipTray
           msbuild . -p:configuration=release
           cd ..\..
-          tar -a -c -f sayclip.zip sayclip\sayclipTray\bin\release
+          tar -a -c -f sayclip.zip -C sayclip\sayclipTray\bin\release .
       - name: generate version
         run: |
           python generateVersion.py
