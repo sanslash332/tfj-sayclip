@@ -27,7 +27,8 @@ jobs:
           cd ..\sayclipTray
           msbuild . -p:configuration=release
           cd ..\..
-          tar -a -c -f sayclip.zip -C sayclip\sayclipTray\bin\release .
+          ren sayclip\sayclipTray\bin\release sayclip
+          tar -a -c -f sayclip.zip -C sayclip\sayclipTray\bin sayclip
       - name: generate version
         run: |
           python generateVersion.py
