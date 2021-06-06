@@ -116,7 +116,8 @@ namespace azureTranslatorPlugin
 
         public void showConfigWindow(string displayLanguaje)
         {
-            throw new NotImplementedException();
+            ConfigWindow window = new ConfigWindow();
+            window.ShowDialog();
         }
 
         public async Task<string> translate(string text)

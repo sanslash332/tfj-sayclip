@@ -44,9 +44,13 @@
     <system:String x:Key="ui.open">Opening sayclip configuration window</system:String>
     <system:String x:Key="ui.opened">Window is already open </system:String>
     <system:String x:Key="ui.tabs.general">General settings </system:String>
+    <system:String x:Key="ui.tabs.plugins">installed plugins</system:String>
     <system:String x:Key="ui.general.setuplabel">Please setup your sayclip Key  </system:String>
     <system:String x:Key="ui.general.setupbutton">Setup sayclip key: </system:String>
     <system:String x:Key="ui.general.setupmessaje"> Please press the key that you want for sayclip key. </system:String>
+    <system:String x:Key="ui.plugins.activatebutton">set as active plugin</system:String>
+    <system:String x:Key="ui.plugins.showconfigbutton">show plugin configuration</system:String>
+    <system:String x:Key="ui.plugins.descriptionhelp">plugin's description</system:String>
     <system:String x:Key="ui.tabs.microsoft">Microsoft API Credentials </system:String>
     <system:String x:Key="ui.microsoft.help">Please insert here your microsoft api credentials here. </system:String>
     <system:String x:Key="ui.microsoft.msappid.label">Insert your microsoft APP ID </system:String>

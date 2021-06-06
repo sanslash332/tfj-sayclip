@@ -44,9 +44,13 @@
     <system:String x:Key="ui.open">Abriendo ventana de configuración de sayclip</system:String>
     <system:String x:Key="ui.opened">La ventana ya está avierta</system:String>
     <system:String x:Key="ui.tabs.general">Configuraciones generales</system:String>
+    <system:String x:Key="ui.tabs.plugins">plugins instalados</system:String>
     <system:String x:Key="ui.general.setuplabel">Por favor, configura tu tecla sayclip</system:String>
     <system:String x:Key="ui.general.setupbutton">Configurar tecla sayclip:</system:String>
     <system:String x:Key="ui.general.setupmessaje">Por favor, presione la tecla que quiera como tecla sayclip</system:String>
+    <system:String x:Key="ui.plugins.activatebutton"> activar plugin</system:String>
+    <system:String x:Key="ui.plugins.showconfigbutton">mostrar configuración del plugin</system:String>
+    <system:String x:Key="ui.plugins.descriptionhelp">descripción</system:String>
     <system:String x:Key="ui.tabs.microsoft">Datos de autentificación de Appi Microsoft</system:String>
     <system:String x:Key="ui.microsoft.help">Por favor, introduzca sus datos de autentificación de appi microsoft</system:String>
     <system:String x:Key="ui.microsoft.msappid.label">Introduzca su microsoft APP ID</system:String>

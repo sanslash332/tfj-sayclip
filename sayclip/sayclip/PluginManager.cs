@@ -24,6 +24,20 @@ namespace sayclip
         }
         [ImportMany]
         private IEnumerable<Lazy<iSayclipPluginTranslator>> plugins;
+        public List<iSayclipPluginTranslator> getPlugins
+        {
+            get {
+                List<iSayclipPluginTranslator> pluginsList = new List<iSayclipPluginTranslator>();
+                if(plugins != null)
+                {
+                    foreach(Lazy<iSayclipPluginTranslator> plug in plugins)
+                    {
+                        pluginsList.Add(plug.Value);
+                    }
+                }
+                return (pluginsList);
+            }
+        }
         public static PluginManager getInstanse
         {
             get

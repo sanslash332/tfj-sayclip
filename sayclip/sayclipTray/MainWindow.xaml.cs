@@ -24,11 +24,13 @@ namespace sayclipTray
     public partial class MainWindow : Window
     {
         private bool detectChange = false;
-      
+        public PluginsTab getPluginsTab;
+        
         public MainWindow()
         {
 
             InitializeComponent();
+            getPluginsTab = pluginsTab;
           
             this.Closing += MainWindow_Closing;
             //this.setupKeyButton.Content += sayclipTray.Properties.Settings.Default.sayclipKey.ToString();

@@ -27,10 +27,18 @@ namespace sayclipTray
         private IKeyboardMouseEvents kmEvents;
         //private System.Windows.Forms.NotifyIcon nicon;
         private static NotifyIconViewModel notifyIcon;
+        public static NotifyIconViewModel getNotifyIcon
+        {
+            get
+            {
+                return (notifyIcon);
+            }
+        }
         private Task sayclipTask;
         private CancellationTokenSource tokenSource;
         private Sayclip scp;
         public static ResourceDictionary dictlang;
+        public static String uiLang;
 
         public bool isSayclipRuning
         {
@@ -49,7 +57,10 @@ namespace sayclipTray
         {
             killSayclip();
             startSayclip();
-
+            if(win.IsVisible)
+            {
+                win.getPluginsTab.buildPluginsListbox();
+            }
         }
 
         public void startSayclip()
@@ -89,7 +100,8 @@ namespace sayclipTray
                 sayclipTray.Properties.Settings.Default.sayclipKey = e.KeyCode;
                 sayclipTray.Properties.Settings.Default.Save();
                 Application.Current.MainWindow.Close();
-                Application.Current.MainWindow = new MainWindow();
+                win = new MainWindow();
+                Application.Current.MainWindow = win;
                 Application.Current.MainWindow.Show();
                 saveNextKey = false;
 
@@ -102,7 +114,7 @@ namespace sayclipTray
             {
                 ScreenReaderControl.speech(dictlang["menu.open"].ToString(),true);
                 notifyIcon.Focus();
-                win = new MainWindow();
+                //win = new MainWindow();
                 win.Show();
 
                 ContextMenu systraymenu = notifyIcon.ContextMenu;
@@ -118,7 +130,8 @@ namespace sayclipTray
                 if (!Application.Current.MainWindow.IsVisible)
                 {
                     sayclip.ScreenReaderControl.speech(dictlang["ui.open"].ToString(), true);
-                    Application.Current.MainWindow = new MainWindow();
+                    //win = new MainWindow();
+                    Application.Current.MainWindow = win; ;
 
                     Application.Current.MainWindow.Show();
 
@@ -147,24 +160,29 @@ namespace sayclipTray
             {
                 case "en":
                     dictLang = new ResourceDictionary() { Source = new Uri("lang\\en.xaml", UriKind.Relative) };
+                    uiLang = "en";
                     break;
                 case "es":
                     dictLang = new ResourceDictionary() { Source = new Uri("lang\\es.xaml", UriKind.Relative) };
+                    uiLang = "es";
                     break;
                 case "auto":
                     string cult = Thread.CurrentThread.CurrentCulture.ToString();
                     if (cult.StartsWith("es"))
                     {
                         dictLang = new ResourceDictionary() { Source = new Uri("lang\\es.xaml", UriKind.Relative) };
+                        uiLang = "es";
                     }
                     else
                     {
                         dictLang = new ResourceDictionary() { Source = new Uri("lang\\en.xaml", UriKind.Relative) };
+                        uiLang = "en";
                     }
 
                     break;
                 default:
                     dictLang = new ResourceDictionary() { Source = new Uri("lang\\en.xaml", UriKind.Relative) };
+                    uiLang = "en";
                     break;
             }
 
@@ -193,18 +211,7 @@ namespace sayclipTray
             kmEvents = Hook.GlobalEvents();
             kmEvents.KeyUp+= new System.Windows.Forms.KeyEventHandler(onKeyUp);
             kmEvents.KeyPress += KmEvents_KeyPress;
-            /*
-            nicon = new System.Windows.Forms.NotifyIcon();
-            nicon.Text = "other sayclip icon ";
-            nicon.BalloonTipText = "say say sayclip";
-            nicon.Icon = new System.Drawing.Icon("Red.ico");
-            nicon.Visible = true;
-            System.Windows.Forms.ContextMenuStrip niconmenu = new System.Windows.Forms.ContextMenuStrip();
-            niconmenu.Items.Add("una opcion ");
-            niconmenu.Items.Add("otra ");
-            nicon.ContextMenuStrip = niconmenu;
-            */
-
+            
             //notifyIcon= (TaskbarIcon) FindResource("NotifyIcon");
 
             NotifyIconViewModel tb = new NotifyIconViewModel();

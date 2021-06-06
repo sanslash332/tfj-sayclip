@@ -1,0 +1,28 @@
+﻿<Window x:Class="azureTranslatorPlugin.ConfigWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:azureTranslatorPlugin"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Title="azure translator plugin configuration">
+    <Grid>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100">
+            <StackPanel Height="100" Orientation="Horizontal">
+                <Label Name="apiKeyLabel" Content="Please insert here your azure translator api key."/>
+                <TextBox x:Name="translatorApiKeyTextbox" AutomationProperties.LabeledBy="{Binding ElementName=apiKeyLabel}" Height="23" TextWrapping="Wrap" Text=""/>
+                <TextBlock Focusable="False">
+                    <Hyperlink NavigateUri="https://docs.microsoft.com/en-us/azure/cognitive-services/translator/translator-how-to-signup" RequestNavigate="Hyperlink_RequestNavigate">
+                        click here if you dont have your api key.
+                    </Hyperlink>
+                </TextBlock>
+            </StackPanel>
+            <DockPanel Height="100" LastChildFill="False">
+                <Button x:Name="cancelButton" Click="cancelButton_Click" Content="cancel" Height="100" VerticalAlignment="Top" Width="75"/>
+                <Button x:Name="acceptButton" Click="acceptButton_Click" Content="Verify and accept" Height="100" VerticalAlignment="Top" Width="75"/>
+            </DockPanel>
+        </StackPanel>
+
+    </Grid>
+</Window>

@@ -389,9 +389,9 @@ else
             List<MenuItem> targetMenuItems = new List<MenuItem>();
             SourceLanMenu.ItemsSource = sourceMenuItems;
             TargetLanMenu.ItemsSource = targetMenuItems;
-            List<SayclipLanguage> langs = (List<SayclipLanguage>)await scppm.getActivePlugin.getAvailableLanguages("en");
-            SayclipLanguage fromLang = scppm.getActivePlugin.getConfiguredLanguajes("en")[0];
-            SayclipLanguage toLang = scppm.getActivePlugin.getConfiguredLanguajes("en")[1];
+            List<SayclipLanguage> langs = (List<SayclipLanguage>)await scppm.getActivePlugin.getAvailableLanguages(App.uiLang);
+            SayclipLanguage fromLang = scppm.getActivePlugin.getConfiguredLanguajes(App.uiLang)[0];
+            SayclipLanguage toLang = scppm.getActivePlugin.getConfiguredLanguajes(App.uiLang)[1];
 
             foreach (SayclipLanguage lang in langs)
             {
