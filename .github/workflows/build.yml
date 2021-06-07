@@ -30,7 +30,7 @@ jobs:
           msbuild . -p:configuration=release
           cd ..\..
           ren sayclip\sayclipTray\bin\release sayclip
-          7z a sayclip.zip sayclip\sayclipTray\bin\sayclip\*
+          7z a sayclip.zip .\sayclip\sayclipTray\bin\sayclip\*
       - name: generate version
         run: |
           python generateVersion.py
