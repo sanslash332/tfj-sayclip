@@ -87,7 +87,18 @@ namespace consoleTranslatorTest
                 return (x.langCode == values[1]);
             });
 
-            t.setLanguages(fromLang, toLang);
+            try
+            {
+                t.setLanguages(fromLang, toLang);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"ups, algo pasó en la selección de idiomas. {e.Message}");
+                Console.ReadLine();
+                Environment.Exit(1);
+                
+            }
+            
 
 
             do

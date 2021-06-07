@@ -24,6 +24,8 @@ jobs:
           msbuild . -p:configuration=release
           cd ..\azureTranslatorPlugin
           msbuild . -p:configuration=release
+          cd ..\fergunGoogleTranslator
+          msbuild . -p:configuration=release
           cd ..\sayclipTray
           msbuild . -p:configuration=release
           cd ..\..

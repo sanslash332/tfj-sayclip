@@ -15,7 +15,7 @@ namespace googleTranslatorPlugin
         private Language fromLang;
         private Language toLang;
         private const string pluginName = "google translator plugin";
-        private const string description = "plugin for use the google translator free service with sayclip";
+        private const string description = "plugin for use the google translator free service with sayclip. Recomended to use fergun google translator instead of this";
         private GoogleTranslator translator;
 
         public Translator()

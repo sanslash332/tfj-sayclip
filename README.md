@@ -1,5 +1,13 @@
 # tfj-sayclip
-Una herramienta que lee en voz alta con el lector de pantalla activo, el texto copiado al portapapeles. Ofrece traducción instantánea. De manera que reproduce la traducción del texto copiado, en vez del texto en si
+Una herramienta que lee en voz alta con el lector de pantalla activo, el texto copiado al portapapeles. Ofrece traducciï¿½n instantï¿½nea. De manera que reproduce la traducciï¿½n del texto copiado, en vez del texto en si
 
 # Homepage
-http://www.tiflojuegos.com/
+[https://www.tiflojuegos.com/news](https://www.tiflojuegos.com/news)
+
+## Licencia
+
+This project is under the [mit licence](LICENSE)
+
+Fergun google translator plugin include code from the awesome [Fergun bot project](https://github.com/d4n3436/Fergun/)
+And the google translator plugin is based on [google translate free api](https://github.com/wadereye/GoogleTranslateFreeApi)
+
