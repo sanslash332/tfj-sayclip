@@ -22,7 +22,7 @@ namespace fergunGoogleTranslatorPlugin
         public async Task<IEnumerable<SayclipLanguage>> getAvailableLanguages(string displayLanguaje)
         {
             List<SayclipLanguage> languajes = new List<SayclipLanguage>();
-            languajes.Add(new SayclipLanguage("auto", "auto"));
+            languajes.Add(new SayclipLanguage("auto", "auto", true, false));
             foreach(KeyValuePair<string, string> kv in GTranslator.SupportedLanguages)
             {
                 languajes.Add(new SayclipLanguage(kv.Key, kv.Value));
