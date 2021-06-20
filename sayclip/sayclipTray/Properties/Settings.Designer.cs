@@ -58,5 +58,17 @@ namespace sayclipTray.Properties {
                 this["UILang"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool needSettingsUpgrade {
+            get {
+                return ((bool)(this["needSettingsUpgrade"]));
+            }
+            set {
+                this["needSettingsUpgrade"] = value;
+            }
+        }
     }
 }

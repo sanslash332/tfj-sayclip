@@ -82,6 +82,7 @@
     <system:String x:Key="country.eu">Basque</system:String>
 
     <system:String x:Key="internal.start">Sayclip initialiced </system:String>
+    <system:String x:Key="internal.stop">Sayclip stoped</system:String>
     <system:String x:Key="internal.errortranslating">Error while translating, please see the file sayclip.log for get details. </system:String>
     <system:String x:Key="internal.muchtext">You're translating more than 2000 characters! this can take a long while! </system:String>
     <system:String x:Key="internal.massivetext">This tool isn't for translate a book! Please select less characters! </system:String>

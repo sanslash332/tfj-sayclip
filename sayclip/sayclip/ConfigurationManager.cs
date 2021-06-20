@@ -66,7 +66,6 @@ namespace sayclip
             }
         }
 
-
         public double clipboardPollingSpeed
         {
             get
@@ -80,7 +79,30 @@ namespace sayclip
             }
         }
 
-
+        public bool useCache
+        {
+            get
+            {
+                return (Properties.Settings.Default.cache);
+            }
+            set
+            {
+                Properties.Settings.Default.cache = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+        public string cacheFileLocation
+        {
+            get
+            {
+                return (Properties.Settings.Default.cachePath);
+            }
+            set
+            {
+                Properties.Settings.Default.cachePath = value;
+                Properties.Settings.Default.Save();
+            }
+        }
 
     }
 }

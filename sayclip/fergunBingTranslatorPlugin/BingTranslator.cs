@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using logSystem;
+using NLog;
 
 namespace Fergun.APIs.BingTranslator
 {
@@ -77,6 +79,16 @@ namespace Fergun.APIs.BingTranslator
             }
 
             // Convert Google Translate language codes to Bing Translator equivalent.
+
+            fromLanguage = fromLanguage switch
+            {
+                "no" => "nb",
+                "pt" => "pt-pt",
+                "zh-CN" => "zh-Hans",
+                "zh-TW" => "zh-Hant",
+                _ => toLanguage
+            };
+
             toLanguage = toLanguage switch
             {
                 "no" => "nb",
@@ -85,6 +97,7 @@ namespace Fergun.APIs.BingTranslator
                 "zh-TW" => "zh-Hant",
                 _ => toLanguage
             };
+            
 
             (string key, string token) = await GetCredentialsAsync();
 
@@ -100,9 +113,11 @@ namespace Fergun.APIs.BingTranslator
             string json;
             using (var content = new FormUrlEncodedContent(data))
             {
+                LogWriter.getLog().Debug($"json request of bing: {await content.ReadAsStringAsync()}");
                 var response = await _httpClient.PostAsync(new Uri(_apiEndpoint), content);
                 response.EnsureSuccessStatusCode();
                 json = await response.Content.ReadAsStringAsync();
+                LogWriter.getLog().Debug($"json response of bing: {json}");
             }
 
             return JsonConvert.DeserializeObject<List<BingResult>>(json);
@@ -298,7 +313,7 @@ namespace Fergun.APIs.BingTranslator
             { "ps", "Pashto" },
             { "fa", "Persian" },
             { "pl", "Polish" },
-            { "pt", "Portuguese" },
+            { "pt", "Portuguesian Portuguese" },
             { "ma", "Punjabi" },
             { "ro", "Romanian" },
             { "ru", "Russian" },

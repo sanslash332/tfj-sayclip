@@ -82,6 +82,7 @@
     <system:String x:Key="country.eu">Basco</system:String>
 
     <system:String x:Key="internal.start">Sayclip activado</system:String>
+    <system:String x:Key="internal.stop">Sayclip desactivado</system:String>
     <system:String x:Key="internal.errortranslating">Error al traducir, por favor revise el archivo sayclip.log para obtener los detalles.</system:String>
     <system:String x:Key="internal.muchtext">¡Estás traduciendo más de 2000 letras! ¡Esto tomará su tiempo!</system:String>
     <system:String x:Key="internal.massivetext">Esta herramienta no es para traducir libros!  Por favor, selecciona menos letras!</system:String>

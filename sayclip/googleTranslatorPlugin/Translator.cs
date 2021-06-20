@@ -14,36 +14,11 @@ namespace googleTranslatorPlugin
     {
         private Language fromLang;
         private Language toLang;
+        private SayclipLanguage fromLangSayclip;
+        private SayclipLanguage toLangSayclip;
         private const string pluginName = "google translator plugin";
         private const string description = "plugin for use the google translator free service with sayclip. Recomended to use fergun google translator instead of this";
         private GoogleTranslator translator;
-
-        public Translator()
-        {
-            this.translator = new GoogleTranslator();
-            if(Properties.Settings.Default.fromLang != null)
-            {
-                this.fromLang = GoogleTranslator.GetLanguageByISO(Properties.Settings.Default.fromLang);
-
-
-            }
-            if(Properties.Settings.Default.toLang != null)
-            {
-                this.toLang = GoogleTranslator.GetLanguageByISO(Properties.Settings.Default.toLang);
-
-            }
-            if(this.fromLang==null)
-            {
-                this.fromLang = Language.Auto;
-            }
-            if(this.toLang==null)
-            {
-                this.toLang = Language.Spanish;
-
-            }
-            this.setLanguages(new SayclipLanguage(this.fromLang.ISO639, this.fromLang.FullName), new SayclipLanguage(this.toLang.ISO639, this.toLang.FullName));
-
-        }
 
         public async Task<IEnumerable<sayclip.SayclipLanguage>> getAvailableLanguages(string displayLanguaje)
         {
@@ -90,17 +65,19 @@ namespace googleTranslatorPlugin
             Properties.Settings.Default.fromLang = this.fromLang.ISO639;
             Properties.Settings.Default.toLang = this.toLang.ISO639;
             Properties.Settings.Default.Save();
-
+            this.fromLangSayclip = fromLang;
+            this.toLangSayclip = toLang;
         }
         
         public SayclipLanguage[] getConfiguredLanguajes(string displayLanguaje)
         {
             SayclipLanguage[] langs = new SayclipLanguage[2];
-            langs[0] = new SayclipLanguage(this.fromLang.ISO639,this.fromLang.FullName);
-            langs[1] = new SayclipLanguage(this.toLang.ISO639, this.toLang.FullName);
+            langs[0] = this.fromLangSayclip;
+            langs[1] = this.toLangSayclip;
             return langs;
 
         }
+
         public async Task<string> translate(string text)
         {
             TranslationResult resultado = await translator.TranslateLiteAsync(text, this.fromLang, this.toLang);
@@ -110,10 +87,36 @@ namespace googleTranslatorPlugin
 
         public bool initialize()
         {
-            return true;
+            this.translator = new GoogleTranslator();
+            if (Properties.Settings.Default.fromLang != null)
+            {
+                this.fromLang = GoogleTranslator.GetLanguageByISO(Properties.Settings.Default.fromLang);
+
+
+            }
+            if (Properties.Settings.Default.toLang != null)
+            {
+                this.toLang = GoogleTranslator.GetLanguageByISO(Properties.Settings.Default.toLang);
+
+            }
+            if (this.fromLang == null)
+            {
+                this.fromLang = Language.Auto;
+            }
+            if (this.toLang == null)
+            {
+                this.toLang = Language.Spanish;
+
+            }
+            Task<IEnumerable<SayclipLanguage>> languagesTask = getAvailableLanguages("en");
+            languagesTask.ConfigureAwait(false);
+            IEnumerable<SayclipLanguage> languages = languagesTask.Result;
+            SayclipLanguage fromlangSayclip = languages.Where(x => x.langCode == this.fromLang.ISO639).FirstOrDefault();
+            SayclipLanguage tolangSayclip = languages.Where(x => x.langCode == this.toLang.ISO639).FirstOrDefault();
+            this.setLanguages(fromlangSayclip, tolangSayclip);
+            return (true);
         }
 
-        
         public void showConfigWindow(string lang)
         {
             throw new NotImplementedException();

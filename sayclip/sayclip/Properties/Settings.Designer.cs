@@ -157,13 +157,25 @@ namespace sayclip.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool cache {
             get {
                 return ((bool)(this["cache"]));
             }
             set {
                 this["cache"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\cache.db")]
+        public string cachePath {
+            get {
+                return ((string)(this["cachePath"]));
+            }
+            set {
+                this["cachePath"] = value;
             }
         }
     }

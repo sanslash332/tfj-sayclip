@@ -36,7 +36,10 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="cache" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="cachePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.\cache.db</Value>
     </Setting>
   </Settings>
 </SettingsFile>

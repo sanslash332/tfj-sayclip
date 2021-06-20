@@ -24,6 +24,7 @@ namespace sayclipTray
     {
         private MainWindow win;
         public static bool saveNextKey;
+        public bool closeWindowAfterCloseSystrayMenu;
         private IKeyboardMouseEvents kmEvents;
         //private System.Windows.Forms.NotifyIcon nicon;
         private static NotifyIconViewModel notifyIcon;
@@ -142,7 +143,20 @@ namespace sayclipTray
 
                 }
             }
+            else if (e.Shift && e.Alt && e.KeyCode == sayclipTray.Properties.Settings.Default.sayclipKey)
+            {
+                if(isSayclipRuning)
+                {
+                    killSayclip();
+                    ScreenReaderControl.speech(dictlang["internal.stop"].ToString(), true);
 
+                }
+                else
+                {
+                    startSayclip();
+                }
+                notifyIcon.reloadIconTitle();
+            }
             else if(e.Control== true && e.KeyCode== sayclipTray.Properties.Settings.Default.sayclipKey)
             {
                 if (scp != null)
@@ -197,6 +211,7 @@ namespace sayclipTray
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            checkSettingsUpgrade();
             loadLanguajeUI();
             ScreenReaderControl.speech(dictlang["update.check"].ToString(), true);
             AutoUpdater.Start("https://github.com/sanslash332/tfj-sayclip/releases/latest/download/version.xml");
@@ -207,7 +222,7 @@ namespace sayclipTray
             Application.Current.MainWindow = win;
             //create the notifyicon (it's a resource declared in NotifyIconResources.xaml
             LogWriter.getLog().Info("starting sayclip");
-
+            closeWindowAfterCloseSystrayMenu = true;
             kmEvents = Hook.GlobalEvents();
             kmEvents.KeyUp+= new System.Windows.Forms.KeyEventHandler(onKeyUp);
             kmEvents.KeyPress += KmEvents_KeyPress;
@@ -245,13 +260,25 @@ namespace sayclipTray
             tb.reloadIconTitle();
         }
 
+        private void checkSettingsUpgrade()
+        {
+            if(sayclipTray.Properties.Settings.Default.needSettingsUpgrade)
+            {
+                sayclipTray.Properties.Settings.Default.Upgrade();
+                sayclipTray.Properties.Settings.Default.needSettingsUpgrade = false;
+                sayclipTray.Properties.Settings.Default.Save();
+            }
+        }
+
         private void Systraymenu_Closed(object sender, RoutedEventArgs e)
         {
-            if(win!= null)
+            if(win!= null && closeWindowAfterCloseSystrayMenu)
             {
+                LogWriter.getLog().Debug($"closing window on systray close event");
                 win.Hide();
 
             }
+            closeWindowAfterCloseSystrayMenu = true;
         }
 
         private void KmEvents_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)

@@ -194,12 +194,15 @@ namespace sayclipTray
                         //TaskbarIcon sysTray = (TaskbarIcon)Application.Current.FindResource("NotifyIcon");
                         //sysTray.ContextMenu.IsOpen = true;
                         
-                        if(!Application.Current.MainWindow.IsVisible || Application.Current.MainWindow==null)
+                        if(!Application.Current.MainWindow.IsVisible)
                         {
-                            Application.Current.MainWindow = new MainWindow();
+                            //Application.Current.MainWindow = new MainWindow();
+                            LogWriter.getLog().Debug($"show window command triggered");
                             Application.Current.MainWindow.Show();
+                            
                         }
-                        }
+                        app.closeWindowAfterCloseSystrayMenu = false;
+                    }
                         
                 };
             }
@@ -242,7 +245,11 @@ namespace sayclipTray
             {
                 return new DelegateCommand
                 {
-                    CanExecuteFunc= () => true,
+                    CanExecuteFunc= () => {
+                        SayclipLanguage fromLangKey = scppm.getActivePlugin.getConfiguredLanguajes("en")[0];
+                        SayclipLanguage toLangKey = scppm.getActivePlugin.getConfiguredLanguajes("en")[1];
+                        return ((fromLangKey.isForSource && fromLangKey.isForTarget) && ( toLangKey.isForSource && toLangKey.isForTarget));
+                    },
                     CommandAction= () =>
                     {
                         

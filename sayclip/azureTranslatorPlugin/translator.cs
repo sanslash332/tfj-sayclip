@@ -18,6 +18,8 @@ namespace azureTranslatorPlugin
         private const string description = "Plugin for use the microsoft translator from azure cognitive services";
         private string fromLang;
         private string toLang;
+        private SayclipLanguage fromLangSayclip;
+        private SayclipLanguage toLangSayclip;
         private TranslatorClient client;
         private List<ServiceLanguage> availableLanguages;
 
@@ -45,22 +47,8 @@ namespace azureTranslatorPlugin
 
         public SayclipLanguage[] getConfiguredLanguajes(string displayLanguaje)
         {
-            SayclipLanguage lang1;
-            SayclipLanguage lang2;
-            if (availableLanguages != null)
-            {
-                ServiceLanguage fromLang = availableLanguages.Where(x => x.Code == this.fromLang).FirstOrDefault();
-                ServiceLanguage toLang = availableLanguages.Where(x => x.Code == this.toLang).FirstOrDefault();
-                lang1 = fromLang != null ? new SayclipLanguage(fromLang.Code, fromLang.Name) : new SayclipLanguage(this.fromLang, this.fromLang);
-                lang2 = toLang != null ? new SayclipLanguage(toLang.Code, toLang.Name) : new SayclipLanguage(this.toLang, this.toLang);
-
-            }
-            else
-            {
-                lang1 = new SayclipLanguage(this.fromLang, this.fromLang);
-                lang2 = new SayclipLanguage(this.toLang, this.toLang);
-            }
-            return (new SayclipLanguage[2] { lang1, lang2});
+            
+            return (new SayclipLanguage[2] { this.fromLangSayclip, this.toLangSayclip});
         }
 
         public string getDescription(string languaje)
@@ -92,16 +80,17 @@ namespace azureTranslatorPlugin
             LogWriter.getLog().Debug($"preloading languajes");
             Task<IEnumerable<SayclipLanguage>> langTask = getAvailableLanguages("en");
             langTask.ConfigureAwait(false);
-            int langCount = langTask.Result.Count();
+            IEnumerable<SayclipLanguage> result = langTask.Result;
+            int langCount = result.Count();
             LogWriter.getLog().Debug($"languajes loaded {langCount}");
             if(langCount <= 1)
             {
                 return (false);
             }
             this.fromLang = Properties.Settings.Default.fromLang != null ? Properties.Settings.Default.fromLang : "en";
-            
+            this.fromLangSayclip = result.Where(x => x.langCode == this.fromLang).FirstOrDefault();
             this.toLang = Properties.Settings.Default.toLang != null ? Properties.Settings.Default.toLang : "es";
-            
+            this.toLangSayclip = result.Where(x => x.langCode == this.toLang).FirstOrDefault();
             return (true);
         }
 
@@ -109,6 +98,8 @@ namespace azureTranslatorPlugin
         {
             this.fromLang = fromLang.langCode;
             this.toLang = toLang.langCode;
+            this.fromLangSayclip = fromLang;
+            this.toLangSayclip = toLang;
             Properties.Settings.Default.fromLang = this.fromLang;
             Properties.Settings.Default.toLang = this.toLang;
             Properties.Settings.Default.Save();

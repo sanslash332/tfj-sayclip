@@ -18,7 +18,10 @@ namespace fergunGoogleTranslatorPlugin
         private const string description = "Plugin using the translator from google translate. Functionality taken from fergun discod bot: https://github.com/d4n3436/Fergun/";
         private string fromLang;
         private string toLang;
+        private SayclipLanguage fromLangSayclip;
+        private SayclipLanguage toLangSayclip;
         private GTranslator googleTranslator;
+
         public async Task<IEnumerable<SayclipLanguage>> getAvailableLanguages(string displayLanguaje)
         {
             List<SayclipLanguage> languajes = new List<SayclipLanguage>();
@@ -33,21 +36,11 @@ namespace fergunGoogleTranslatorPlugin
 
         public SayclipLanguage[] getConfiguredLanguajes(string displayLanguaje)
         {
-            string fromLangName;
-            if (this.fromLang == "auto")
-            {
-                fromLangName = "auto";
-            }
-            else
-            {
-                fromLangName = GTranslator.SupportedLanguages.Where(x => x.Key == this.fromLang).First().Value;
-            }
-            
-            string toLangName = GTranslator.SupportedLanguages.Where(x => x.Key == this.toLang).First().Value;
+
             return (new SayclipLanguage[]
             {
-                new SayclipLanguage(this.fromLang, fromLang),
-                new SayclipLanguage(this.toLang, toLangName)
+                this.fromLangSayclip,
+                this.toLangSayclip
             });
         }
 
@@ -71,6 +64,12 @@ namespace fergunGoogleTranslatorPlugin
             this.fromLang = !string.IsNullOrEmpty(Properties.Settings.Default.fromLang) ? Properties.Settings.Default.fromLang : "en";
             this.toLang = !String.IsNullOrEmpty(Properties.Settings.Default.toLang) ? Properties.Settings.Default.toLang : "es";
             googleTranslator = new GTranslator();
+            Task<IEnumerable<SayclipLanguage>> languagesTask = getAvailableLanguages("en");
+            languagesTask.ConfigureAwait(false);
+            IEnumerable<SayclipLanguage> languages = languagesTask.Result;
+            this.fromLangSayclip = languages.Where(x => x.langCode == this.fromLang).FirstOrDefault();
+            this.toLangSayclip = languages.Where(x => x.langCode == this.toLang).FirstOrDefault();
+
             return (true);
         }
 
@@ -78,6 +77,8 @@ namespace fergunGoogleTranslatorPlugin
         {
             this.fromLang = fromLang.langCode;
             this.toLang = toLang.langCode;
+            this.fromLangSayclip = fromLang;
+            this.toLangSayclip = toLang;
             Properties.Settings.Default.fromLang = this.fromLang;
             Properties.Settings.Default.toLang = this.toLang;
             Properties.Settings.Default.Save();
