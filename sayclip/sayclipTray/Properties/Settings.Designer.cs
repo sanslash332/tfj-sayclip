@@ -70,5 +70,29 @@ namespace sayclipTray.Properties {
                 this["needSettingsUpgrade"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool startsMinimised {
+            get {
+                return ((bool)(this["startsMinimised"]));
+            }
+            set {
+                this["startsMinimised"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool useSingleInstance {
+            get {
+                return ((bool)(this["useSingleInstance"]));
+            }
+            set {
+                this["useSingleInstance"] = value;
+            }
+        }
     }
 }

@@ -48,6 +48,11 @@
     <system:String x:Key="ui.general.setuplabel">Please setup your sayclip Key  </system:String>
     <system:String x:Key="ui.general.setupbutton">Setup sayclip key: </system:String>
     <system:String x:Key="ui.general.setupmessaje"> Please press the key that you want for sayclip key. </system:String>
+    <system:String x:Key="ui.general.copy">copy result to the clipboard</system:String>
+    <system:String x:Key="ui.general.repeated">Concider repeated text.</system:String>
+    <system:String x:Key="ui.general.polling">Clipboard polling speed.</system:String>
+    <system:String x:Key="ui.general.langUi">Program language</system:String>
+    <system:String x:Key="ui.general.checkUpdates">Check for updates.</system:String>
     <system:String x:Key="ui.plugins.activatebutton">set as active plugin</system:String>
     <system:String x:Key="ui.plugins.showconfigbutton">show plugin configuration</system:String>
     <system:String x:Key="ui.plugins.descriptionhelp">plugin's description</system:String>
@@ -59,7 +64,7 @@
     <system:String x:Key="ui.microsoft.check">Checking your credentials. </system:String>
     <system:String x:Key="ui.microsoft.ok">Your credentials are OK, the api key is valid. </system:String>
     <system:String x:Key="ui.discard">Discard changes</system:String>
-    <system:String x:Key="ui.apply">Verify and apply changes</system:String>
+    <system:String x:Key="ui.apply">Close configuration window</system:String>
     <system:String x:Key="ui.delete">Remove credentials</system:String>
     <system:String x:Key="country.en"> English</system:String>
     <system:String x:Key="country.es">Spanish</system:String>
@@ -89,5 +94,6 @@
     <system:String x:Key="internal.noactiveplugin">The core dont have any valid plugin to load. Sayclip is running without translating. </system:String>
     <system:String x:Key="internal.pluginLoadError">Error loading plugins. Please check the logs for more information.</system:String>
     <system:String x:Key="update.check">Checking for updates. </system:String>
-
+    <system:String x:Key="ui.singleInstance">Sayclip is already runing. Sayclip is configured to run in a single instance.</system:String>
+    
 </ResourceDictionary>

@@ -23,6 +23,8 @@ namespace sayclip
         private string lastResult = "";
         public iSayclipPluginTranslator translator;
         private Stopwatch stopwatch;
+        private SemaphoreSlim cacheSemaphore;
+
         private async Task setClipboardText(string data)
         {
             //Task writeTask = Task.Factory.StartNew((object milock) =>
@@ -61,7 +63,6 @@ namespace sayclip
 
         }
         
-        
         public void repeatLastClipboardContent()
         {
             ScreenReaderControl.speech(data, true);
@@ -81,8 +82,9 @@ namespace sayclip
 
                 config.translating = false;
             }
-            LogWriter.getLog().Debug($"sayclip using {translator.getName()} plugin");
+            LogWriter.getLog().Debug($"sayclip using {translator.getName()}");
             ScreenReaderControl.speech(dictlang["internal.start"].ToString(), false);
+            cacheSemaphore = new SemaphoreSlim(1);
             sharpCP = new SharpClipboard();
             sharpCP.ClipboardChanged += SharpCP_ClipboardChanged;
             stopwatch = new Stopwatch();
@@ -95,6 +97,17 @@ namespace sayclip
             LogWriter.getLog().Debug("shuting down sayclip core");
             sharpCP.ClipboardChanged -= SharpCP_ClipboardChanged;
             stopwatch.Stop();
+            try
+            {
+                cacheSemaphore.Release();
+                cacheSemaphore.Dispose();
+                cacheSemaphore = null;
+            }
+            catch (Exception e)
+            {
+                LogWriter.getLog().Warn($"problems disposing the cache semaphore: {e.Message} \n {e.StackTrace}");
+                
+            }
         }
 
         private async void SharpCP_ClipboardChanged(object sender, SharpClipboard.ClipboardChangedEventArgs e)
@@ -122,11 +135,16 @@ namespace sayclip
             }
             return (result);
         }
+
         private async Task<string> translate(string text)
         {
             string translation;
             if(config.translating)
             {
+                if(config.useCache)
+                {
+                    return (await translateWithCache(text));
+                }
                 try
                 {
                     translation = await translator.translate(text);
@@ -149,6 +167,46 @@ namespace sayclip
             return (translation);
         }
 
+        private async Task<string> translateWithCache(string text)
+        {
+            Translation entry = new Translation
+            {
+                sourceText = text,
+                plugin = translator.getName(),
+                fromLanguage = translator.getConfiguredLanguajes("en")[0].langCode,
+                toLanguage = translator.getConfiguredLanguajes("en")[1].langCode
+            };
+            await cacheSemaphore.WaitAsync();
+            try
+            {
+                using CacheManager cache = new CacheManager();
+                Translation result = await cache.getTranslationEntry(entry);
+                if(result != null)
+                {
+                    entry = result;
+                }
+                else
+                {
+                    string translatedText = await translator.translate(text);
+                    if (checkEmptyString(translatedText))
+                    {
+                        throw (new Exception("empty answer from translation"));
+                    }
+                    entry.translatedText = translatedText;
+                    cache.saveTranslationEntry(entry);
+
+                }
+            }
+            catch (Exception e)
+            {
+                LogWriter.getLog().Error($"error during the translation using cache {e.Message} \n {e.StackTrace}");
+                entry.translatedText = dictlang["internal.errortranslating"].ToString();
+
+            }
+            cacheSemaphore.Release();
+            return (entry.translatedText);
+        }
+        
         private async Task copyResult(string text)
         {
             if(config.copyResultToClipboard)

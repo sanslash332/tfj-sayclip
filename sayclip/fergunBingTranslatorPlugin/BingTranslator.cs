@@ -86,7 +86,7 @@ namespace Fergun.APIs.BingTranslator
                 "pt" => "pt-pt",
                 "zh-CN" => "zh-Hans",
                 "zh-TW" => "zh-Hant",
-                _ => toLanguage
+                _ => fromLanguage
             };
 
             toLanguage = toLanguage switch

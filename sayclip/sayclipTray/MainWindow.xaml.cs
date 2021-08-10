@@ -31,21 +31,16 @@ namespace sayclipTray
 
             InitializeComponent();
             getPluginsTab = pluginsTab;
+            
           
             this.Closing += MainWindow_Closing;
             //this.setupKeyButton.Content += sayclipTray.Properties.Settings.Default.sayclipKey.ToString();
-            updateButton();
+            
             this.KeyDown += MainWindow_KeyDown;
           
         }
 
-        public void updateButton()
-        {
-            this.setupKeyButton.Content = "setup sayclip key: " + sayclipTray.Properties.Settings.Default.sayclipKey.ToString();
-            this.setupKeyButton.UpdateLayout();
-            this.detectChange = false;
-          
-        }
+
         void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.Key== Key.Escape)
@@ -79,12 +74,6 @@ namespace sayclipTray
             this.Hide();
         }
 
-        private void setupKeyButton_Click(object sender, RoutedEventArgs e)
-        {
-            App.saveNextKey = true;
-            sayclip.ScreenReaderControl.speech(App.dictlang["ui.general.setupmessaje"].ToString(), true);
-            this.detectChange = true;
-          
-        }
+        
     }
 }

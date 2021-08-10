@@ -178,5 +178,17 @@ namespace sayclip.Properties {
                 this["cachePath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool globalCache {
+            get {
+                return ((bool)(this["globalCache"]));
+            }
+            set {
+                this["globalCache"] = value;
+            }
+        }
     }
 }

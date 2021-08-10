@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace sayclip
 {
-    public sealed class ConfigurationManager
+    public sealed class ConfigurationManager : INotifyPropertyChanged
     {
         private static readonly Lazy<ConfigurationManager> instance = new Lazy<ConfigurationManager>(() => new ConfigurationManager());
         public static ConfigurationManager getInstance
@@ -16,6 +18,7 @@ namespace sayclip
                 return instance.Value;
             }
         }
+        public event PropertyChangedEventHandler? PropertyChanged;
         public bool translating
         {
             get
@@ -26,6 +29,7 @@ namespace sayclip
             {
                 Properties.Settings.Default.translate = value;
                 Properties.Settings.Default.Save();
+                OnPropertyChanged();
             }
         }
         public bool copyResultToClipboard
@@ -38,6 +42,7 @@ namespace sayclip
             {
                 Properties.Settings.Default.copyresult = value;
                 Properties.Settings.Default.Save();
+                OnPropertyChanged();
             }
         }
         public bool allowCopyRepeatedText
@@ -50,6 +55,7 @@ namespace sayclip
             {
                 Properties.Settings.Default.allowRepeat = value;
                 Properties.Settings.Default.Save();
+                OnPropertyChanged();
             }
         }
 
@@ -63,6 +69,7 @@ namespace sayclip
             {
                 Properties.Settings.Default.active = value;
                 Properties.Settings.Default.Save();
+                OnPropertyChanged();
             }
         }
 
@@ -76,6 +83,7 @@ namespace sayclip
             {
                 Properties.Settings.Default.interval = value;
                 Properties.Settings.Default.Save();
+                OnPropertyChanged();
             }
         }
 
@@ -89,6 +97,7 @@ namespace sayclip
             {
                 Properties.Settings.Default.cache = value;
                 Properties.Settings.Default.Save();
+                OnPropertyChanged();
             }
         }
         public string cacheFileLocation
@@ -101,8 +110,26 @@ namespace sayclip
             {
                 Properties.Settings.Default.cachePath = value;
                 Properties.Settings.Default.Save();
+                OnPropertyChanged();
+            }
+        }
+        public bool useGlobalCache
+        {
+            get
+            {
+                return (Properties.Settings.Default.globalCache);
+            }
+            set
+            {
+                Properties.Settings.Default.globalCache = value;
+                Properties.Settings.Default.Save();
+                OnPropertyChanged();
             }
         }
 
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

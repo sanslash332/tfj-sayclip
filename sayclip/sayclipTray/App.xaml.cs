@@ -38,6 +38,8 @@ namespace sayclipTray
         private Task sayclipTask;
         private CancellationTokenSource tokenSource;
         private Sayclip scp;
+        private static Mutex singleInstanceMutex = new Mutex(false, "sayclipSingleInstance");
+        private bool singleInstanceForcedExit = false;
         public static ResourceDictionary dictlang;
         public static String uiLang;
 
@@ -213,12 +215,15 @@ namespace sayclipTray
             base.OnStartup(e);
             checkSettingsUpgrade();
             loadLanguajeUI();
+            if (!checkSingleInstance())
+            {
+                return;
+            }
             ScreenReaderControl.speech(dictlang["update.check"].ToString(), true);
             AutoUpdater.Start("https://github.com/sanslash332/tfj-sayclip/releases/latest/download/version.xml");
 
             PluginManager  pm = PluginManager.getInstanse;
             win = new sayclipTray.MainWindow();
-            win.Hide();
             Application.Current.MainWindow = win;
             //create the notifyicon (it's a resource declared in NotifyIconResources.xaml
             LogWriter.getLog().Info("starting sayclip");
@@ -258,6 +263,39 @@ namespace sayclipTray
 
             startSayclip();
             tb.reloadIconTitle();
+            win.Show();
+            win.Activate();
+            win.Focus();
+            if(sayclipTray.Properties.Settings.Default.startsMinimised)
+            {
+                win.Hide();
+            }
+        }
+
+        private bool checkSingleInstance()
+        {
+            bool continueExcecution = true;
+            if(sayclipTray.Properties.Settings.Default.useSingleInstance)
+            {
+                try
+                {
+                    if (!singleInstanceMutex.WaitOne(0, false))
+                    {
+                        MessageBox.Show(dictlang["ui.singleInstance"].ToString(), "Sayclip alert", MessageBoxButton.OK);
+                        LogWriter.getLog().Info($"detected a previous runing sayclip. closing this instanse");
+                        continueExcecution = false;
+                        singleInstanceForcedExit = true;
+                        Application.Current.Shutdown();
+                    }
+                }
+                catch (Exception e)
+                {
+                    LogWriter.getLog().Warn($"catched an orfaned instanse {e.Message} \n maybe a previous sayclip was unexpectelly cloced");
+
+                }
+                
+            }
+            return (continueExcecution);
         }
 
         private void checkSettingsUpgrade()
@@ -308,12 +346,22 @@ namespace sayclipTray
 
         protected override void OnExit(ExitEventArgs e)
         {
-            notifyIcon.Dispose(); //the icon would clean up automatically, but this is cleaner
+            if(notifyIcon != null)
+            {
+                notifyIcon.Dispose(); //the icon would clean up automatically, but this is cleaner
+            }
+            
             LogWriter.getLog().Info("closing sayclip");
-            killSayclip();
+            if(!singleInstanceForcedExit)
+            {
+                singleInstanceMutex.ReleaseMutex();
+                singleInstanceMutex.Dispose();
+                killSayclip();
 
-            kmEvents.KeyUp-= onKeyUp;
-            kmEvents.Dispose();            
+                kmEvents.KeyUp -= onKeyUp;
+                kmEvents.Dispose();
+
+            }
             base.OnExit(e);
         }
 

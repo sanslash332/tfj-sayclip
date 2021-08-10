@@ -94,7 +94,7 @@ namespace fergunBingTranslatorPlugin
             string result;
             try
             {
-                LogWriter.getLog().Debug($"translating {text}");
+                LogWriter.getLog().Debug($"translating {text} \n from {this.fromLang} to {this.toLang}");
                 translateResults = await bingTranslator.TranslateAsync(text, this.toLang, this.fromLang).ConfigureAwait(false);
                 result = translateResults[0].Translations[0].Text;
                 LogWriter.getLog().Debug($"translation result {result}");

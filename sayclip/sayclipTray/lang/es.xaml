@@ -48,6 +48,11 @@
     <system:String x:Key="ui.general.setuplabel">Por favor, configura tu tecla sayclip</system:String>
     <system:String x:Key="ui.general.setupbutton">Configurar tecla sayclip:</system:String>
     <system:String x:Key="ui.general.setupmessaje">Por favor, presione la tecla que quiera como tecla sayclip</system:String>
+    <system:String x:Key="ui.general.copy">copiar el texto traducido al portapapeles</system:String>
+    <system:String x:Key="ui.general.repeated"> Conciderar texto repetido</system:String>
+    <system:String x:Key="ui.general.polling">Velocidad de monitoreo</system:String>
+    <system:String x:Key="ui.general.langUi">Idioma de la interfás</system:String>
+    <system:String x:Key="ui.general.checkUpdates">Chequear actualizaciones.</system:String>
     <system:String x:Key="ui.plugins.activatebutton"> activar plugin</system:String>
     <system:String x:Key="ui.plugins.showconfigbutton">mostrar configuración del plugin</system:String>
     <system:String x:Key="ui.plugins.descriptionhelp">descripción</system:String>
@@ -59,7 +64,7 @@
     <system:String x:Key="ui.microsoft.check">Revisando datos de autentificación...</system:String>
     <system:String x:Key="ui.microsoft.ok">Tus datos de autentificación de microsoft son correctos, la clave de api es válida.</system:String>
     <system:String x:Key="ui.discard">Descartar cambios</system:String>
-    <system:String x:Key="ui.apply">Verificar y aplicar cambios</system:String>
+    <system:String x:Key="ui.apply">Cerrar ventana de configuración</system:String>
     <system:String x:Key="ui.delete">Borrar datos de autentificación</system:String>
     <system:String x:Key="country.en">Inglés</system:String>
     <system:String x:Key="country.es">Español</system:String>
@@ -89,6 +94,6 @@
     <system:String x:Key="internal.noactiveplugin"> El core no pudo cargar ningún plugin de sayclip válido. Sayclip estará funcionando sin funcionalidades de traducción. </system:String>
     <system:String x:Key="internal.pluginLoadError">Error cargando plugins. por favor revisar los logs para más información.</system:String>
     <system:String x:Key="update.check">Buscando actualizaciones. </system:String>
-
+    <system:String x:Key="ui.singleInstance">Sayclip ya se encuentra abierto. Está configurado para correr en una sola instancia.</system:String>
 
 </ResourceDictionary>

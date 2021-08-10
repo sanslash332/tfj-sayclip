@@ -143,6 +143,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="GeneralTab.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="PluginsTab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -151,6 +155,9 @@
   <ItemGroup>
     <Compile Include="NotifyIconViewModel.xaml.cs">
       <DependentUpon>NotifyIconResources.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GeneralTab.xaml.cs">
+      <DependentUpon>GeneralTab.xaml</DependentUpon>
     </Compile>
     <Compile Include="PluginsTab.xaml.cs">
       <DependentUpon>PluginsTab.xaml</DependentUpon>

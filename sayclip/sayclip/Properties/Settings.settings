@@ -41,5 +41,8 @@
     <Setting Name="cachePath" Type="System.String" Scope="User">
       <Value Profile="(Default)">.\cache.db</Value>
     </Setting>
+    <Setting Name="globalCache" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
