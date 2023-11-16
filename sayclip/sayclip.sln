@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30413.136
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sayclip", "sayclip\sayclip.csproj", "{6AF37CEC-E3C6-4FCA-A71C-5160F2B23990}"
 EndProject
@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleTranslateFreeApi", "G
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fergunGoogleTranslator", "fergunGoogleTranslator\fergunGoogleTranslator.csproj", "{A926494A-9DC3-4FAC-873E-69C911E2B1E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fergunBingTranslatorPlugin", "fergunBingTranslatorPlugin\fergunBingTranslatorPlugin.csproj", "{C41DB85A-BFC6-4315-B721-42FCD4BB3E08}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gTranslateBingTranslatorPlugin", "fergunBingTranslatorPlugin\gTranslateBingTranslatorPlugin.csproj", "{C41DB85A-BFC6-4315-B721-42FCD4BB3E08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

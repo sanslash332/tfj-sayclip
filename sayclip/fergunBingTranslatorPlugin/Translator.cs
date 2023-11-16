@@ -7,15 +7,18 @@ using System.ComponentModel.Composition;
 using sayclip;
 using logSystem;
 using NLog;
-using Fergun.APIs.BingTranslator;
+using GTranslate.Translators;
+using GTranslate.Results;
+using GTranslate;
+using System.Reflection;
 
-namespace fergunBingTranslatorPlugin
+namespace gTranslateBingTranslatorPlugin
 {
     [Export(typeof(sayclip.iSayclipPluginTranslator))]
     public class Translator : iSayclipPluginTranslator
     {
-        private const string name = "fergun bing translator plugin";
-        private const string description = "Plugin using the translator from bing searcher. Functionality taken from fergun discod bot: https://github.com/d4n3436/Fergun/";
+        private const string name = "gTranslate bing translator plugin";
+        private const string description = "Plugin using the translator from bing searcher. Functionality provided by gTranslate lib https://github.com/d4n3436/GTranslate";
         private string fromLang;
         private string toLang;
         private SayclipLanguage fromLangSayclip;
@@ -26,11 +29,13 @@ namespace fergunBingTranslatorPlugin
         {
             List<SayclipLanguage> languajes = new List<SayclipLanguage>();
             languajes.Add(new SayclipLanguage("auto-detect", "auto", true, false));
-            foreach(KeyValuePair<string, string> kv in BingTranslator.allSupportedLanguages)
+            foreach(KeyValuePair<string, Language> kv in Language.LanguageDictionary)
             {
-                languajes.Add(new SayclipLanguage(kv.Key, kv.Value));
+                if(kv.Value.IsServiceSupported( TranslationServices.Bing))
+                {
+                    languajes.Add(new SayclipLanguage(kv.Key, kv.Value.Name));
+                }
             }
-
             return (languajes);
         }
 
@@ -61,6 +66,7 @@ namespace fergunBingTranslatorPlugin
 
         public bool initialize()
         {
+            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
             this.bingTranslator = new BingTranslator();
             this.fromLang = !string.IsNullOrEmpty(Properties.Settings.Default.fromLang) ? Properties.Settings.Default.fromLang : "en";
             this.toLang = !String.IsNullOrEmpty(Properties.Settings.Default.toLang) ? Properties.Settings.Default.toLang : "es";
@@ -70,6 +76,18 @@ namespace fergunBingTranslatorPlugin
             this.fromLangSayclip = languages.Where(x => x.langCode == this.fromLang).FirstOrDefault();
             this.toLangSayclip = languages.Where(x => x.langCode == this.toLang).FirstOrDefault();
             return (true);
+        }
+
+        private System.Reflection.Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            var name = new AssemblyName(args.Name);
+            if (name.Name == "System.Runtime.CompilerServices.Unsafe")
+            {
+                return typeof(System.Runtime.CompilerServices.Unsafe).Assembly;
+            }
+            return null;
+
+
         }
 
         public void setLanguages(SayclipLanguage fromLang, SayclipLanguage toLang)
@@ -90,13 +108,14 @@ namespace fergunBingTranslatorPlugin
 
         public async Task<string> translate(string text)
         {
-            IReadOnlyList<BingResult> translateResults;
+            
+            BingTranslationResult translateResults;
             string result;
             try
             {
                 LogWriter.getLog().Debug($"translating {text} \n from {this.fromLang} to {this.toLang}");
                 translateResults = await bingTranslator.TranslateAsync(text, this.toLang, this.fromLang).ConfigureAwait(false);
-                result = translateResults[0].Translations[0].Text;
+                result = translateResults.Translation;
                 LogWriter.getLog().Debug($"translation result {result}");
             }
             catch (Exception er)

@@ -318,16 +318,11 @@ else
         {
             List<MenuItem> languajeItems = new List<MenuItem>();
             uilangmenu.ItemsSource = languajeItems;
- 
-            Dictionary<string, string> uilangs = new Dictionary<string, string>
-            {
-                {"auto", App.dictlang["menu.ui.auto"].ToString()  },
-                {"en", App.dictlang["menu.ui.en"].ToString() },
-                {"es", App.dictlang["menu.ui.es"].ToString() }
-                
-            };
-            string uilangmenuheader = uilangmenu.Header.ToString();
-            uilangmenu.Header += string.Format("({1} {0})",App.dictlang["menu.ui."+  Properties.Settings.Default.UILang.ToString()].ToString(), App.dictlang["current"].ToString());
+
+            Dictionary<string, string> uilangs = ConfigValues.uiLangOptions;
+            
+            string uilangmenuheader = App.dictlang["menu.ui"].ToString();
+            uilangmenu.Header = string.Format("{2} ({1} {0})",App.dictlang["menu.ui."+  Properties.Settings.Default.UILang.ToString()].ToString(), App.dictlang["current"].ToString(), uilangmenuheader);
             foreach(KeyValuePair<string,string> k in uilangs)
             {
                 MenuItem mi = new MenuItem();
@@ -359,14 +354,7 @@ else
 
             monitormenu.Header= App.dictlang["menu.monitor"].ToString() + string.Format(" ({0} {1} ms)", App.dictlang["current"].ToString(),   scpcm.clipboardPollingSpeed.ToString());
             monitormenu.ItemsSource = speedItems;
-            Dictionary<int, string> speeds = new Dictionary<int, string>
-            {
-                {2000, App.dictlang["menu.monitor.2000"].ToString() },
-                {1000, App.dictlang["menu.monitor.1000"].ToString() },
-                {500, App.dictlang["menu.monitor.500"].ToString() },
-                {100, App.dictlang["menu.monitor.100"].ToString() },
-                { 50, App.dictlang["menu.monitor.50"].ToString()  }
-            };
+            Dictionary<int, string> speeds = ConfigValues.monitorSpeedsOptions;
 
             foreach(KeyValuePair<int,string> dictem in speeds)
             {

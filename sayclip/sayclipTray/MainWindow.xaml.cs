@@ -34,13 +34,19 @@ namespace sayclipTray
             
           
             this.Closing += MainWindow_Closing;
+            this.GotFocus += MainWindow_GotFocus;
             //this.setupKeyButton.Content += sayclipTray.Properties.Settings.Default.sayclipKey.ToString();
             
             this.KeyDown += MainWindow_KeyDown;
-          
+            
         }
 
+        private void MainWindow_GotFocus(object sender, RoutedEventArgs e)
+        {
+            generalTab.updateControlsConfigs();
+        }
 
+        
         void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.Key== Key.Escape)

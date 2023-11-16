@@ -16,7 +16,8 @@
             <StackPanel Orientation="Horizontal">
                 <CheckBox x:Name="copyCheckbox" Content="{DynamicResource ui.general.copy}" IsChecked="{Binding Source={x:Static sayclip:ConfigurationManager.getInstance}, Path=copyResultToClipboard, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" />
                 <CheckBox x:Name="repeatedCheckbox" Content="{DynamicResource ui.general.repeated}" IsChecked="{Binding Source={x:Static sayclip:ConfigurationManager.getInstance}, Path=allowCopyRepeatedText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" />
-                
+                <ComboBox Name="speedComboBox" ItemsSource="{Binding}" AutomationProperties.Name="{DynamicResource ui.general.polling}" SelectionChanged="speedComboBox_SelectionChanged" />
+                <ComboBox Name="langComboBox" ItemsSource="{Binding}" AutomationProperties.Name="{DynamicResource ui.general.langUi}" SelectionChanged="langComboBox_SelectionChanged" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 
@@ -25,7 +26,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Name="updateLabel" Content="{DynamicResource ui.general.checkUpdates}" />
-                <Button x:Name="updateButton" Click="updateButton_Click" AutomationProperties.LabeledBy="{Binding ElementName=updateLabel}" />
+                <Button x:Name="updateButton" Click="updateButton_Click" AutomationProperties.LabeledBy="{Binding ElementName=updateLabel}" IsEnabled="False" />
             </StackPanel>
         </StackPanel>
             
