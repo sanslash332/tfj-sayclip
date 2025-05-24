@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using sayclip;
 using logSystem;
 using NLog;
+using System.Linq.Expressions;
 
 
 
@@ -108,10 +109,20 @@ namespace consoleTranslatorTest
                 if(data!="exit")
                 {
                     Task<string> tr = t.translate(data);
+                    try
+                    {
+                        string r = tr.GetAwaiter().GetResult();
 
-                    string r = tr.GetAwaiter().GetResult();
+                        Console.WriteLine(r);
+                    }
+                    catch (Exception e )
+                    {
 
-                    Console.WriteLine(r);
+                        Console.WriteLine($"Error al traducir: {e.ToString()}. mirar logs para detalles.");
+                        LogWriter.getLog().Error("Problem on trasnlation ", e);
+                    }
+
+                    
 
                 }
 

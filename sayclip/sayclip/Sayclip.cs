@@ -227,6 +227,10 @@ namespace sayclip
         private bool checkRepeatedString(string text)
         {
             bool result;
+            if(config.allowCopyRepeatedText && !config.copyResultToClipboard)
+            {
+                return (false);
+            }
             if(config.allowCopyRepeatedText)
             {
                 result = text.Equals(lastResult);

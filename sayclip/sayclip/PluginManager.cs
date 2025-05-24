@@ -8,6 +8,7 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using logSystem;
 using NLog;
+using System.Reflection;
 
 namespace sayclip
 {
@@ -170,8 +171,32 @@ namespace sayclip
                 LogWriter.getLog().Error($"problem loading the plugins {e.Message}");
                 ScreenReaderControl.speech(Sayclip.dictlang["internal.pluginLoadError"].ToString(), true);
             }
-            LogWriter.getLog().Info($"plugins loaded: {plugins.Count()}");
-
+            string pluginsLoadedMessage = !(plugins is null) ? $"plugins loaded: {plugins.Count()}" : $"Canot load plugins.";
+            LogWriter.getLog().Info(pluginsLoadedMessage);
+            
         }
+
+        private IEnumerable<Assembly> GetReferencedAssemblies(Assembly a, HashSet<string> visitedAssemblies = null)
+        {
+            visitedAssemblies = visitedAssemblies ?? new HashSet<string>();
+            if (!visitedAssemblies.Add(a.GetName().EscapedCodeBase))
+            {
+                yield break;
+            }
+
+            foreach (var assemblyRef in a.GetReferencedAssemblies())
+            {
+                if (visitedAssemblies.Contains(assemblyRef.EscapedCodeBase)) { continue; }
+                var loadedAssembly = Assembly.Load(assemblyRef);
+                yield return loadedAssembly;
+                foreach (var referenced in GetReferencedAssemblies(loadedAssembly, visitedAssemblies))
+                {
+                    yield return referenced;
+                }
+            }
+        }
+
+
+
     }
 }

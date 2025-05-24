@@ -62,6 +62,9 @@ namespace consoleTranslatorTest
                     case "exit":
                         Console.WriteLine("cerrando");
                         break;
+                    case "i":
+                        doManualTranslation(pm.getActivePlugin);
+                        break;
                     case "c":
                         Console.WriteLine("cambiando idiomas configurados");
                         changeLanguaje(t);
@@ -91,10 +94,19 @@ namespace consoleTranslatorTest
 
         }
 
+        private static void doManualTranslation(iSayclipPluginTranslator translator)
+        {
+            Console.WriteLine("probando traducción del plugin. Ingrese el texto a traducir y luego de enter");
+            String texto = Console.ReadLine();
+            string traducido = translator.translate(texto).GetAwaiter().GetResult();
+            Console.WriteLine(traducido);
+        }
+
         private static async Task runSayclip(Sayclip s,CancellationToken token)
         {
             try
             {
+                LogWriter.getLog().Debug("iniciando task del core");
                 s.Main(token);
                 /*
                 StaTaskScheduler schel = new StaTaskScheduler(1);
@@ -119,7 +131,8 @@ namespace consoleTranslatorTest
         private static void changeLanguaje(iSayclipPluginTranslator t)
         {
             Console.WriteLine("idiomas disponibles: ");
-            foreach (SayclipLanguage x in t.getAvailableLanguages("es"))
+            List<SayclipLanguage> languajes = (List<SayclipLanguage>)t.getAvailableLanguages("es").GetAwaiter().GetResult();
+            foreach (SayclipLanguage x in languajes)
             {
                 Console.WriteLine($"{x.langCode}  {x.displayName}");
 
@@ -129,10 +142,10 @@ namespace consoleTranslatorTest
             Console.WriteLine("ingresar el idioma del cual se va a traducir, y luego hacia el cual se va a traducir, separados por , sin espacio y luego presione enter ");
             string data = Console.ReadLine();
             string[] values = data.Split(',');
-            SayclipLanguage fromLang = t.getAvailableLanguages("es").Find((SayclipLanguage x) => {
+            SayclipLanguage fromLang = languajes.Find((SayclipLanguage x) => {
                 return (x.langCode == values[0]);
             });
-            SayclipLanguage toLang = t.getAvailableLanguages("es").Find((SayclipLanguage x) => {
+            SayclipLanguage toLang = languajes.Find((SayclipLanguage x) => {
                 return (x.langCode == values[1]);
             });
 

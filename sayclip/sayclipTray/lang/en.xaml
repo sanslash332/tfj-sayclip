@@ -30,7 +30,7 @@
     <system:String x:Key="menu.monitor.500">Normal(default)</system:String>
     <system:String x:Key="menu.monitor.100">Fast</system:String>
     <system:String x:Key="menu.monitor.50">Very fast (be careful with rate limmit bans if youre using google's plugins)</system:String>
-    <system:String x:Key="menu.monitor.1">Ultra fast (can have various errors reading the clipboard, and take high processors peak. )</system:String>
+    <system:String x:Key="menu.monitor.10">Ultra fast (just use for read clipboard without trasnlation. )</system:String>
 
     
     

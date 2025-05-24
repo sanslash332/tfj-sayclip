@@ -30,7 +30,7 @@
     <system:String x:Key="menu.monitor.500">Normal (por defecto)</system:String>
     <system:String x:Key="menu.monitor.100">Rápida</system:String>
     <system:String x:Key="menu.monitor.50">Muy rápida (cuidado con el baneo por exeso de llamadas si estás usando el plugin de google)</system:String>
-    <system:String x:Key="menu.monitor.1">Ultra rápida (puede tener errores variados al leer el portapapeles, y utiliza mayor potencia de procesamiento)</system:String>
+    <system:String x:Key="menu.monitor.10">Ultra rápida (Cuidado, solo usar para lectura local del portapapeles. No para traducción.)</system:String>
 
 
 

@@ -48,7 +48,7 @@ namespace sayclipTray
             {
                 return new DelegateCommand()
                 {
-                    CanExecuteFunc= () => scpcm.translating && !scpcm.copyResultToClipboard,
+                    CanExecuteFunc= () => !scpcm.copyResultToClipboard,
                     CommandAction = () =>
                         {
                             scpcm.copyResultToClipboard = true;
@@ -65,7 +65,7 @@ namespace sayclipTray
             {
                 return new DelegateCommand()
                 {
-                    CanExecuteFunc= () => scpcm.translating&& scpcm.copyResultToClipboard,
+                    CanExecuteFunc= () => scpcm.copyResultToClipboard,
                     CommandAction = () =>
                         {
                             scpcm.copyResultToClipboard = false;

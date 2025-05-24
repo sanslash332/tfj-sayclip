@@ -115,6 +115,7 @@ namespace gTranslateBingTranslatorPlugin
             {
                 LogWriter.getLog().Debug($"translating {text} \n from {this.fromLang} to {this.toLang}");
                 translateResults = await bingTranslator.TranslateAsync(text, this.toLang, this.fromLang).ConfigureAwait(false);
+                LogWriter.getLog().Debug($"Decteted results of bing translator {translateResults}");
                 result = translateResults.Translation;
                 LogWriter.getLog().Debug($"translation result {result}");
             }
