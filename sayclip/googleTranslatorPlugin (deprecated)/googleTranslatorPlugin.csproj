@@ -2,29 +2,26 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0-windows</TargetFramework>
-    <UseWPF>true</UseWPF>
-    <RootNamespace>azureTranslatorPlugin</RootNamespace>
-    <AssemblyName>azureTranslatorPlugin.scplug</AssemblyName>
+    <RootNamespace>googleTranslatorPlugin</RootNamespace>
+    <AssemblyName>googleTranslatorPlugin.scplug</AssemblyName>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <OutputPath>..\sayclip\plugins\AzureTranslator\</OutputPath>
+    <OutputPath>..\sayclip\plugins\GoogleTranslatorPlugin\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <OutputPath>..\sayclip\plugins\AzureTranslator\</OutputPath>
+    <OutputPath>..\sayclip\plugins\GoogleTranslatorPlugin\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NLog" Version="5.3.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.ComponentModel.Composition" Version="9.0.0" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.0" />
-    <PackageReference Include="TranslatorService" Version="3.0.11" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\logSystem\logSystem.csproj" />
+    <ProjectReference Include="..\GoogleTranslateFreeApi\GoogleTranslateFreeApi\GoogleTranslateFreeApi.csproj" />
     <ProjectReference Include="..\sayclip\sayclip.csproj">
       <Private>false</Private>
     </ProjectReference>

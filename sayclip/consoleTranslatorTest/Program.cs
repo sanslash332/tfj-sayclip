@@ -1,12 +1,15 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
+using System.Runtime.Loader;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 using sayclip;
 using logSystem;
 using NLog;
-using System.Linq.Expressions;
 
 
 
@@ -23,6 +26,26 @@ namespace consoleTranslatorTest
         }
 
         static void Main(string[] args)
+        {
+            // Registrar resolver antes de usar cualquier tipo externo
+            AssemblyLoadContext.Default.Resolving += (context, assemblyName) =>
+            {
+                string path = Path.Combine(AppContext.BaseDirectory, "lib", assemblyName.Name + ".dll");
+                if (File.Exists(path))
+                    return context.LoadFromAssemblyPath(path);
+                return null;
+            };
+
+            // Llamar a la lógica real en un método separado para que el JIT
+            // no intente resolver los tipos de sayclip/logSystem/NLog
+            // antes de que el resolver esté registrado.
+            Run(args);
+        }
+
+        // Método separado: el JIT solo resuelve estos tipos cuando entra aquí,
+        // momento en el cual el resolver ya está activo.
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
+        static void Run(string[] args)
         {
             
             Console.WriteLine("iniciando testeador del traductor ");
