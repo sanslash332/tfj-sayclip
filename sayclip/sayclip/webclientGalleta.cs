@@ -1,10 +1,11 @@
 ﻿using System;
-using logSystem;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using System.Net;
+using logSystem;
 
 namespace sayclip
 {
@@ -25,7 +26,8 @@ namespace sayclip
             this.container = container;
         }
 
-        public CookieContainer CookieContainer
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public CookieContainer CookieContainer  
         {
             get { return container; }
             set { container = value; }

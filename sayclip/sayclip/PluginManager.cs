@@ -67,6 +67,11 @@ namespace sayclip
         private void checkActivePluginConfiguration()
         {
             LogWriter.getLog().Debug($"the saved configuration value is: {Properties.Settings.Default.translator}");
+            if(plugins == null)
+            {
+                plugins = new List<Lazy<iSayclipPluginTranslator>>();
+                LogWriter.getLog().Debug($"The plugins list is null, so reinitialiced as empty. Please check load logs.");
+            }
 
             foreach(Lazy<iSayclipPluginTranslator> plug in plugins)
             {
@@ -164,39 +169,33 @@ namespace sayclip
             catch (CompositionException e)
             {
                 LogWriter.getLog().Error($"problem loading the plugins {e.Message}");
-                ScreenReaderControl.speech(Sayclip.dictlang["internal.pluginLoadError"].ToString(), true);
+                if(Sayclip.dictlang != null)
+                {
+                    ScreenReaderControl.speech(Sayclip.dictlang["internal.pluginLoadError"].ToString(), true);
+                }
+                else
+                {
+                    ScreenReaderControl.speech("internal.pluginLoadError", true);
+                }
+                
             }
             catch(Exception e)
             {
                 LogWriter.getLog().Error($"problem loading the plugins {e.Message}");
-                ScreenReaderControl.speech(Sayclip.dictlang["internal.pluginLoadError"].ToString(), true);
+                if (Sayclip.dictlang != null)
+                {
+                    ScreenReaderControl.speech(Sayclip.dictlang["internal.pluginLoadError"].ToString(), true);
+                }
+                else
+                {
+                    ScreenReaderControl.speech("internal.pluginLoadError", true);
+                }
+
             }
             string pluginsLoadedMessage = !(plugins is null) ? $"plugins loaded: {plugins.Count()}" : $"Canot load plugins.";
             LogWriter.getLog().Info(pluginsLoadedMessage);
             
         }
-
-        private IEnumerable<Assembly> GetReferencedAssemblies(Assembly a, HashSet<string> visitedAssemblies = null)
-        {
-            visitedAssemblies = visitedAssemblies ?? new HashSet<string>();
-            if (!visitedAssemblies.Add(a.GetName().EscapedCodeBase))
-            {
-                yield break;
-            }
-
-            foreach (var assemblyRef in a.GetReferencedAssemblies())
-            {
-                if (visitedAssemblies.Contains(assemblyRef.EscapedCodeBase)) { continue; }
-                var loadedAssembly = Assembly.Load(assemblyRef);
-                yield return loadedAssembly;
-                foreach (var referenced in GetReferencedAssemblies(loadedAssembly, visitedAssemblies))
-                {
-                    yield return referenced;
-                }
-            }
-        }
-
-
 
     }
 }

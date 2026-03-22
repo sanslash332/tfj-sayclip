@@ -83,7 +83,7 @@ namespace AssemblySettings
                 throw new ArgumentException("Assemblies loaded from the GAC are not supported.");
             }
 
-            var path = new Uri(assembly.CodeBase).LocalPath;
+            var path = new Uri(assembly.Location).LocalPath;
 
             System.Configuration.Configuration configuration;
 

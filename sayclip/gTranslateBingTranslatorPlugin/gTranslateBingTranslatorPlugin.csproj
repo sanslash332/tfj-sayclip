@@ -3,9 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net9.0-windows</TargetFramework>
     <Platforms>AnyCPU;x86</Platforms>
-    <UseWPF>true</UseWPF>
-    <RootNamespace>azureTranslatorPlugin</RootNamespace>
-    <AssemblyName>azureTranslatorPlugin.scplug</AssemblyName>
+    <RootNamespace>gTranslateBingTranslatorPlugin</RootNamespace>
+    <AssemblyName>gTranslateBingTranslatorPlugin.scplug</AssemblyName>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <PlatformTarget Condition="'$(Platform)' == 'x86'">x86</PlatformTarget>
@@ -13,18 +12,18 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <OutputPath>..\sayclip\plugins\AzureTranslator\</OutputPath>
+    <OutputPath>..\sayclip\plugins\gTranslateBingTranslator\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <OutputPath>..\sayclip\plugins\AzureTranslator\</OutputPath>
+    <OutputPath>..\sayclip\plugins\gTranslateBingTranslator\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="GTranslate" Version="2.2.8" />
     <PackageReference Include="NLog" Version="5.3.4" />
     <PackageReference Include="System.ComponentModel.Composition" Version="9.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.0" />
-    <PackageReference Include="TranslatorService" Version="3.0.11" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +32,21 @@
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
 </Project>
