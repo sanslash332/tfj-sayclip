@@ -2,11 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0-windows</TargetFramework>
+    <Platforms>AnyCPU;x86</Platforms>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>sayclip</RootNamespace>
     <AssemblyName>sayclipCore</AssemblyName>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget Condition="'$(Platform)' == 'x86'">x86</PlatformTarget>
+    <Configurations>Debug;Release;release-full;release-small</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

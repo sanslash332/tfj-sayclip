@@ -3,8 +3,11 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net9.0-windows</TargetFramework>
+    <Platforms>AnyCPU;x86</Platforms>
     <RootNamespace>consoleSayclipCoreTester</RootNamespace>
     <AssemblyName>consoleSayclipCoreTester</AssemblyName>
+    <PlatformTarget Condition="'$(Platform)' == 'x86'">x86</PlatformTarget>
+    <Configurations>Debug;Release;release-full;release-small</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

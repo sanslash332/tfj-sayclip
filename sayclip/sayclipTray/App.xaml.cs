@@ -249,7 +249,7 @@ namespace sayclipTray
 
             //tb.TBIcon = notifyIcon;
             ContextMenu systraymenu = tb.ContextMenu;
-                systraymenu.Closed += Systraymenu_Closed;
+            systraymenu.Closed += Systraymenu_Closed;
           
             //notifyIcon.KeyDown += NotifyIcon_KeyDown;
             //notifyIcon.TrayMouseDoubleClick += NotifyIcon_TrayMouseDoubleClick;

@@ -2,8 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0-windows</TargetFramework>
+    <Platforms>AnyCPU;x86</Platforms>
     <RootNamespace>logSystem</RootNamespace>
     <AssemblyName>logSystem</AssemblyName>
+    <PlatformTarget Condition="'$(Platform)' == 'x86'">x86</PlatformTarget>
+    <Configurations>Debug;Release;release-full;release-small</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

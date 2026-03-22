@@ -2,9 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0-windows</TargetFramework>
+    <Platforms>AnyCPU;x86</Platforms>
     <RootNamespace>gTranslateBingTranslatorPlugin</RootNamespace>
     <AssemblyName>gTranslateBingTranslatorPlugin.scplug</AssemblyName>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <PlatformTarget Condition="'$(Platform)' == 'x86'">x86</PlatformTarget>
+    <Configurations>Debug;Release;release-full;release-small</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
@@ -12,6 +16,10 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <OutputPath>..\sayclip\plugins\FergunBingTranslator\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='release-full'">
     <OutputPath>..\sayclip\plugins\FergunBingTranslator\</OutputPath>
   </PropertyGroup>
 
@@ -26,6 +34,7 @@
     <ProjectReference Include="..\logSystem\logSystem.csproj" />
     <ProjectReference Include="..\sayclip\sayclip.csproj">
       <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
     </ProjectReference>
   </ItemGroup>
 
