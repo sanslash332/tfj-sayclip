@@ -9,7 +9,7 @@
     <AssemblyName>sayclipCore</AssemblyName>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PlatformTarget Condition="'$(Platform)' == 'x86'">x86</PlatformTarget>
-    <Configurations>Debug;Release;release-full;release-small</Configurations>
+    <Configurations>Debug;Release;release-small</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

@@ -11,10 +11,8 @@
     <StartupObject>sayclipTray.Program</StartupObject>
     <PlatformTarget Condition="'$(Platform)' == 'x86'">x86</PlatformTarget>
     <SelfContained Condition="'$(Configuration)' == 'Release'">true</SelfContained>
-    <SelfContained Condition="'$(Configuration)'=='release-full'">true</SelfContained>
     <RuntimeIdentifier Condition="'$(Configuration)' == 'Release'">win-x86</RuntimeIdentifier>
-    <RuntimeIdentifier Condition="'$(Configuration)'=='release-full'">win-x86</RuntimeIdentifier>
-    <Configurations>Debug;Release;release-full;release-small</Configurations>
+    <Configurations>Debug;Release;release-small</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "consoleSayclipCoreTester", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "fergunGoogleTranslator", "fergunGoogleTranslator\fergunGoogleTranslator.csproj", "{A926494A-9DC3-4FAC-873E-69C911E2B1E1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "gTranslateBingTranslatorPlugin", "fergunBingTranslatorPlugin\gTranslateBingTranslatorPlugin.csproj", "{C41DB85A-BFC6-4315-B721-42FCD4BB3E08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "gTranslateBingTranslatorPlugin", "gTranslateBingTranslatorPlugin\gTranslateBingTranslatorPlugin.csproj", "{C41DB85A-BFC6-4315-B721-42FCD4BB3E08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

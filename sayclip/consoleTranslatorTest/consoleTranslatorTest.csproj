@@ -7,7 +7,7 @@
     <RootNamespace>consoleTranslatorTest</RootNamespace>
     <AssemblyName>consoleTranslatorTest</AssemblyName>
     <PlatformTarget Condition="'$(Platform)' == 'x86'">x86</PlatformTarget>
-    <Configurations>Debug;Release;release-full;release-small</Configurations>
+    <Configurations>Debug;Release;release-small</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

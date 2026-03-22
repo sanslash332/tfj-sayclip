@@ -9,7 +9,7 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <PlatformTarget Condition="'$(Platform)' == 'x86'">x86</PlatformTarget>
-    <Configurations>Debug;Release;release-full;release-small</Configurations>
+    <Configurations>Debug;Release;release-small</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
@@ -17,10 +17,6 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <OutputPath>..\sayclip\plugins\AzureTranslator\</OutputPath>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)'=='release-full'">
     <OutputPath>..\sayclip\plugins\AzureTranslator\</OutputPath>
   </PropertyGroup>
 
