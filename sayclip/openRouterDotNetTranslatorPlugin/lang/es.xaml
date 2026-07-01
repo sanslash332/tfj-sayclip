@@ -21,6 +21,8 @@
     <sys:String x:Key="button.cancel">Cancelar</sys:String>
     <sys:String x:Key="button.testConnection">Probar conexion</sys:String>
     <sys:String x:Key="link.getApiKey">Obtener tu API key en openrouter.ai</sys:String>
+    <sys:String x:Key="link.getApiKey.automationName">Abrir documentacion para obtener API key de OpenRouter</sys:String>
+    <sys:String x:Key="link.getApiKey.automationHelp">Abre la pagina de OpenRouter con instrucciones para crear una API key.</sys:String>
     <sys:String x:Key="msg.testOk">Conexion exitosa. El plugin esta listo para usar.</sys:String>
     <sys:String x:Key="msg.testFail">Fallo la conexion. Revisa tu API key y conexion a internet. Consulta los logs para mas detalles.</sys:String>
     <sys:String x:Key="msg.noApiKey">Por favor ingresa una API key antes de probar.</sys:String>

@@ -23,27 +23,47 @@
                          AutomationProperties.LabeledBy="{Binding ElementName=apiKeyLabel}"
                          Margin="0,0,0,4" />
             <TextBlock x:Name="apiKeyHintLabel" TextWrapping="Wrap" Foreground="Gray" FontSize="11" Margin="0,0,0,2" />
-            <TextBlock Focusable="False" Margin="0,0,0,8">
+            <TextBlock x:Name="getApiKeyLinkHost" Focusable="False" Margin="0,0,0,8">
                 <Hyperlink x:Name="getApiKeyLink" RequestNavigate="getApiKeyLink_RequestNavigate">
                     <TextBlock x:Name="getApiKeyLinkText" />
                 </Hyperlink>
             </TextBlock>
 
             <!-- Model -->
-            <Label x:Name="modelLabel" Target="{Binding ElementName=modelTextBox}" Margin="0,4,0,0" />
-            <TextBox x:Name="modelTextBox"
-                     AutomationProperties.LabeledBy="{Binding ElementName=modelLabel}"
-                     Margin="0,0,0,4" />
+            <Label x:Name="modelLabel" Target="{Binding ElementName=modelComboBox}" Margin="0,4,0,0" />
+            <ComboBox x:Name="modelComboBox"
+                      IsEditable="True"
+                      IsTextSearchEnabled="True"
+                      AutomationProperties.LabeledBy="{Binding ElementName=modelLabel}"
+                      Margin="0,0,0,4" />
             <TextBlock x:Name="modelHintLabel" TextWrapping="Wrap" Foreground="Gray" FontSize="11" Margin="0,0,0,12" />
 
             <!-- Behavior section -->
             <TextBlock x:Name="sectionBehaviorLabel" FontWeight="Bold" FontSize="13" Margin="0,0,0,8" />
 
             <!-- Temperature -->
-            <Label x:Name="temperatureLabel" Target="{Binding ElementName=temperatureTextBox}" Margin="0,4,0,0" />
-            <TextBox x:Name="temperatureTextBox"
-                     AutomationProperties.LabeledBy="{Binding ElementName=temperatureLabel}"
-                     Margin="0,0,0,4" />
+            <Label x:Name="temperatureLabel" Target="{Binding ElementName=temperatureSlider}" Margin="0,4,0,0" />
+            <Grid Margin="0,0,0,4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Slider x:Name="temperatureSlider"
+                        Grid.Column="0"
+                        Minimum="0"
+                        Maximum="1"
+                        TickFrequency="0.05"
+                        IsSnapToTickEnabled="True"
+                        AutoToolTipPlacement="TopLeft"
+                        AutoToolTipPrecision="2"
+                        ValueChanged="temperatureSlider_ValueChanged"
+                        AutomationProperties.LabeledBy="{Binding ElementName=temperatureLabel}" />
+                <TextBlock x:Name="temperatureValueText"
+                           Grid.Column="1"
+                           Margin="8,0,0,0"
+                           VerticalAlignment="Center"
+                           MinWidth="40" />
+            </Grid>
             <TextBlock x:Name="temperatureHintLabel" TextWrapping="Wrap" Foreground="Gray" FontSize="11" Margin="0,0,0,8" />
 
             <!-- Max Tokens -->

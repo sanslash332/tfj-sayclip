@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Navigation;
 using OpenRouter.NET;
 using OpenRouter.NET.Models;
@@ -20,6 +22,20 @@ namespace openRouterDotNetTranslatorPlugin
         private readonly string _originalMaxTokens;
         private readonly string _originalTimeout;
         private readonly string _originalSystemPrompt;
+
+        private static readonly string[] ModelPresets = new[]
+        {
+            "openai/gpt-4o-mini",
+            "openai/gpt-4.1-mini",
+            "openai/gpt-4.1",
+            "openai/o4-mini",
+            "anthropic/claude-3.5-haiku",
+            "anthropic/claude-3.7-sonnet",
+            "google/gemini-2.5-flash",
+            "google/gemini-2.5-pro",
+            "meta-llama/llama-3.3-70b-instruct",
+            "mistralai/mistral-large"
+        };
 
         public ConfigWindow(ISayclipPluginContext context = null, string lang = "en")
         {
@@ -44,8 +60,20 @@ namespace openRouterDotNetTranslatorPlugin
             // Populate controls.
             // PasswordBox has no Text property in XAML binding, so set it here.
             apiKeyTextBox.Password = _originalApiKey;
-            modelTextBox.Text = _originalModel;
-            temperatureTextBox.Text = _originalTemperature;
+            modelComboBox.ItemsSource = new List<string>(ModelPresets);
+            modelComboBox.Text = _originalModel;
+            if (double.TryParse(_originalTemperature,
+                    System.Globalization.NumberStyles.Float,
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    out double tempValue))
+            {
+                temperatureSlider.Value = Math.Max(0.0, Math.Min(1.0, tempValue));
+            }
+            else
+            {
+                temperatureSlider.Value = 0.0;
+            }
+            UpdateTemperatureValueText();
             maxTokensTextBox.Text = _originalMaxTokens;
             timeoutTextBox.Text = _originalTimeout;
             systemPromptTextBox.Text = _originalSystemPrompt;
@@ -104,32 +132,39 @@ namespace openRouterDotNetTranslatorPlugin
             cancelButton.Content = S("button.cancel", "Cancel");
             saveButton.Content = S("button.save", "Save");
             getApiKeyLinkText.Text = S("link.getApiKey", "Get your API key at openrouter.ai");
+            var linkAutomationName = S("link.getApiKey.automationName", "Open OpenRouter API key documentation");
+            var linkAutomationHelp = S("link.getApiKey.automationHelp", "Opens the OpenRouter page that explains how to create an API key.");
+            AutomationProperties.SetName(getApiKeyLinkHost, linkAutomationName);
+            AutomationProperties.SetHelpText(getApiKeyLinkHost, linkAutomationHelp);
+            AutomationProperties.SetName(getApiKeyLink, linkAutomationName);
+            AutomationProperties.SetHelpText(getApiKeyLink, linkAutomationHelp);
 
             // NavigateUri on the hyperlink must be set from code-behind since it is not a
             // dependency property that accepts resource dictionary values directly.
             getApiKeyLink.NavigateUri = new Uri("https://openrouter.ai/keys");
         }
 
+        private void UpdateTemperatureValueText()
+        {
+            temperatureValueText.Text = temperatureSlider.Value.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
+        }
+
         private bool ValidateAndReadFields(out string apiKey, out string model,
             out double temperature, out int maxTokens, out int timeout, out string systemPrompt)
         {
             apiKey = apiKeyTextBox.Password.Trim();
-            model = modelTextBox.Text.Trim();
+            model = modelComboBox.Text.Trim();
             systemPrompt = systemPromptTextBox.Text;
-            temperature = 0;
+            temperature = temperatureSlider.Value;
             maxTokens = 0;
             timeout = 0;
 
-            if (!double.TryParse(temperatureTextBox.Text,
-                    System.Globalization.NumberStyles.Float,
-                    System.Globalization.CultureInfo.InvariantCulture,
-                    out temperature)
-                || temperature < 0.0 || temperature > 1.0)
+            if (temperature < 0.0 || temperature > 1.0)
             {
                 string msg = S("msg.invalidTemperature", "Temperature must be a number between 0.0 and 1.0.");
                 _context?.Accessibility?.Speak(msg, true);
                 MessageBox.Show(msg, Title, MessageBoxButton.OK, MessageBoxImage.Warning);
-                temperatureTextBox.Focus();
+                temperatureSlider.Focus();
                 return false;
             }
 
@@ -197,7 +232,7 @@ namespace openRouterDotNetTranslatorPlugin
                 var client = new OpenRouterClient(apiKey);
                 var request = new ChatCompletionRequest
                 {
-                    Model = string.IsNullOrEmpty(modelTextBox.Text.Trim()) ? "openai/gpt-4o-mini" : modelTextBox.Text.Trim(),
+                    Model = string.IsNullOrEmpty(modelComboBox.Text.Trim()) ? "openai/gpt-4o-mini" : modelComboBox.Text.Trim(),
                     Messages = new System.Collections.Generic.List<Message>
                     {
                         Message.FromSystem("You are a helpful assistant."),
@@ -238,6 +273,11 @@ namespace openRouterDotNetTranslatorPlugin
                 _context?.Logger?.Warn($"openRouterDotNetTranslatorPlugin: could not open browser: {ex.Message}");
             }
             e.Handled = true;
+        }
+
+        private void temperatureSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            UpdateTemperatureValueText();
         }
     }
 }
