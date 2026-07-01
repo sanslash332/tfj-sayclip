@@ -21,15 +21,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NLog" Version="5.3.4" />
     <PackageReference Include="System.ComponentModel.Composition" Version="9.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.0" />
     <PackageReference Include="TranslatorService" Version="3.0.11" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\logSystem\logSystem.csproj" />
-    <ProjectReference Include="..\sayclip\sayclip.csproj">
+    <ProjectReference Include="..\sayclip.contracts\sayclip.contracts.csproj">
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </ProjectReference>

@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GoogleTranslateFreeApi\GoogleTranslateFreeApi\GoogleTranslateFreeApi.csproj" />
-    <ProjectReference Include="..\sayclip\sayclip.csproj">
+    <ProjectReference Include="..\sayclip.contracts\sayclip.contracts.csproj">
       <Private>false</Private>
     </ProjectReference>
   </ItemGroup>

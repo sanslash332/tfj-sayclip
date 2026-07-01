@@ -7,7 +7,6 @@ using sayclip;
 using System.ComponentModel.Composition;
 using TranslatorService;
 using TranslatorService.Models.Translation;
-using logSystem;
 
 namespace azureTranslatorPlugin
 {
@@ -22,6 +21,7 @@ namespace azureTranslatorPlugin
         private SayclipLanguage toLangSayclip;
         private TranslatorClient client;
         private List<ServiceLanguage> availableLanguages;
+        private ISayclipPluginContext _context;
 
         public async Task<IEnumerable<SayclipLanguage>> getAvailableLanguages(string displayLanguaje)
         {
@@ -32,7 +32,7 @@ namespace azureTranslatorPlugin
             }
             catch (Exception e)
             {
-                LogWriter.getLog().Error($"canot get available azure languages: {e.Message} \n {e.StackTrace}");
+                _context?.Logger?.Error($"canot get available azure languages: {e.Message} \n {e.StackTrace}");
                 sayclipLanguajes.Add(new SayclipLanguage("empty", "empty"));
                 return (sayclipLanguajes);
             }
@@ -66,23 +66,24 @@ namespace azureTranslatorPlugin
             return (true);
         }
 
-        public bool initialize()
+        public bool initialize(ISayclipPluginContext context = null)
         {
+            _context = context;
             if(Properties.Settings.Default.TranslatorApiKey == null || Properties.Settings.Default.TranslatorApiKey == "")
             {
-                LogWriter.getLog().Warn($"Translator apiKey not configured. the plugin cant be started");
+                _context?.Logger?.Warn($"Translator apiKey not configured. the plugin cant be started");
                 return (false);
             }
             this.client = new TranslatorClient(Properties.Settings.Default.TranslatorApiKey.ToString());
             Task initTask = this.client.InitializeAsync();
             initTask.ConfigureAwait(false);
             initTask.Wait();
-            LogWriter.getLog().Debug($"preloading languajes");
+            _context?.Logger?.Debug($"preloading languajes");
             Task<IEnumerable<SayclipLanguage>> langTask = getAvailableLanguages("en");
             langTask.ConfigureAwait(false);
             IEnumerable<SayclipLanguage> result = langTask.Result;
             int langCount = result.Count();
-            LogWriter.getLog().Debug($"languajes loaded {langCount}");
+            _context?.Logger?.Debug($"languajes loaded {langCount}");
             if(langCount <= 1)
             {
                 return (false);
@@ -107,7 +108,7 @@ namespace azureTranslatorPlugin
 
         public void showConfigWindow(string displayLanguaje)
         {
-            ConfigWindow window = new ConfigWindow();
+            ConfigWindow window = new ConfigWindow(_context);
             window.ShowDialog();
         }
 
@@ -128,7 +129,7 @@ namespace azureTranslatorPlugin
             }
             catch (Exception e)
             {
-                LogWriter.getLog().Debug($"error in translation. {e.Message}");
+                _context?.Logger?.Debug($"error in translation. {e.Message}");
                 throw(e);
             }
             return (response.Translation.Text);

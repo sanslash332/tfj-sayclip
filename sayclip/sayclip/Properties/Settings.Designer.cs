@@ -190,5 +190,29 @@ namespace sayclip.Properties {
                 this["globalCache"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool unpackNewPlugins {
+            get {
+                return ((bool)(this["unpackNewPlugins"]));
+            }
+            set {
+                this["unpackNewPlugins"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool deletePluginsPackagesAfterInstall {
+            get {
+                return ((bool)(this["deletePluginsPackagesAfterInstall"]));
+            }
+            set {
+                this["deletePluginsPackagesAfterInstall"] = value;
+            }
+        }
     }
 }

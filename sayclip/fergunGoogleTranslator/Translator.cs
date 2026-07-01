@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.Composition;
 using sayclip;
-using logSystem;
-using NLog;
 using Fergun.APIs.GTranslate;
 
 namespace fergunGoogleTranslatorPlugin
@@ -21,6 +19,7 @@ namespace fergunGoogleTranslatorPlugin
         private SayclipLanguage fromLangSayclip;
         private SayclipLanguage toLangSayclip;
         private GTranslator googleTranslator;
+        private ISayclipPluginContext _context;
 
         public async Task<IEnumerable<SayclipLanguage>> getAvailableLanguages(string displayLanguaje)
         {
@@ -59,8 +58,9 @@ namespace fergunGoogleTranslatorPlugin
             return (false);
         }
 
-        public bool initialize()
+        public bool initialize(ISayclipPluginContext context = null)
         {
+            _context = context;
             this.fromLang = !string.IsNullOrEmpty(Properties.Settings.Default.fromLang) ? Properties.Settings.Default.fromLang : "en";
             this.toLang = !String.IsNullOrEmpty(Properties.Settings.Default.toLang) ? Properties.Settings.Default.toLang : "es";
             googleTranslator = new GTranslator();
@@ -95,14 +95,14 @@ namespace fergunGoogleTranslatorPlugin
             string result;
             try
             {
-                LogWriter.getLog().Debug($"translating {text}");
+                _context?.Logger?.Debug($"translating {text}");
                 translateResult = await googleTranslator.TranslateAsync(text, this.toLang, this.fromLang).ConfigureAwait(false);
                 result = translateResult.Translation;
-                LogWriter.getLog().Debug($"translation result {result}");
+                _context?.Logger?.Debug($"translation result {result}");
             }
             catch (Exception er)
             {
-                LogWriter.getLog().Error($"error in translation {er.Message} \n {er.StackTrace}");
+                _context?.Logger?.Error($"error in translation {er.Message} \n {er.StackTrace}");
                 throw(er);
             }
             return (result);

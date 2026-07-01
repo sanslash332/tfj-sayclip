@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings>
+    <Setting Name="fromLang" Type="System.String" Scope="User">
+      <Value Profile="(Default)">auto</Value>
+    </Setting>
+    <Setting Name="toLang" Type="System.String" Scope="User">
+      <Value Profile="(Default)">es</Value>
+    </Setting>
+    <Setting Name="apiKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)"></Value>
+    </Setting>
+    <Setting Name="model" Type="System.String" Scope="User">
+      <Value Profile="(Default)">openai/gpt-4o-mini</Value>
+    </Setting>
+    <Setting Name="temperature" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="systemPrompt" Type="System.String" Scope="User">
+      <Value Profile="(Default)">You are a professional translator. Translate the given text accurately and naturally. Return ONLY the translated text, with no explanations, no notes, no quotes, and no additional content. Preserve the original formatting, line breaks, and punctuation.</Value>
+    </Setting>
+    <Setting Name="requestTimeoutSeconds" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">30</Value>
+    </Setting>
+    <Setting Name="maxTokens" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2048</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

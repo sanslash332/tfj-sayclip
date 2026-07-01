@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.Composition;
 using sayclip;
-using logSystem;
-using NLog;
 using GTranslate.Translators;
 using GTranslate.Results;
 using GTranslate;
@@ -24,6 +22,7 @@ namespace gTranslateBingTranslatorPlugin
         private SayclipLanguage fromLangSayclip;
         private SayclipLanguage toLangSayclip;
         private BingTranslator bingTranslator;
+        private ISayclipPluginContext _context;
 
         public async Task<IEnumerable<SayclipLanguage>> getAvailableLanguages(string displayLanguaje)
         {
@@ -64,8 +63,9 @@ namespace gTranslateBingTranslatorPlugin
             return (false);
         }
 
-        public bool initialize()
+        public bool initialize(ISayclipPluginContext context = null)
         {
+            _context = context;
             AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
             this.bingTranslator = new BingTranslator();
             this.fromLang = !string.IsNullOrEmpty(Properties.Settings.Default.fromLang) ? Properties.Settings.Default.fromLang : "en";
@@ -113,15 +113,15 @@ namespace gTranslateBingTranslatorPlugin
             string result;
             try
             {
-                LogWriter.getLog().Debug($"translating {text} \n from {this.fromLang} to {this.toLang}");
+                _context?.Logger?.Debug($"translating {text} \n from {this.fromLang} to {this.toLang}");
                 translateResults = await bingTranslator.TranslateAsync(text, this.toLang, this.fromLang).ConfigureAwait(false);
-                LogWriter.getLog().Debug($"Decteted results of bing translator {translateResults}");
+                _context?.Logger?.Debug($"Decteted results of bing translator {translateResults}");
                 result = translateResults.Translation;
-                LogWriter.getLog().Debug($"translation result {result}");
+                _context?.Logger?.Debug($"translation result {result}");
             }
             catch (Exception er)
             {
-                LogWriter.getLog().Error($"error in translation {er.Message} \n {er.StackTrace}");
+                _context?.Logger?.Error($"error in translation {er.Message} \n {er.StackTrace}");
                 this.bingTranslator = new BingTranslator();
                 throw(er);
             }

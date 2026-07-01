@@ -127,6 +127,34 @@ namespace sayclip
             }
         }
 
+        public bool unpackNewPlugins
+        {
+            get
+            {
+                return (Properties.Settings.Default.unpackNewPlugins);
+            }
+            set
+            {
+                Properties.Settings.Default.unpackNewPlugins = value;
+                Properties.Settings.Default.Save();
+                OnPropertyChanged();
+            }
+        }
+
+        public bool deletePluginsPackagesAfterInstall
+        {
+            get
+            {
+                return (Properties.Settings.Default.deletePluginsPackagesAfterInstall);
+            }
+            set
+            {
+                Properties.Settings.Default.deletePluginsPackagesAfterInstall = value;
+                Properties.Settings.Default.Save();
+                OnPropertyChanged();
+            }
+        }
+
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -43,7 +43,7 @@ namespace sayclip
             return (false);
         }
 
-        public bool initialize()
+        public bool initialize(ISayclipPluginContext context = null)
         {
             return (true);
         }

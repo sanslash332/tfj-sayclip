@@ -14,8 +14,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using sayclip;
-using logSystem;
-using NLog;
 
 namespace azureTranslatorPlugin
 {
@@ -25,8 +23,11 @@ namespace azureTranslatorPlugin
     public partial class ConfigWindow : Window
     {
         private string oldApiKey;
-        public ConfigWindow()
+        private ISayclipPluginContext _context;
+
+        public ConfigWindow(ISayclipPluginContext context = null)
         {
+            _context = context;
             InitializeComponent();
             oldApiKey = Properties.Settings.Default.TranslatorApiKey;
             translatorApiKeyTextbox.Text = Properties.Settings.Default.TranslatorApiKey != null ? Properties.Settings.Default.TranslatorApiKey : "";
@@ -40,22 +41,22 @@ namespace azureTranslatorPlugin
             bool initialized;
             try
             {
-                initialized = translator.initialize();
+                initialized = translator.initialize(_context);
             }
             catch (Exception er)
             {
-                LogWriter.getLog().Warn($"error initializing the plugin. {er.Message} \n {er.StackTrace}");
+                _context?.Logger?.Warn($"error initializing the plugin. {er.Message} \n {er.StackTrace}");
                 initialized = false;
             }
             if(initialized)
             {
                 Properties.Settings.Default.Save();
-                ScreenReaderControl.speech($"Config OK. You can active azure translator plugin without problem.", true);
+                _context?.Accessibility?.Speak($"Config OK. You can active azure translator plugin without problem.", true);
                 this.Close();
             }
             else
             {
-                ScreenReaderControl.speech($"problem validating your apiKey. Check it if is OK, and your internet connection. If the problem persist, check the logs.", true);
+                _context?.Accessibility?.Speak($"problem validating your apiKey. Check it if is OK, and your internet connection. If the problem persist, check the logs.", true);
                 
             }
         }

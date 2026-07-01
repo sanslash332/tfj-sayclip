@@ -23,19 +23,48 @@ jobs:
         run: |
           cd sayclip
           nuget restore sayclip.sln
-          cd googleTranslatorPlugin
-          msbuild . -p:configuration=release -p:Platform="x86"
-          cd ..\azureTranslatorPlugin
-          msbuild . -p:configuration=release -p:Platform="x86"
-          cd ..\fergunGoogleTranslator
-          msbuild . -p:configuration=release -p:Platform="x86"
-          cd ..\fergunBingTranslatorPlugin
-          msbuild . -p:configuration=release -p:Platform="x86"
-          cd ..\sayclipTray
-          msbuild . -p:configuration=release -p:Platform="x86"
-          cd ..\..
-          ren sayclip\sayclipTray\bin\release sayclip
-          7z a sayclip.zip .\sayclip\sayclipTray\bin\sayclip\*
+
+          $pluginProjects = @(
+            "googleTranslatorPlugin",
+            "azureTranslatorPlugin",
+            "fergunGoogleTranslator",
+            "gTranslateBingTranslatorPlugin",
+            "gTranslateGoogleTranslatorPlugin",
+            "gTranslateGoogle2TranslatorPlugin",
+            "gTranslateMicrosoftTranslatorPlugin",
+            "gTranslateYandexTranslatorPlugin",
+            "openRouterDotNetTranslatorPlugin"
+          )
+
+          foreach ($project in $pluginProjects) {
+            Write-Host "Building plugin project: $project"
+            msbuild ".\$project\$project.csproj" -p:configuration=release -p:Platform="x86"
+          }
+
+          msbuild .\sayclipTray\sayclipTray.csproj -p:configuration=release -p:Platform="x86"
+          cd ..
+
+          $releaseRoot = ".\sayclip\sayclipTray\bin\release"
+          $stagingRoot = ".\sayclip\sayclipTray\bin\sayclip"
+
+          if (Test-Path $stagingRoot) {
+            Remove-Item $stagingRoot -Recurse -Force
+          }
+
+          New-Item -ItemType Directory -Path $stagingRoot | Out-Null
+          Copy-Item "$releaseRoot\*" $stagingRoot -Recurse -Force
+
+          $pluginsPath = Join-Path $stagingRoot "plugins"
+          if (Test-Path $pluginsPath) {
+            7z a "$stagingRoot\plugins.package" "$pluginsPath\*"
+            Remove-Item $pluginsPath -Recurse -Force
+          }
+
+          if (Test-Path .\sayclip.zip) {
+            Remove-Item .\sayclip.zip -Force
+          }
+
+          7z a sayclip.zip "$stagingRoot\*"
       - name: generate version
         run: |
           python generateVersion.py

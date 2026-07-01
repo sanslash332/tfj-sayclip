@@ -1,0 +1,94 @@
+<Window x:Class="openRouterDotNetTranslatorPlugin.ConfigWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:openRouterDotNetTranslatorPlugin"
+        mc:Ignorable="d"
+        d:DesignHeight="600" d:DesignWidth="520"
+        SizeToContent="Height"
+        Width="520"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="16" Orientation="Vertical">
+
+            <!-- Connection section -->
+            <TextBlock x:Name="sectionConnectionLabel" FontWeight="Bold" FontSize="13" Margin="0,0,0,8" />
+
+            <!-- API Key -->
+            <Label x:Name="apiKeyLabel" Target="{Binding ElementName=apiKeyTextBox}" Margin="0,4,0,0" />
+            <PasswordBox x:Name="apiKeyTextBox"
+                         AutomationProperties.LabeledBy="{Binding ElementName=apiKeyLabel}"
+                         Margin="0,0,0,4" />
+            <TextBlock x:Name="apiKeyHintLabel" TextWrapping="Wrap" Foreground="Gray" FontSize="11" Margin="0,0,0,2" />
+            <TextBlock Focusable="False" Margin="0,0,0,8">
+                <Hyperlink x:Name="getApiKeyLink" RequestNavigate="getApiKeyLink_RequestNavigate">
+                    <TextBlock x:Name="getApiKeyLinkText" />
+                </Hyperlink>
+            </TextBlock>
+
+            <!-- Model -->
+            <Label x:Name="modelLabel" Target="{Binding ElementName=modelTextBox}" Margin="0,4,0,0" />
+            <TextBox x:Name="modelTextBox"
+                     AutomationProperties.LabeledBy="{Binding ElementName=modelLabel}"
+                     Margin="0,0,0,4" />
+            <TextBlock x:Name="modelHintLabel" TextWrapping="Wrap" Foreground="Gray" FontSize="11" Margin="0,0,0,12" />
+
+            <!-- Behavior section -->
+            <TextBlock x:Name="sectionBehaviorLabel" FontWeight="Bold" FontSize="13" Margin="0,0,0,8" />
+
+            <!-- Temperature -->
+            <Label x:Name="temperatureLabel" Target="{Binding ElementName=temperatureTextBox}" Margin="0,4,0,0" />
+            <TextBox x:Name="temperatureTextBox"
+                     AutomationProperties.LabeledBy="{Binding ElementName=temperatureLabel}"
+                     Margin="0,0,0,4" />
+            <TextBlock x:Name="temperatureHintLabel" TextWrapping="Wrap" Foreground="Gray" FontSize="11" Margin="0,0,0,8" />
+
+            <!-- Max Tokens -->
+            <Label x:Name="maxTokensLabel" Target="{Binding ElementName=maxTokensTextBox}" Margin="0,4,0,0" />
+            <TextBox x:Name="maxTokensTextBox"
+                     AutomationProperties.LabeledBy="{Binding ElementName=maxTokensLabel}"
+                     Margin="0,0,0,4" />
+            <TextBlock x:Name="maxTokensHintLabel" TextWrapping="Wrap" Foreground="Gray" FontSize="11" Margin="0,0,0,8" />
+
+            <!-- Timeout -->
+            <Label x:Name="timeoutLabel" Target="{Binding ElementName=timeoutTextBox}" Margin="0,4,0,0" />
+            <TextBox x:Name="timeoutTextBox"
+                     AutomationProperties.LabeledBy="{Binding ElementName=timeoutLabel}"
+                     Margin="0,0,0,4" />
+            <TextBlock x:Name="timeoutHintLabel" TextWrapping="Wrap" Foreground="Gray" FontSize="11" Margin="0,0,0,12" />
+
+            <!-- System Prompt section -->
+            <TextBlock x:Name="sectionPromptLabel" FontWeight="Bold" FontSize="13" Margin="0,0,0,8" />
+            <Label x:Name="systemPromptLabel" Target="{Binding ElementName=systemPromptTextBox}" Margin="0,4,0,0" />
+            <TextBox x:Name="systemPromptTextBox"
+                     AutomationProperties.LabeledBy="{Binding ElementName=systemPromptLabel}"
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     Height="100"
+                     VerticalScrollBarVisibility="Auto"
+                     Margin="0,0,0,16" />
+
+            <!-- Buttons -->
+            <WrapPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="testConnectionButton"
+                        Click="testConnectionButton_Click"
+                        MinWidth="120"
+                        Margin="0,0,8,0"
+                        Padding="8,4" />
+                <Button x:Name="cancelButton"
+                        Click="cancelButton_Click"
+                        MinWidth="80"
+                        Margin="0,0,8,0"
+                        Padding="8,4" />
+                <Button x:Name="saveButton"
+                        Click="saveButton_Click"
+                        MinWidth="80"
+                        Padding="8,4" />
+            </WrapPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+</Window>

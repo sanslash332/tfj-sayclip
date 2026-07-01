@@ -1,0 +1,31 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <sys:String x:Key="window.title">OpenRouter Plugin - Configuration</sys:String>
+    <sys:String x:Key="section.connection">Connection</sys:String>
+    <sys:String x:Key="label.apiKey">API Key:</sys:String>
+    <sys:String x:Key="label.apiKey.hint">Enter your OpenRouter API key. You can get one at https://openrouter.ai/keys</sys:String>
+    <sys:String x:Key="label.model">Model:</sys:String>
+    <sys:String x:Key="label.model.hint">OpenRouter model identifier, e.g. openai/gpt-4o-mini or anthropic/claude-3.5-haiku</sys:String>
+    <sys:String x:Key="section.behavior">Behavior</sys:String>
+    <sys:String x:Key="label.temperature">Temperature (0.0 - 1.0):</sys:String>
+    <sys:String x:Key="label.temperature.hint">Lower values produce more consistent translations. Recommended: 0.0</sys:String>
+    <sys:String x:Key="label.maxTokens">Max tokens:</sys:String>
+    <sys:String x:Key="label.maxTokens.hint">Maximum number of tokens in the response. Increase for long texts.</sys:String>
+    <sys:String x:Key="label.timeout">Timeout (seconds):</sys:String>
+    <sys:String x:Key="label.timeout.hint">Maximum time to wait for the API response before giving up.</sys:String>
+    <sys:String x:Key="section.prompt">System Prompt</sys:String>
+    <sys:String x:Key="label.systemPrompt">System prompt sent to the model before each translation request:</sys:String>
+    <sys:String x:Key="button.save">Save</sys:String>
+    <sys:String x:Key="button.cancel">Cancel</sys:String>
+    <sys:String x:Key="button.testConnection">Test connection</sys:String>
+    <sys:String x:Key="link.getApiKey">Get your API key at openrouter.ai</sys:String>
+    <sys:String x:Key="msg.testOk">Connection successful. The plugin is ready to use.</sys:String>
+    <sys:String x:Key="msg.testFail">Connection failed. Check your API key and internet connection. See logs for details.</sys:String>
+    <sys:String x:Key="msg.noApiKey">Please enter an API key before testing.</sys:String>
+    <sys:String x:Key="msg.invalidTemperature">Temperature must be a number between 0.0 and 1.0.</sys:String>
+    <sys:String x:Key="msg.invalidMaxTokens">Max tokens must be a positive integer.</sys:String>
+    <sys:String x:Key="msg.invalidTimeout">Timeout must be a positive integer (seconds).</sys:String>
+
+</ResourceDictionary>

@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\sayclip.contracts\sayclip.contracts.csproj" />
     <ProjectReference Include="..\AssemblySettings\AssemblySettings.csproj" />
     <ProjectReference Include="..\logSystem\logSystem.csproj" />
   </ItemGroup>
